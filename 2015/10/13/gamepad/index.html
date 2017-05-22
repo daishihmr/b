@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>phina.jsでゲームパッドを使う | daishi blog</title>
+  <meta name="author" content="daishihmr">
+  
+  <meta name="description" content="ゲームパッドを使おう！phina.jsにはGamepad APIに対応した機能が備わっているので、作ったブラウザゲームをゲームパッドで遊ぶことが出来る。
+使い方はわりと簡単。
+
+phina.input.GamepadManagerオブジェクトを毎フレームでupdate
+phina.input.Gam">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="phina.jsでゲームパッドを使う"/>
+  <meta property="og:site_name" content="daishi blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link rel="alternate" href="atom.xml" title="daishi blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/b/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+  <meta name="google-site-verification" content="PM9p0hYNSUGWMxz5ehxrIdhcssv3JYHGZPYn2GPFfO4" />
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/b/">daishi blog</a></h1>
+  <h2><a href="/b/">だいしブログ - JavaScriptとかでゲームとかを作ったり作らなかったりするブログ？</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="http://github.dev7.jp/">Home</a></li>
+    
+      <li><a href="/b/">BlogTop</a></li>
+    
+      <li><a href="/b/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft">
+      <div id="wrapper">
+        
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-12T18:59:04.000Z"><a href="/b/2015/10/13/gamepad/">2015-10-13</a></time>
+      
+      
+  
+    <h1 class="title">phina.jsでゲームパッドを使う</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://www.amazon.co.jp/gp/product/B004DL20UU/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B004DL20UU&linkCode=as2&tag=daishihmr-22" target="_blank" rel="external"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B004DL20UU&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=daishihmr-22"></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=daishihmr-22&l=as2&o=9&a=B004DL20UU" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;"></p>
+<h2 id="ゲームパッドを使おう！"><a href="#ゲームパッドを使おう！" class="headerlink" title="ゲームパッドを使おう！"></a>ゲームパッドを使おう！</h2><p>phina.jsには<a href="http://www.w3.org/TR/gamepad/" target="_blank" rel="external">Gamepad API</a>に対応した機能が備わっているので、作ったブラウザゲームをゲームパッドで遊ぶことが出来る。</p>
+<p>使い方はわりと簡単。</p>
+<ol>
+<li>phina.input.GamepadManagerオブジェクトを毎フレームでupdate</li>
+<li>phina.input.GamepadManagerオブジェクトからGamepadオブジェクトを取得</li>
+<li>入力情報を取得してゲームに反映させる</li>
+</ol>
+<h2 id="0-準備"><a href="#0-準備" class="headerlink" title="0.準備"></a>0.準備</h2><p>とりあえず四角形を表示する。今回のサンプルではこの四角をゲームパッドで動かしてみよう。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"ja"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"main.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">phina.main(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> app = phina.display.CanvasApp(&#123;</div><div class="line">    <span class="attr">query</span>: <span class="string">"#app"</span></div><div class="line">  &#125;);</div><div class="line">  <span class="keyword">var</span> scene = app.currentScene;</div><div class="line"></div><div class="line">  <span class="comment">// こいつを動かすぜ！  </span></div><div class="line">  <span class="keyword">var</span> rectangle = phina.display.RectangleShape();</div><div class="line">  rectangle.addChildTo(scene);</div><div class="line"></div><div class="line">  app.run();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="1-phina-input-GamepadManagerを毎フレームでupdate"><a href="#1-phina-input-GamepadManagerを毎フレームでupdate" class="headerlink" title="1.phina.input.GamepadManagerを毎フレームでupdate"></a>1.phina.input.GamepadManagerを毎フレームでupdate</h2><p>phina.input.GamepadManagerオブジェクトを作成し、scene.update()など、毎フレームで実行される場所で <code>update()</code> を呼び出す。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// GamepadManager作成</span></div><div class="line">app.gamepadManager = phina.input.GamepadManager();</div><div class="line"></div><div class="line"><span class="comment">// gamepadManagerを更新</span></div><div class="line">scene.update = <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;</div><div class="line">  app.gamepadManager.update();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h2 id="2-gamepadManagerからGamepadオブジェクトを取得"><a href="#2-gamepadManagerからGamepadオブジェクトを取得" class="headerlink" title="2. gamepadManagerからGamepadオブジェクトを取得"></a>2. gamepadManagerからGamepadオブジェクトを取得</h2><p><code>gamepadManager.get()</code> メソッドがGamepadオブジェクトを返す。</p>
+<p>ゲームパッドはコンピュータに複数接続されている可能性があるので、インデックスを指定したい場合は <code>get(1)</code> のように指定する。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">rectangle.update = <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> gamepad = app.gamepadManager.get();</div><div class="line">  </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h2 id="3-入力情報を取得してゲームに反映させる"><a href="#3-入力情報を取得してゲームに反映させる" class="headerlink" title="3.入力情報を取得してゲームに反映させる"></a>3.入力情報を取得してゲームに反映させる</h2><p>取得したGamepadオブジェクトからは、入力情報がphina.input.Keyboardと同じように取り出すことが出来る。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> gamepad = app.gamepadManager.get();</div><div class="line"></div><div class="line"><span class="comment">// Aボタンが押されているか</span></div><div class="line"><span class="keyword">var</span> aPressed = gamepad.getKey(<span class="string">"a"</span>);</div><div class="line"></div><div class="line"><span class="comment">// このフレームでBボタンが押された</span></div><div class="line"><span class="keyword">var</span> bDown = gamepad.getKeyDown(<span class="string">"b"</span>);</div><div class="line"></div><div class="line"><span class="comment">// このフレームでXボタンが離された</span></div><div class="line"><span class="keyword">var</span> xUp = gamepad.getKeyDown(<span class="string">"x"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 十字キーの入力状態をベクトルで</span></div><div class="line"><span class="keyword">var</span> crossButtonVector = gamepad.getKeyDirection();</div><div class="line"></div><div class="line"><span class="comment">// アナログスティックの入力状態をベクトルで</span></div><div class="line"><span class="keyword">var</span> stickVector = gamepad.getStickDirection();</div></pre></td></tr></table></figure>
+<p>今回はゲームオブジェクトをアナログスティックで操作することにしよう。</p>
+<p>アナログスティックはかなりデリケートなので、「これ以上の入力があれば有効とする」という閾値を決めておく必要がある。</p>
+<p>これはphina.geom.Vector2のlengthメソッドを使えば簡単に実現することが出来る。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// アナログスティックの入力状態をベクトルで</span></div><div class="line"><span class="keyword">var</span> stickVector = gamepad.getStickDirection();</div><div class="line"></div><div class="line"><span class="comment">// アナログスティックの倒し具合が0.5以上の場合のみ入力を有効とする</span></div><div class="line"><span class="keyword">if</span> (stickVector.length() &gt; <span class="number">0.5</span>) &#123;</div><div class="line">  <span class="comment">// 四角を移動させる</span></div><div class="line">  rectangle.position.add(stickVector.mul(<span class="number">10</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<div class="runstant"><iframe src="http://lite.runstant.com/ready?v=1&http://goo.gl/IhuYiM" width="90%" height="640px" style="border:0px;box-shadow:0px 0px 2px 0px #aaa"></iframe></div>
+
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>まあこんな感じで、phina.jsではゲームパッドが簡単に使えるわけだ。</p>
+<p>PCで使えるGamepad APIに対応したゲームパッドとしては、Xbox360コントローラーがオススメである。</p>
+<p>単品でも購入できるが、Xbox360を買えばもれなく付いてくるので持ってない人は是非買いましょう。</p>
+<p>CAVEの面白いシューティングゲームがたくさん遊べるぞ！</p>
+<p><br><br><br></p>
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=daishihmr-22&o=9&p=8&l=as1&asins=B000BPJTHE&ref=qf_sp_asin_til&fc1=666666&IS2=1&lt1=_blank&m=amazon&lc1=4F9CDB&bc1=FFFFFF&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=daishihmr-22&o=9&p=8&l=as1&asins=B00JB5HUQC&ref=qf_sp_asin_til&fc1=666666&IS2=1&lt1=_blank&m=amazon&lc1=4F9CDB&bc1=FFFFFF&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=daishihmr-22&o=9&p=8&l=as1&asins=B00BSOBP5Q&ref=qf_sp_asin_til&fc1=666666&IS2=1&lt1=_blank&m=amazon&lc1=4F9CDB&bc1=FFFFFF&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/b/tags/phina-js/">phina.js</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+
+      </div>
+    </div>
+    <aside id="sidebar" class="alignright">
+  <div class="widget tag">
+  <h3 class="title">about me</h3>
+  <ul class="entry">
+    <li>Daishi (だいし)</li>
+    <li><img width="100%" src="/b/common/profile_icon.png"></li>
+    <li>楢崎大志。<br>インターネットゲーム作りマン。<br>JavaScript好きです。STG好きです。プリキュアも好きです。能登麻美子と結婚したい。</li>
+    <li>twitter <a href="https://twitter.com/daishi_hmr" target="_blank">daishi_hmr</a></li>
+    <li>github <a href="https://github.com/daishihmr" target="_blank">daishihmr</a></li>
+    <li>qiita <a href="http://qiita.com/daishi_hmr">daishi_hmr</a></li>
+    <li>facebook <a href="https://www.facebook.com/daishi.narazaki">daishi.narazaki</a></li>
+    <li>website <a href="http://github.dev7.jp/" target="_blank">http://github.dev7.jp/</a></li>
+  </ul>
+</div>
+
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:github.dev7.jp">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/b/tags/Blender/">Blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
+  
+    <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
+  
+    <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
+  
+    <li><a href="/b/tags/STG/">STG</a><small>1</small></li>
+  
+    <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
+  
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>2</small></li>
+  
+    <li><a href="/b/tags/blender/">blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/bulletml-js/">bulletml.js</a><small>1</small></li>
+  
+    <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
+  
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+  
+    <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
+  
+    <li><a href="/b/tags/three-js/">three.js</a><small>3</small></li>
+  
+    <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  <div style="margin-bottom:60px">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-sidebar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="8072408520"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 daishihmr
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/b/js/jquery.imagesloaded.min.js"></script>
+<script src="/b/js/gallery.js"></script>
+<script src="/b/js/marioscript.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'daishiblog';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/b/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/b/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72&Operation=NoScript">Amazon.co.jp ウィジェット</A></NOSCRIPT>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-968682-24', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

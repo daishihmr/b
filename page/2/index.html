@@ -1,0 +1,1098 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 2 | daishi blog</title>
+  <meta name="author" content="daishihmr">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="daishi blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link rel="alternate" href="atom.xml" title="daishi blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/b/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+  <meta name="google-site-verification" content="PM9p0hYNSUGWMxz5ehxrIdhcssv3JYHGZPYn2GPFfO4" />
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/b/">daishi blog</a></h1>
+  <h2><a href="/b/">だいしブログ - JavaScriptとかでゲームとかを作ったり作らなかったりするブログ？</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="http://github.dev7.jp/">Home</a></li>
+    
+      <li><a href="/b/">BlogTop</a></li>
+    
+      <li><a href="/b/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft">
+      <div id="wrapper">
+        
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-12-20T12:43:33.000Z"><a href="/b/2015/12/20/phinaadvcal20151220/">2015-12-20</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/12/20/phinaadvcal20151220/">せっかくだから俺も3Dやってみた</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2015</a>の20日目です。</p>
+<p>前 <a href="http://qiita.com/emadurandal/items/93223877936b5dc767f5" target="_blank" rel="external">emadurandalさん</a><br>次 <a href="http://qiita.com/minimo/items/1e28c2e892d75d08e93a" target="_blank" rel="external">minimoさん</a></p>
+<h1 id="3Dのゲームを作るよ！"><a href="#3Dのゲームを作るよ！" class="headerlink" title="3Dのゲームを作るよ！"></a>3Dのゲームを作るよ！</h1><p>@emadurandal さんが<a href="http://qiita.com/emadurandal/items/93223877936b5dc767f5" target="_blank" rel="external">昨日の記事</a>でご紹介されていたとおりphina.jsにはThreeLayerというものがあり、three.jsと連携して3Dゲームを作ることが出来ます。</p>
+<p>というわけでさっそくやってみました。</p>
+<h2 id="バトルシップ！"><a href="#バトルシップ！" class="headerlink" title="バトルシップ！"></a>バトルシップ！</h2><img src="/b/2015/12/20/phinaadvcal20151220/ss.png" alt="おふね～" title="おふね～">
+<p>私が過去に作った<a href="http://9leap.net/games/3592" target="_blank" rel="external">大海戦！ヤマトさん</a>というゲームを3D化したものを開発しています。</p>
+<p>まだ作成途中ですが、three.jsのExampleフォルダに入っている<a href="http://threejs.org/examples/webgl_shaders_ocean.html" target="_blank" rel="external">WaterShader</a>を<del>丸パクリ</del>利用してみました。</p>
+<p>また、<a href="https://ephtracy.github.io/" target="_blank" rel="external">MagicaVoxel</a>のvoxファイルをjsで使うためのライブラリ<a href="http://github.dev7.jp/vox.js/">vox.js</a>を使い、20分でモデリングした大和型戦艦を登場させています。</p>
+<p>今回の記事ではphina.jsとthree.jsを連携する上でいくつか気づいたことをまとめてみます。</p>
+<h3 id="phina-asset-AssetManagerでテクスチャをロード"><a href="#phina-asset-AssetManagerでテクスチャをロード" class="headerlink" title="phina.asset.AssetManagerでテクスチャをロード"></a>phina.asset.AssetManagerでテクスチャをロード</h3><p>three.jsではテクスチャに画像ファイルを使う際、ImageUtils.loadTexture()メソッドなどを使い画像をロードします。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> texture = THREE.ImageUtils.loadTexture( <span class="string">"textures/water.jpg"</span> );</div><div class="line"><span class="keyword">var</span> material = <span class="keyword">new</span> THREE.MeshPhongMaterial(&#123;</div><div class="line">  <span class="attr">map</span>: texture</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>phina.jsにはアセットを一括管理するしくみがありますので、3D用のテクスチャもこちらでロードしたいところです。</p>
+<p>そこでこのようにしてみました。</p>
+<ul>
+<li>ロード時</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> loadingScene = phina.game.LoadingScene(&#123;</div><div class="line">  <span class="attr">assets</span>: &#123;</div><div class="line">    <span class="attr">image</span>: &#123;</div><div class="line">      <span class="string">"curescarlet"</span>: <span class="string">"./assets/curescarlet.png"</span>,</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li>利用時</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> texture = <span class="keyword">new</span> THREE.Texture(phina.asset.AssetManager.get(<span class="string">"image"</span>, <span class="string">"curescarlet"</span>).domElement);</div><div class="line"><span class="keyword">var</span> material = <span class="keyword">new</span> THREE.MeshPhongMaterial(&#123;</div><div class="line">  <span class="attr">map</span>: texture</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>ロード時は2Dスプライト用のテクスチャとまったく同じです。</p>
+<p>利用時は画像アセット（phina.asset.Texture）のdomElementプロパティからimg要素を取得できるので、それをTHREE.Textureのコンストラクタに渡してあげればテクスチャオブジェクトを作ることが出来ます。</p>
+<h3 id="Tweenerでアニメーション"><a href="#Tweenerでアニメーション" class="headerlink" title="Tweenerでアニメーション"></a>Tweenerでアニメーション</h3><p>phina.accessory.Tweenerを使ったアニメーションは簡単かつ見栄えのする演出方法です。ゲームを作る上ではぜひ利用していきたいしくみですね。</p>
+<p>phina.js Advent Calendar 2015でも @simiraaaa さんが記事を書いていらっしゃいます。</p>
+<p><a href="http://qiita.com/simiraaaa/items/b80fec588fa2db272f67" target="_blank" rel="external">Tweenerを使いこなそう!</a></p>
+<p>THREE.Mesh等の3Dオブジェクトでトゥイーンアニメーションを実現するには、phinaのエレメントでラップしてしまうと手っ取り早いです。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">phina.define(<span class="string">"ThreeElement"</span>, &#123;</div><div class="line">  <span class="attr">superClass</span>: <span class="string">"phina.app.Element"</span>,</div><div class="line">  </div><div class="line">  <span class="comment">// THREE.Object3Dオブジェクトを受け取る</span></div><div class="line">  init: <span class="function"><span class="keyword">function</span>(<span class="params">threeObject</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit();</div><div class="line">    <span class="keyword">this</span>.$t = threeObject;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="comment">// _accessorで座標のgetter/setterを定義する</span></div><div class="line">  _accessor: &#123;</div><div class="line">    <span class="attr">x</span>: &#123;</div><div class="line">      <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.$t.position.x &#125;,</div><div class="line">      <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123; <span class="keyword">this</span>.$t.position.x = v &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">y</span>: &#123;</div><div class="line">      <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.$t.position.y &#125;,</div><div class="line">      <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123; <span class="keyword">this</span>.$t.position.y = v &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">z</span>: &#123;</div><div class="line">      <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.$t.position.z &#125;,</div><div class="line">      <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123; <span class="keyword">this</span>.$t.position.z = v &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line"><span class="comment">// three.jsのメッシュ</span></div><div class="line"><span class="keyword">var</span> shipThree = <span class="keyword">new</span> THREE.Mesh(geometory, material);</div><div class="line"></div><div class="line"><span class="comment">// phina.jsのエレメントでラップ</span></div><div class="line"><span class="keyword">var</span> shipPhina = ThreeElement(_ship);</div><div class="line"></div><div class="line"><span class="comment">// アニメーション</span></div><div class="line">shipPhina.tweener.to(&#123;</div><div class="line">  <span class="attr">x</span>: <span class="number">1000</span>,</div><div class="line">  <span class="attr">y</span>: <span class="number">200</span></div><div class="line">&#125;, <span class="number">3000</span>, <span class="string">"easeOutBack"</span>);</div></pre></td></tr></table></figure>
+<p>カメラなどをスムーズに移動させたい場合に便利ですね。</p>
+<h2 id="今回はここまで"><a href="#今回はここまで" class="headerlink" title="今回はここまで"></a>今回はここまで</h2><p>というわけで簡単ではありますが、phina.jsとthree.jsを連携する際に覚えておくと便利な使い方でした。</p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-12-14T15:19:06.000Z"><a href="/b/2015/12/15/precureadv20151213/">2015-12-15</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/12/15/precureadv20151213/">MagicaVoxelで作ったプリキュアをUnityで動かす</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <blockquote>
+<p>つよく！ やさしく！ うつくしく！<br>真のゲームクリエイターを目指すおじさんの物語！<br>夢へ向かって…</p>
+</blockquote>
+<p>当記事は<a href="http://www.adventar.org/calendars/728" target="_blank" rel="external">プリキュアAdvent Calendar 2015</a>の13日目です。</p>
+<p>前→ <a href="http://100-200.hatenablog.com/entry/2015/12/09/043857" target="_blank" rel="external">プリキュア放送中に今誰が活躍してるかわかるやつ作ろうとした by 100_200さん</a></p>
+<p>次→ <a href="http://sue445.hatenablog.com/entry/2015/12/16/000000" target="_blank" rel="external">rubicureでプリキュアの誕生日を手軽に調べる by sue445さん</a></p>
+<h1 id="お手軽モデルデータ工場としてのMagicaVoxel"><a href="#お手軽モデルデータ工場としてのMagicaVoxel" class="headerlink" title="お手軽モデルデータ工場としてのMagicaVoxel"></a>お手軽モデルデータ工場としてのMagicaVoxel</h1><h3 id="個人でゲームを作る場合に強力な味方！"><a href="#個人でゲームを作る場合に強力な味方！" class="headerlink" title="個人でゲームを作る場合に強力な味方！"></a>個人でゲームを作る場合に強力な味方！</h3><p>世の中には<a href="https://voxel.codeplex.com/" target="_blank" rel="external">MagicaVoxel</a>というボクセルエディタがあって、わりと簡単にプリキュアの3Dモデルデータを作ることが出来ます。</p>
+<img src="/b/2015/12/15/precureadv20151213/dream_heart.gif" alt="のぞみ＆マナ" title="のぞみ＆マナ">
+<p>こいつを使ってUnityゲームの素材を作り、みんなニコニコ自家発電で楽しみましょうというのが本記事の趣旨です。</p>
+<h1 id="素材配布"><a href="#素材配布" class="headerlink" title="素材配布"></a>素材配布</h1><ul>
+<li><p><a href="http://github.dev7.jp/myvox/asset/base.vox">MagicaVoxel用素体</a></p>
+</li>
+<li><p><a href="http://github.dev7.jp/myvox/asset/BaseArmature.blend">素体用アーマチュア</a></p>
+</li>
+</ul>
+<h1 id="素体をベースにプリキュアをモデリング"><a href="#素体をベースにプリキュアをモデリング" class="headerlink" title="素体をベースにプリキュアをモデリング"></a>素体をベースにプリキュアをモデリング</h1><p>上記にリンクした<a href="http://github.dev7.jp/myvox/asset/base.vox">MagicaVoxel用素体</a>をベースにしてプリキュアを作成していきます。</p>
+<h3 id="準備"><a href="#準備" class="headerlink" title="準備"></a>準備</h3><p><a href="https://voxel.codeplex.com/" target="_blank" rel="external">MagicaVoxel</a>をインストールし、素体をインポートしましょう。</p>
+<img src="/b/2015/12/15/precureadv20151213/base.png" alt="素体" title="素体">
+<h3 id="（本当に最低限の）基本操作"><a href="#（本当に最低限の）基本操作" class="headerlink" title="（本当に最低限の）基本操作"></a>（本当に最低限の）基本操作</h3><p>あとはパレットから好きな色を取り、思うままボクセルを置いたり色を変えたり消したりしてプリキュアをモデリングしていきます。</p>
+<p>画面左上の「Brush」の下、「V」「F」「B」のボタンをのうち「V」をオンにしましょう。</p>
+<p>その状態で「Attach」モードにすると、3Dビューのカーソル位置にボクセルを置くことができます。</p>
+<p>「Erase」モードにすると、カーソル位置のボクセルを消すことができます。</p>
+<p>「Paint」モードではボクセルの色を変えます。</p>
+<p>とりあえずそれだけ出来れば、あとは<strong>なんとかなるなる！</strong></p>
+<h3 id="色にこだわれ！"><a href="#色にこだわれ！" class="headerlink" title="色にこだわれ！"></a>色にこだわれ！</h3><p>プリキュアの皆さんは実にカラフルで個性的なデザインをしていらっしゃいます。</p>
+<p>ボクセルアートという表現力に乏しい世界であっても、「色」さえ原作に忠実に再現すれば、多少形がイビツでもプリキュアに見えるモデルデータを作ることが出来ます（断言）。</p>
+<img src="/b/2015/12/15/precureadv20151213/allstars.png" alt="オールスターズ" title="オールスターズ">
+<h3 id="ちがうパーツをくっつけてはならない"><a href="#ちがうパーツをくっつけてはならない" class="headerlink" title="ちがうパーツをくっつけてはならない"></a>ちがうパーツをくっつけてはならない</h3><p>今回は最終的に、Unity上でSkinnedMeshアニメーションをさせることを目標としています。</p>
+<p>よって、髪や服とくっつけずにモデリングしないと、腕や脚が自由に動かせないモデルになってしまいます。</p>
+<img src="/b/2015/12/15/precureadv20151213/example3.png" alt="この部分の髪と腕がくっついてる！" title="この部分の髪と腕がくっついてる！">
+<p>上図のアンラブリーは髪と腕のボクセルがくっついて（隣接して）ますね。</p>
+<p>これをそのままアニメーションさせるとこんな感じになります。</p>
+<img src="/b/2015/12/15/precureadv20151213/example2.gif" alt="もちーん" title="もちーん">
+<p>腕と髪の頂点が共有されてしまうのでこのようになってしまうわけですね。</p>
+<p>Blender上でうまく編集して離れさせることも出来ますが、なかなか面倒です。</p>
+<p>面倒な目に遭う前に、気をつけてモデリングしましょう。</p>
+<img src="/b/2015/12/15/precureadv20151213/example4.png" alt="修正しました" title="修正しました">
+<p>特に注意が必要なのは、下図のような状態です。</p>
+<img src="/b/2015/12/15/precureadv20151213/example1.png" alt="１頂点を共有するボクセル" title="１頂点を共有するボクセル">
+<p>一見離れているようなのですが、こういう場合も同一頂点なのでうまくいきません。気をつけましょう。</p>
+<h1 id="Blenderでプリキュアにボーンを入れる"><a href="#Blenderでプリキュアにボーンを入れる" class="headerlink" title="Blenderでプリキュアにボーンを入れる"></a>Blenderでプリキュアにボーンを入れる</h1><p>さてさて、ボクセルプリキュアが完成したら、今度はBlenderにインポートしてボーンを入れていきます。</p>
+<h3 id="objで出力"><a href="#objで出力" class="headerlink" title="objで出力"></a>objで出力</h3><p>MagicaVoxel右下の「Export」-「obj」をクリックし、obj形式でモデルデータを出力します。</p>
+<p>出力先は、UnityプロジェクトのAssetsフォルダ内にするとのちのち楽です。</p>
+<img src="/b/2015/12/15/precureadv20151213/example6.png" alt="おぶじぇ" title="おぶじぇ">
+<h3 id="素体用アーマチュアを読み込む"><a href="#素体用アーマチュアを読み込む" class="headerlink" title="素体用アーマチュアを読み込む"></a>素体用アーマチュアを読み込む</h3><p>Blenderを起動し、さきほど配布した<a href="http://github.dev7.jp/myvox/asset/BaseArmature.blend">素体用アーマチュア</a>を開きます。</p>
+<img src="/b/2015/12/15/precureadv20151213/example5.png" alt="ぼ～ん" title="ぼ～ん">
+<h3 id="objをインポート"><a href="#objをインポート" class="headerlink" title="objをインポート"></a>objをインポート</h3><p>つづいて「File」-「Import」-「Wavefront (.obj)」でobjファイルを読み込みます。</p>
+<img src="/b/2015/12/15/precureadv20151213/example7.png" alt="読み込んだー" title="読み込んだー">
+<p>拡大縮小＆移動でモデルをアーマチュアのサイズ・位置に合わせます。</p>
+<img src="/b/2015/12/15/precureadv20151213/example8.png" alt="あわせたー" title="あわせたー">
+<h3 id="メッシュの編集"><a href="#メッシュの編集" class="headerlink" title="メッシュの編集"></a>メッシュの編集</h3><p>メッシュを編集します。</p>
+<p>MagicaVoxelはobj出力時に同一頂点の最適化を行いませんので、「Remove Doubles」コマンドで重複頂点を削除します。</p>
+<p>また、関節を入れたい位置に頂点を追加するなどしていい感じに編集します。</p>
+<p>私の場合は面倒なので、「Subdivide」で適当に頂点を増やしています。 </p>
+<h3 id="アーマチュアの編集"><a href="#アーマチュアの編集" class="headerlink" title="アーマチュアの編集"></a>アーマチュアの編集</h3><p>アーマチュアの各ボーンをいい感じにモデルに合わせて編集します。</p>
+<p>素体からプロポーションを大きく変えていなければ、特に編集の必要はないと思います。</p>
+<h3 id="親子にする"><a href="#親子にする" class="headerlink" title="親子にする"></a>親子にする</h3><p>メッシュ→アーマチュアの順に選択して「Make Parent」-「Armature Deform With Automatic Weights」でメッシュをボーンに関連付けます。</p>
+<p>ポーズモードで意図したとおりにボーンが入ったか確認してください。.</p>
+<img src="/b/2015/12/15/precureadv20151213/example9.png" alt="かくにーん" title="かくにーん">
+<h3 id="FBX形式でエクスポート"><a href="#FBX形式でエクスポート" class="headerlink" title="FBX形式でエクスポート"></a>FBX形式でエクスポート</h3><p>「File」-「Export」-「FBX (.fbx)」でエクスポートします。</p>
+<p>出力先はUnityプロジェクトのAssetsフォルダ内にしましょう。</p>
+<h3 id="UnityにFBXをインポート"><a href="#UnityにFBXをインポート" class="headerlink" title="UnityにFBXをインポート"></a>UnityにFBXをインポート</h3><p>Unityを起動し、出力したFBXを選択します。</p>
+<p>インスペクタの「Rig」タグ-「Animation Type」を「Humanoid」に設定し、「Apply」ボタンを押します。</p>
+<img src="/b/2015/12/15/precureadv20151213/example10.png" alt="ひゅー" title="ひゅー">
+<p>「Configure…」ボタンを押し、ボーンが正しく認識されていることを確認します。</p>
+
+<p>「Done」ボタンを押してアセットのメタ情報を確定します。</p>
+<h3 id="アニメーションをつける"><a href="#アニメーションをつける" class="headerlink" title="アニメーションをつける"></a>アニメーションをつける</h3><p>Asset Storeにある「Unityちゃん」（無料）のモーションなど、配布されているモーションを付けて楽しみましょう。</p>
+<img src="/b/2015/12/15/precureadv20151213/example11.gif" alt="DAMAGED01をつけてみた" title="DAMAGED01をつけてみた">
+<h3 id="参考リンク"><a href="#参考リンク" class="headerlink" title="参考リンク"></a>参考リンク</h3><ul>
+<li><a href="http://github.dev7.jp/b/tags/MagicaVoxel/">http://github.dev7.jp/b/tags/MagicaVoxel/</a><ul>
+<li>当ブロクのMagicaVoxel記事</li>
+</ul>
+</li>
+<li><a href="https://www.youtube.com/playlist?list=PL2E62B90A9EAF5E71" target="_blank" rel="external">https://www.youtube.com/playlist?list=PL2E62B90A9EAF5E71</a> SpreadBlenderさんのblender入門講座のリスト<ul>
+<li>Blenderの基本操作について学びやすい動画講座</li>
+</ul>
+</li>
+<li><a href="https://youtu.be/wdOk5QXYC6Y?list=PL82_oZKG3V-szJO2WTAFjYnR_Qnej7NBA" target="_blank" rel="external">https://youtu.be/wdOk5QXYC6Y?list=PL82_oZKG3V-szJO2WTAFjYnR_Qnej7NBA</a> Unity 5 Tutorial - Animation Control<ul>
+<li>Unityでスクリプトからアニメーションを制御する基礎</li>
+</ul>
+</li>
+<li><a href="http://www.nicovideo.jp/watch/sm27704710" target="_blank" rel="external">http://www.nicovideo.jp/watch/sm27704710</a> 【12分で】MagicaVoxelモデルをUnityで動かした【できる】<ul>
+<li>当記事の動画バージョン</li>
+</ul>
+</li>
+</ul>
+<h1 id="むすび"><a href="#むすび" class="headerlink" title="むすび"></a>むすび</h1><p>MagicaVoxelは非常に簡単に可愛らしいキャラクターを作ることが出来ます。</p>
+<p>作ったキャラクターを動かすのも、Blenderを使えば非常に簡単です。</p>
+<p>さらに、それを使ったゲームもUnityを使えば簡単に作ることが出来ます。</p>
+<p>みなさんもぜひオリジナルプリキュアゲームを作って楽しいプリキュアライフを送ってください。</p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-12-10T11:26:35.000Z"><a href="/b/2015/12/10/phinaadvcal20151210/">2015-12-10</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/12/10/phinaadvcal20151210/">phina.jsでレイヤーと仲良くなろう</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2015</a>の10日目です。</p>
+<p><a href="http://qiita.com/alkn203/items/8ad0b80175d23d03bd49" target="_blank" rel="external">グループ管理の基本テクニック by alkn203さん</a>←前 次→<a href="http://qiita.com/alkn203/items/76f4a80819c011cbaf38" target="_blank" rel="external">physicalクラスを使ってみよう by alkn203さん</a></p>
+<h1 id="レイヤー！"><a href="#レイヤー！" class="headerlink" title="レイヤー！"></a>レイヤー！</h1><p>プログラマーたるものたくさんのレイヤーと仲良くしていきたいものです。複数のレイヤーをとっかえひっかえというのも夢のある話です。</p>
+<h1 id="シーンは自分用のCanvas要素を持つ"><a href="#シーンは自分用のCanvas要素を持つ" class="headerlink" title="シーンは自分用のCanvas要素を持つ"></a>シーンは自分用のCanvas要素を持つ</h1><p>ご存知の通り、phina.jsの前身にあたるライブラリにtmlib.jsというものがあります。</p>
+<p><a href="https://github.com/phi-jp/tmlib.js/" target="_blank" rel="external">tmlib.js</a></p>
+<p>tmlib.jsと比べてphina.jsでは、SceneクラスがCanvasSceneクラスという名前に変わり、Canvas APIを利用するアプリケーションへ特化した形に再構成されています。</p>
+<p>このCanvasSceneは内部にCanvas要素を持っています。</p>
+<p>以前(tmlib.js時代)はカレントのシーンがアプリケーション固有のCanvasへ直接描き込んでいたのに対し、phina.jsではシーンが自前のCanvasに描画した後、その結果をアプリケーションのCanvasへ転写します。</p>
+<ul>
+<li>tmlib.jsの描画方式</li>
+</ul>
+<img src="/b/2015/12/10/phinaadvcal20151210/tmlib.js.png" alt="tmlib.js" title="tmlib.js">
+<ul>
+<li>phina.jsの描画方式</li>
+</ul>
+<img src="/b/2015/12/10/phinaadvcal20151210/phina.js.png" alt="phina.js" title="phina.js">
+<h1 id="phina-display-ThreeLayer"><a href="#phina-display-ThreeLayer" class="headerlink" title="phina.display.ThreeLayer"></a>phina.display.ThreeLayer</h1><p>この「自分固有のCanvas要素を持ち、それへの描画をしたのち、本命のCanvas要素へ転写する」という方式。実はCanvasScene特有のものではなく、どんな要素でも実現することが出来ます。</p>
+<p>このしくみをうまく応用しているのが<strong>phina.display.ThreeLayer</strong>です。</p>
+<p><a href="http://phi-jp.github.io/phina.js/test/game/index.html#display.ThreeLayer/sample" target="_blank" rel="external">ThreeLayerサンプル</a></p>
+<img src="/b/2015/12/10/phinaadvcal20151210/threelayer.png" alt="ThreeLayer" title="ThreeLayer">
+<p>ThreeLayerはThree.jsとphina.jsをゆるく連携する機能です。Three.jsを使って固有のCanvasへの描画を行い、その描画結果を親要素のCanvasに転写しています。</p>
+<ul>
+<li>phina.display.ThreeLayerのソース(抜粋)</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">init: <span class="function"><span class="keyword">function</span>(<span class="params">params</span>) </span>&#123;</div><div class="line"></div><div class="line">  ...</div><div class="line"></div><div class="line">  <span class="comment">// Three.jsのレンダラー</span></div><div class="line">  <span class="keyword">this</span>.renderer = <span class="keyword">new</span> THREE.WebGLRenderer();</div><div class="line"></div><div class="line">  ...</div><div class="line"></div><div class="line">  <span class="comment">// 毎フレームでThree.jsの描画処理を行う</span></div><div class="line">  <span class="keyword">this</span>.on(<span class="string">'enterframe'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.renderer.render( <span class="keyword">this</span>.scene, <span class="keyword">this</span>.camera );</div><div class="line">  &#125;);</div><div class="line">&#125;,</div><div class="line"></div><div class="line"><span class="attr">draw</span>: <span class="function"><span class="keyword">function</span>(<span class="params">canvas</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// Three.jsによって描画された結果をcanvasに転写</span></div><div class="line">  <span class="keyword">var</span> domElement = <span class="keyword">this</span>.renderer.domElement;</div><div class="line">  canvas.context.drawImage(domElement, <span class="number">0</span>, <span class="number">0</span>, domElement.width, domElement.height);</div><div class="line"></div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<h1 id="自分でレイヤーを作ってみる"><a href="#自分でレイヤーを作ってみる" class="headerlink" title="自分でレイヤーを作ってみる"></a>自分でレイヤーを作ってみる</h1><p>このようなレイヤーを独自に実装することも出来ます。</p>
+<p>ポイントは以下の2つ。</p>
+<h3 id="phina-display-CanvasRendererクラス"><a href="#phina-display-CanvasRendererクラス" class="headerlink" title="phina.display.CanvasRendererクラス"></a>phina.display.CanvasRendererクラス</h3><p>要素ツリーをスキャンし、各要素をCanvasに描く機能を持ったクラスです。</p>
+<p>HTMLCanvasElementを内包しています。</p>
+<p>phina.display.CanvasSceneクラスやphina.display.Layerクラスはこのクラスのオブジェクトをメンバに持っています。</p>
+<h3 id="renderChildBySelfプロパティ"><a href="#renderChildBySelfプロパティ" class="headerlink" title="renderChildBySelfプロパティ"></a>renderChildBySelfプロパティ</h3><p>「子孫要素の描画は自身で行う」という宣言です。</p>
+<p>trueが設定されている場合、CanvasRendererはその要素の子孫を描画しません。</p>
+<p>デフォルトではfalseが設定されています。</p>
+<h2 id="描画スキップレイヤー-描画スキップによる高速化"><a href="#描画スキップレイヤー-描画スキップによる高速化" class="headerlink" title="描画スキップレイヤー - 描画スキップによる高速化"></a>描画スキップレイヤー - 描画スキップによる高速化</h2><p>大量の子孫要素を持つ要素の場合、描画処理を数フレームに1回だけ行うなどしてアプリケーション全体のフレームレートを改善できる場合があります。</p>
+<p>自前の非表示Canvasへの描画結果をキャッシュしておき、描画処理を行わないフレームではキャッシュを使用します。</p>
+<ul>
+<li><p><a href="http://goo.gl/vPDGr0" target="_blank" rel="external">スキップレイヤーなし</a></p>
+</li>
+<li><p><a href="http://goo.gl/nynopM" target="_blank" rel="external">スキップレイヤーあり</a></p>
+</li>
+</ul>
+<p>手元の環境では上記「スキップなし」で20FPSほどであるのに対し、「スキップあり」版では30FPSほどに向上させることが出来ました。</p>
+<p>もちろん、描画を省略するぶん見た目がカクカクしてしまうわけですが、弾幕系シューティングゲームの背景など特にプレイヤーが注意を払う必要のないものについては検討する価値があるかもしれません。</p>
+<h2 id="画像フィルタ処理レイヤー-WebGLを使った画像処理"><a href="#画像フィルタ処理レイヤー-WebGLを使った画像処理" class="headerlink" title="画像フィルタ処理レイヤー - WebGLを使った画像処理"></a>画像フィルタ処理レイヤー - WebGLを使った画像処理</h2><p><a href="http://github.dev7.jp/phina.display.GLFilterLayer/">phina.display.GLFilterLayer</a></p>
+<img src="/b/2015/12/10/phinaadvcal20151210/glfilter.png" alt="セピアとズームブラー" title="セピアとズームブラー">
+<p>子孫要素を非表示Canvasに描画した後、WebGLのテクスチャとして使用して画像にフィルタをかけ、その結果をシーンのCanvasに転写する実装です。</p>
+<h1 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h1><p>特殊な描画処理をレイヤーとして切り出すことで、汎用的なエフェクト機能として実装することが出来ます。</p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-12-07T10:00:39.000Z"><a href="/b/2015/12/07/magicavoxel-tbg/">2015-12-07</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/12/07/magicavoxel-tbg/">MagicaVoxelで背景透過画像を出力する</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>本記事はMagicaVoxelアドベントカレンダーの7日目の記事です（嘘）。</p>
+<p>MagicaVoxelで作ったボクセルモデルをレンダリングし、透明な背景のPNG画像として出力する方法を紹介します。</p>
+<h3 id="レンダリングモードに入る"><a href="#レンダリングモードに入る" class="headerlink" title="レンダリングモードに入る"></a>レンダリングモードに入る</h3><img src="/b/2015/12/07/magicavoxel-tbg/img2.png" alt="Switch Between Editor / Renderer" title="Switch Between Editor / Renderer">
+<p>Renderボタン（Switch Between Editor / Renderer）を押してRenderモードへ。</p>
+<img src="/b/2015/12/07/magicavoxel-tbg/img1.png" alt="Renderモード" title="Renderモード">
+<h3 id="画像サイズを設定"><a href="#画像サイズを設定" class="headerlink" title="画像サイズを設定"></a>画像サイズを設定</h3><p>上記画像のような状態になる。</p>
+<p>まず出力したい画像のサイズを設定する。</p>
+<p>「出力画像のサイズ」欄（Image Size [16 - 2048]）に「&lt;幅&gt; &lt;高さ&gt;」の形式で数値を入力する。</p>
+<h3 id="地面の表示／非表示"><a href="#地面の表示／非表示" class="headerlink" title="地面の表示／非表示"></a>地面の表示／非表示</h3><p>「地面の表示／非表示」ボタン（GD : Display Ground [CTRL+R]）をオフにして地面を消す。</p>
+<h3 id="背景の透過／非透過"><a href="#背景の透過／非透過" class="headerlink" title="背景の透過／非透過"></a>背景の透過／非透過</h3><p>「背景の透過／非透過」ボタン（A : Toggle Alpha Channel of Screenshot）をオンにする。</p>
+<h3 id="png画像で出力"><a href="#png画像で出力" class="headerlink" title="png画像で出力"></a>png画像で出力</h3><p>「png画像で出力」ボタン（Screenshot [6]）を押す。「名前をつけて保存」ダイアログが表示されるので、保存先を選択する。</p>
+<h2 id="できたー！"><a href="#できたー！" class="headerlink" title="できたー！"></a>できたー！</h2><img src="/b/2015/12/07/magicavoxel-tbg/snap2015-12-07-18-59-27.png" alt="できたー！" title="できたー！">
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-12-01T13:49:22.000Z"><a href="/b/2015/12/01/phinaadvcal20151202/">2015-12-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/12/01/phinaadvcal20151202/">ManagerSceneでゲームの流れを管理しよう</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2015</a>の2日目です。</p>
+<p><a href="http://phiary.me/phinajs-release/" target="_blank" rel="external">phiさん</a> 前 ←→ 次 <a href="http://qiita.com/emadurandal/private/ac6d7a74a9b5521018d5" target="_blank" rel="external">emadurandalさん</a></p>
+<h2 id="シューティングゲーム作るよ！"><a href="#シューティングゲーム作るよ！" class="headerlink" title="シューティングゲーム作るよ！"></a>シューティングゲーム作るよ！</h2><p>新進気鋭の国産JavaScriptゲームエンジン「tmlib.js」の後継である「<strong>phina.js</strong>」が<a href="http://phiary.me/phinajs-release/" target="_blank" rel="external">リリースされました</a>！</p>
+<p>さっそくですが、phina.jsの紹介＋サンプル提供を兼ねてシューティングゲームを開発中です。</p>
+<img src="/b/2015/12/01/phinaadvcal20151202/ss.png" alt="PhinaShooter" title="PhinaShooter">
+<p><a href="http://github.dev7.jp/phina-shooter/bundle/">PhinaShooter</a></p>
+<p>まだまだ開発途上ですが、phina.jsの新機能をふんだんに盛り込んでいきたいと考えています。</p>
+<h2 id="ManagerSceneを使ってシーン遷移をスッキリ管理"><a href="#ManagerSceneを使ってシーン遷移をスッキリ管理" class="headerlink" title="ManagerSceneを使ってシーン遷移をスッキリ管理"></a>ManagerSceneを使ってシーン遷移をスッキリ管理</h2><p>本ゲームはたくさんのシーンを次々に遷移しながら実行されます。</p>
+<p>開発にあたる際、たとえばステージ３の道中中盤をデザインしている時に、テストのためにわざわざタイトル画面から実際にプレイするのは大変ですよね。</p>
+<p>シーンごとに独立して製作し、あとで組み合わせる方法をとるのがスマートです。</p>
+<p>そんな時に役立つのが<strong>phina.game.ManagerScene</strong>です。</p>
+<h3 id="ManagerSceneの基本的な使い方"><a href="#ManagerSceneの基本的な使い方" class="headerlink" title="ManagerSceneの基本的な使い方"></a>ManagerSceneの基本的な使い方</h3><p>シーンAからシーンBへ遷移し、その後再びシーンAに戻ってくるような流れを作りたい場合、以下のようなコードになります。</p>
+<ul>
+<li>SceneSequence.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// SceneSequenceクラス</span></div><div class="line">phina.define(<span class="string">"SceneSequence"</span>, &#123;</div><div class="line"></div><div class="line">  <span class="comment">// phina.game.ManagerSceneを継承します</span></div><div class="line">  superClass: <span class="string">"phina.game.ManagerScene"</span>,</div><div class="line"></div><div class="line">  <span class="comment">// 初期化</span></div><div class="line">  init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit(&#123;</div><div class="line">      <span class="attr">scenes</span>: [</div><div class="line"></div><div class="line">        <span class="comment">// A</span></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"シーンA"</span>, <span class="comment">// ラベル。参照用</span></div><div class="line">          className: <span class="string">"SceneA"</span>, <span class="comment">// シーンAのクラス名</span></div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        <span class="comment">// B</span></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"シーンB"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"SceneB"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"シーンA"</span> <span class="comment">// シーン終了時に次に遷移するシーンのラベル</span></div><div class="line">        &#125;</div><div class="line">      ]</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li>SceneA.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// シーンクラス</span></div><div class="line">phina.define(<span class="string">"SceneA"</span>, &#123;</div><div class="line"></div><div class="line">  <span class="comment">// phina.display.CanvasSceneを継承します</span></div><div class="line">  superClass: <span class="string">"phina.display.CanvasScene"</span>,</div><div class="line"></div><div class="line">  <span class="comment">// 初期化</span></div><div class="line">  init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit();</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"これはシーンAです"</span>);</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="comment">// 毎フレーム行う処理  </span></div><div class="line">  update: <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;</div><div class="line">    <span class="comment">// クリックされたら</span></div><div class="line">    <span class="keyword">if</span> (app.pointing.getPointingEnd()) &#123;</div><div class="line">      <span class="comment">// exitメソッドでシーンを終了させます</span></div><div class="line">      <span class="keyword">this</span>.exit();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>（SceneB.jsは省略）</p>
+<p>Sceneクラス内で <code>exit()</code> メソッドを呼び出すことにより、そのシーンを終了させることが出来ます。</p>
+<p>終了後は、</p>
+<ul>
+<li>nextLabelで指定されたシーン</li>
+</ul>
+<p>nextLabel指定がなければ</p>
+<ul>
+<li>ManagerScene内で次に書かれているシーン</li>
+</ul>
+<p>に遷移します。</p>
+<h3 id="条件分岐"><a href="#条件分岐" class="headerlink" title="条件分岐"></a>条件分岐</h3><p>特定の条件を満たす場合のみ遷移先を変えたい時もありますね。</p>
+<p>たとえば、ゲーム中に3回ミスをしてしまったら次のステージではなくゲームオーバーシーンに遷移させたい場合などです。</p>
+<p>そういった時は以下のように記述します。</p>
+<ul>
+<li>SettingScene.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">      scenes: [</div><div class="line">...</div><div class="line">        <span class="comment">// ゲームオーバーシーンを追加</span></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"ゲームオーバー"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"GameOverScene"</span></div><div class="line">        &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<ul>
+<li>SceneA.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">    <span class="comment">// ミスをした時の処理</span></div><div class="line">    miss: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">this</span>.missCount += <span class="number">1</span>;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.missCount &gt;= <span class="number">3</span>) &#123;</div><div class="line"></div><div class="line">        <span class="comment">// ManagerScene側で設定したラベルを指定します</span></div><div class="line">        <span class="keyword">this</span>.exit(<span class="string">"ゲームオーバー"</span>);</div><div class="line"></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p><code>exit()</code> メソッドに引数としてラベル名を渡すことで、ManagerSceneで設定したラベルを指定してジャンプすることが出来ます。</p>
+<h3 id="シーンに引数を渡す"><a href="#シーンに引数を渡す" class="headerlink" title="シーンに引数を渡す"></a>シーンに引数を渡す</h3><p>ManagerSceneでは次のシーンへの遷移時、シーンクラスをインスタンス化します。</p>
+<p>その際にシーンクラスのコンストラクタへ引数を渡すことが出来ます。</p>
+<ul>
+<li>SceneSequence.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"ゲームオーバー"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"GameOverScene"</span>,</div><div class="line">          </div><div class="line">          <span class="comment">// GameOverSceneクラスのコンストラクタに渡すパラメータ</span></div><div class="line">          <span class="built_in">arguments</span>: &#123; <span class="attr">message</span>: <span class="string">"死んでしまった！"</span> &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<ul>
+<li>GameOverScene.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">phina.define(<span class="string">"GameOverScene"</span>, &#123;</div><div class="line"></div><div class="line">  <span class="comment">// phina.display.CanvasSceneを継承します</span></div><div class="line">  superClass: <span class="string">"phina.display.CanvasScene"</span>,</div><div class="line"></div><div class="line">  <span class="comment">// 初期化</span></div><div class="line">  init: <span class="function"><span class="keyword">function</span>(<span class="params">param</span>) </span>&#123; <span class="comment">// 引数を受け取ります</span></div><div class="line">    <span class="keyword">this</span>.superInit();</div><div class="line"></div><div class="line">    <span class="comment">// 引数内のmessageプロパティを表示します</span></div><div class="line">    <span class="built_in">console</span>.log(param.message);</div><div class="line">  &#125;,</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="次のシーンに値を渡す"><a href="#次のシーンに値を渡す" class="headerlink" title="次のシーンに値を渡す"></a>次のシーンに値を渡す</h3><p>遷移前のシーンから次のシーンに情報を渡すことが出来ます。</p>
+<p>ゲームシーン中に獲得したスコアをリザルトシーンで表示する時などに使えますね。</p>
+<ul>
+<li>SceneA.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">    <span class="comment">// ミスをした時の処理</span></div><div class="line">    miss: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">this</span>.missCount += <span class="number">1</span>;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.missCount &gt;= <span class="number">3</span>) &#123;</div><div class="line"></div><div class="line">         <span class="comment">// exitの第２引数にオブジェクトを渡します</span></div><div class="line">        <span class="keyword">this</span>.exit(<span class="string">"ゲームオーバー"</span>, &#123; <span class="attr">score</span>:<span class="keyword">this</span>.score &#125;);</div><div class="line"></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<ul>
+<li>GameOverScene.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">    <span class="comment">// 引数内のmessageプロパティとscoreプロパティを表示します</span></div><div class="line">    <span class="built_in">console</span>.log(param.message, param.score);</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>exit()メソッドの第２引数に渡したオブジェクトとManagerSceneで設定したargumentsオブジェクトはマージされます。</p>
+<h3 id="入れ子構造"><a href="#入れ子構造" class="headerlink" title="入れ子構造"></a>入れ子構造</h3><p>ManagerScene自体もまたSceneのサブクラスですので、ManagerSceneから別のManagerSceneを呼び出すことも可能です。</p>
+<p>ステージ１から最後までプレイするアーケードモードと、ステージを選んでプレイする練習モードを実装したい場合などに利用できます。</p>
+<p><a href="http://goo.gl/ifSxmu" target="_blank" rel="external">サンプル</a></p>
+<ul>
+<li>ゲーム全体の流れ</li>
+</ul>
+<img src="/b/2015/12/01/phinaadvcal20151202/PhinaShooter-SceneSequence.svg" alt="PhinaShooter-SceneSequence.svg" title="">
+<ul>
+<li>アーケードモードの流れ</li>
+</ul>
+<img src="/b/2015/12/01/phinaadvcal20151202/PhinaShooter-SceneSequenceArcade.svg" alt="PhinaShooter-SceneSequenceArcade.svg" title="">
+<ul>
+<li>練習モードの流れ</li>
+</ul>
+<img src="/b/2015/12/01/phinaadvcal20151202/PhinaShooter-SceneSequencePractice.svg" alt="PhinaShooter-SceneSequencePractice.svg" title="">
+<ul>
+<li>PhinaShooter.js（抜粋）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* メインシーケンス */</span></div><div class="line">phina.define(<span class="string">"ps.MainSequence"</span>, &#123;</div><div class="line">  <span class="attr">superClass</span>: <span class="string">"phina.game.ManagerScene"</span>,</div><div class="line"></div><div class="line">  <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit(&#123;</div><div class="line">      <span class="attr">scenes</span>: [</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"load"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.LoadingScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">0</span> &#125;,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"title"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.TitleScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        <span class="comment">// アーケードモード</span></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"arcadeMode"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.ArcadeModeSequence"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"title"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        <span class="comment">// 練習モード</span></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"practiceMode"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.PracticeModeSequence"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"title"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"tutorial"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.TutorialScene"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"title"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"setting"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.SettingScene"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"title"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"ranking"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.RankingScene"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"title"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">      ],</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/* アーケードモード */</span></div><div class="line">phina.define(<span class="string">"ps.ArcadeModeSequence"</span>, &#123;</div><div class="line">  <span class="attr">superClass</span>: <span class="string">"phina.game.ManagerScene"</span>,</div><div class="line">  </div><div class="line">  <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit(&#123;</div><div class="line">      <span class="attr">scenes</span>: [</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage1preload"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.LoadingScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">1</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage1"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.GameScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">1</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage1result"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.ResultScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage2preload"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.LoadingScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">2</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage2"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.GameScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">2</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage2result"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.ResultScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage3preload"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.LoadingScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">3</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage3"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.GameScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">3</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage3result"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.ResultScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"ending"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.EndingScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"gameover"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.GameoverScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"nameEntry"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.NameEntryScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">      ],</div><div class="line">    &#125;);</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">onfinish</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.exit();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/* 練習モード */</span></div><div class="line">phina.define(<span class="string">"ps.PracticeModeSequence"</span>, &#123;</div><div class="line">  <span class="attr">superClass</span>: <span class="string">"phina.game.ManagerScene"</span>,</div><div class="line">  </div><div class="line">  <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  </div><div class="line">    <span class="keyword">var</span> sharedData = &#123;&#125;;</div><div class="line">  </div><div class="line">    <span class="keyword">this</span>.superInit(&#123;</div><div class="line">      <span class="attr">scenes</span>: [</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stageSelect"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.StageSelectScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: sharedData,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"preload"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.LoadingScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: sharedData,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.GameScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: sharedData,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"result"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.ResultScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">      ],</div><div class="line">    &#125;);</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">onfinish</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.exit();</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><p>今回紹介したように、ManagerSceneを使ってシーン管理をすることで、アプリケーション全体をシンプルでスマートかつ変更に強い構造にすることが出来ます。</p>
+<p>ぜひ使ってみてください。</p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-21T13:00:51.000Z"><a href="/b/2015/10/21/magicavoxel4/">2015-10-21</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/10/21/magicavoxel4/">MagicaVoxelの使い方(4) - シェイプ編</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <img src="/b/2015/10/21/magicavoxel4/shapemenu.png" alt="Shapeメニュー" title="Shapeメニュー">
+<h2 id="Shapeモードへの切り替え"><a href="#Shapeモードへの切り替え" class="headerlink" title="Shapeモードへの切り替え"></a>Shapeモードへの切り替え</h2><p>左上の「Brush」ボタンを押す。再度押すとBrushモードに戻る。</p>
+<img src="/b/2015/10/21/magicavoxel4/switch.gif" alt="切り替え" title="切り替え">
+<h2 id="シェイプ編集"><a href="#シェイプ編集" class="headerlink" title="シェイプ編集"></a>シェイプ編集</h2><ul>
+<li>「+」ボタン…Attach Mode。シェイプを追加する。</li>
+<li>「-」ボタン…Erase Mode。シェイプ状にボクセルを削除する。</li>
+<li>「&gt;」ボタン…Paint Mode。シェイプ状にボクセルを着色する。</li>
+</ul>
+<h3 id="Line"><a href="#Line" class="headerlink" title="Line"></a>Line</h3><p>直線を描く。</p>
+<img src="/b/2015/10/21/magicavoxel4/line.gif" alt="Line" title="Line">
+<h3 id="Cube"><a href="#Cube" class="headerlink" title="Cube"></a>Cube</h3><p>立方体を描く。</p>
+<img src="/b/2015/10/21/magicavoxel4/cube.gif" alt="Cube" title="Cube">
+<h3 id="Sphere"><a href="#Sphere" class="headerlink" title="Sphere"></a>Sphere</h3><p>球体を描く。</p>
+<img src="/b/2015/10/21/magicavoxel4/sphere.gif" alt="Sphere" title="Sphere">
+<h3 id="Circle"><a href="#Circle" class="headerlink" title="Circle"></a>Circle</h3><p>円を描く。</p>
+<img src="/b/2015/10/21/magicavoxel4/circle.gif" alt="Circle" title="Circle">
+<h2 id="Pattern"><a href="#Pattern" class="headerlink" title="Pattern"></a>Pattern</h2><p>保存済みのボクセルモデルを読み込み、編集中のモデルデータに追加する機能。</p>
+<p> 1.「Pattern」ボタンをONにする。</p>
+<ol>
+<li>左上のタブを「Model」から「Pattern」に切り替える。</li>
+<li>表示したいモデルデータを選択する。</li>
+</ol>
+<p>以降は左クリックでカーソル位置に選択したモデルデータを追加できるようになる。</p>
+<img src="/b/2015/10/21/magicavoxel4/pattern.gif" alt="Pattern" title="Pattern">
+<p>Patternモード中はキーボードの「+」と「-」で貼り付けデータの回転が可能。</p>
+<img src="/b/2015/10/21/magicavoxel4/pattern_rot.gif" alt="Pattern" title="Pattern">
+<p>キーボードのカーソルキーで貼り付け位置の修正が可能。</p>
+<img src="/b/2015/10/21/magicavoxel4/pattern_mov.gif" alt="Pattern" title="Pattern">
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-17T20:56:09.000Z"><a href="/b/2015/10/18/magicavoxel3/">2015-10-18</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/10/18/magicavoxel3/">MagicaVoxelの使い方(3) - ブラシの基本編2</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <img src="/b/2015/10/18/magicavoxel3/ss2.png" alt="ブラシパネル(2)" title="ブラシパネル(2)">
+<h2 id="ミラー"><a href="#ミラー" class="headerlink" title="ミラー"></a>ミラー</h2><img src="/b/2015/10/18/magicavoxel3/mirror.png" alt="ミラー編集" title="ミラー編集">
+<p>モデルに対する編集が、選択した軸に対して対称に反映されるようになる。</p>
+<p><br></p>
+<img src="/b/2015/10/18/magicavoxel3/mirror.gif" alt="ミラー編集" title="ミラー編集">
+<h2 id="軸編集"><a href="#軸編集" class="headerlink" title="軸編集"></a>軸編集</h2><img src="/b/2015/10/18/magicavoxel3/axis.png" alt="軸編集" title="軸編集">
+<p>モデルに対する編集が、選択した軸上のすべてのボクセルに対して反映されるようになる。</p>
+<p><br></p>
+<img src="/b/2015/10/18/magicavoxel3/axis.gif" alt="軸編集" title="軸編集">
+<h2 id="Editorのレンダリング設定"><a href="#Editorのレンダリング設定" class="headerlink" title="Editorのレンダリング設定"></a>Editorのレンダリング設定</h2><p>編集画面の描画に関する設定。</p>
+<h3 id="地面の表示・非表示"><a href="#地面の表示・非表示" class="headerlink" title="地面の表示・非表示"></a>地面の表示・非表示</h3><img src="/b/2015/10/18/magicavoxel3/render1.png" alt="GD" title="GD">
+<img src="/b/2015/10/18/magicavoxel3/gd.gif" alt="地面の表示・非表示" title="地面の表示・非表示">
+<h3 id="背景の表示・非表示"><a href="#背景の表示・非表示" class="headerlink" title="背景の表示・非表示"></a>背景の表示・非表示</h3><img src="/b/2015/10/18/magicavoxel3/render2.png" alt="BG" title="BG">
+<img src="/b/2015/10/18/magicavoxel3/bg.gif" alt="背景の表示・非表示" title="背景の表示・非表示">
+<h3 id="グリッドの表示・非表示"><a href="#グリッドの表示・非表示" class="headerlink" title="グリッドの表示・非表示"></a>グリッドの表示・非表示</h3><img src="/b/2015/10/18/magicavoxel3/render3.png" alt="GRID" title="GRID">
+<img src="/b/2015/10/18/magicavoxel3/grid.gif" alt="グリッドの表示・非表示" title="グリッドの表示・非表示">
+<h3 id="フレームの表示・非表示"><a href="#フレームの表示・非表示" class="headerlink" title="フレームの表示・非表示"></a>フレームの表示・非表示</h3><img src="/b/2015/10/18/magicavoxel3/render4.png" alt="FRAME" title="FRAME">
+<img src="/b/2015/10/18/magicavoxel3/frame.gif" alt="フレームの表示・非表示" title="フレームの表示・非表示">
+<p><br><br><br></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-16T19:42:46.000Z"><a href="/b/2015/10/17/magicavoxel2/">2015-10-17</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/10/17/magicavoxel2/">MagicaVoxelの使い方(2) - ブラシの基本編1</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <img src="/b/2015/10/17/magicavoxel2/ss1.png" alt="ブラシパネル(1)" title="ブラシパネル(1)">
+<h2 id="ボクセルを置く-Attach"><a href="#ボクセルを置く-Attach" class="headerlink" title="ボクセルを置く(Attach)"></a>ボクセルを置く(Attach)</h2><img src="/b/2015/10/17/magicavoxel2/attach.png" alt="attach.png" title="">
+<p>空間にボクセルを置く操作。</p>
+<p>ショートカットキーは<strong>T</strong>が割り当てられている。</p>
+<p>エディットモードが「V」の時、カーソルのある位置に1つのボクセルを生成する。</p>
+<img src="/b/2015/10/17/magicavoxel2/tv.gif" alt="tv.gif" title="">
+<p>エディットモードが「F」の時、カーソルのある平面全体にボクセルを生成する。</p>
+<img src="/b/2015/10/17/magicavoxel2/tf.gif" alt="tf.gif" title="">
+<p>エディットモードが「B」の時、カーソルをドラッグして形成されるボックス内にボクセルを生成する。</p>
+<img src="/b/2015/10/17/magicavoxel2/tb.gif" alt="tb.gif" title="">
+<h2 id="ボクセルを消す-Erase"><a href="#ボクセルを消す-Erase" class="headerlink" title="ボクセルを消す(Erase)"></a>ボクセルを消す(Erase)</h2><img src="/b/2015/10/17/magicavoxel2/erase.png" alt="erase.png" title="">
+<p>ボクセルを消す操作。</p>
+<p>ショートカットキーは<strong>R</strong>。</p>
+<p>エディットモードが「V」の時、カーソルのある位置に1つのボクセルを削除する。</p>
+<img src="/b/2015/10/17/magicavoxel2/rv.gif" alt="rv.gif" title="">
+<p>エディットモードが「F」の時、カーソルのある平面のボクセルを削除する。</p>
+<img src="/b/2015/10/17/magicavoxel2/rf.gif" alt="rf.gif" title="">
+<p>エディットモードが「B」の時、カーソルをドラッグして形成されるボックス内のボクセルを削除する。</p>
+<img src="/b/2015/10/17/magicavoxel2/rb.gif" alt="rb.gif" title="">
+<h2 id="ボクセルを塗る-Paint"><a href="#ボクセルを塗る-Paint" class="headerlink" title="ボクセルを塗る(Paint)"></a>ボクセルを塗る(Paint)</h2><img src="/b/2015/10/17/magicavoxel2/paint.png" alt="paint.png" title="">
+<p>パレットなどで選択した色でボクセルを塗る操作。</p>
+<p>着色はボクセル単位で行われる。<strong>ボクセルのある一面だけを塗るといったことは不可能</strong>。</p>
+<p>エディットモードが「V」の時、カーソルが指すボクセルを着色する。</p>
+<img src="/b/2015/10/17/magicavoxel2/gv.gif" alt="gv.gif" title="">
+<p>エディットモードが「F」の時、カーソルのある平面のボクセルを着色する。</p>
+<img src="/b/2015/10/17/magicavoxel2/gf.gif" alt="gf.gif" title="">
+<p>エディットモードが「B」の時、カーソルをドラッグして形成されるボックス内のボクセルを着色する。</p>
+<img src="/b/2015/10/17/magicavoxel2/gb.gif" alt="gb.gif" title="">
+<h2 id="編集中のモデルを動かす"><a href="#編集中のモデルを動かす" class="headerlink" title="編集中のモデルを動かす"></a>編集中のモデルを動かす</h2><img src="/b/2015/10/17/magicavoxel2/move.png" alt="move.png" title="">
+<p>編集中のモデルをXYZのいずれかの軸に沿って平行移動する。</p>
+<p>移動先がフレーム外の場合、逆側から現れる（空間がループしている）。</p>
+<img src="/b/2015/10/17/magicavoxel2/m.gif" alt="m.gif" title="">
+<h2 id="ボクセルから色を選択（スポイト）"><a href="#ボクセルから色を選択（スポイト）" class="headerlink" title="ボクセルから色を選択（スポイト）"></a>ボクセルから色を選択（スポイト）</h2><img src="/b/2015/10/17/magicavoxel2/color1.png" alt="color1.png" title="">
+<p>スポイト機能。</p>
+<p>Alt+左クリックでもOK。</p>
+<img src="/b/2015/10/17/magicavoxel2/spoit.gif" alt="spoit.gif" title="">
+<h2 id="同じ色のボクセルをすべて削除"><a href="#同じ色のボクセルをすべて削除" class="headerlink" title="同じ色のボクセルをすべて削除"></a>同じ色のボクセルをすべて削除</h2><img src="/b/2015/10/17/magicavoxel2/color2.png" alt="color2.png" title="">
+<p>カーソルが指すボクセルと同じ色のボクセルをすべて削除する操作。</p>
+<img src="/b/2015/10/17/magicavoxel2/deletebycolor.gif" alt="deletebycolor.gif" title="">
+<h2 id="同じ色のボクセルをすべて変更"><a href="#同じ色のボクセルをすべて変更" class="headerlink" title="同じ色のボクセルをすべて変更"></a>同じ色のボクセルをすべて変更</h2><img src="/b/2015/10/17/magicavoxel2/color3.png" alt="color3.png" title="">
+<p>カーソルが指すボクセルと同じ色のボクセルをすべて選択中の色で着色する。</p>
+<img src="/b/2015/10/17/magicavoxel2/allpaint.gif" alt="allpaint.gif" title="">
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-16T11:23:57.000Z"><a href="/b/2015/10/16/magicavoxel/">2015-10-16</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/10/16/magicavoxel/">MagicaVoxelの使い方(1) - ファイルの操作編</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <img src="/b/2015/10/16/magicavoxel/ss1.png" alt="アコちゃん" title="アコちゃん">
+<h2 id="ウワサのボクセルアート作成ツール「MagicaVoxel」-ってなんだ"><a href="#ウワサのボクセルアート作成ツール「MagicaVoxel」-ってなんだ" class="headerlink" title="ウワサのボクセルアート作成ツール「MagicaVoxel」 ってなんだ!?"></a>ウワサのボクセルアート作成ツール「MagicaVoxel」 ってなんだ!?</h2><p>最近ボクセルがキてる。ような気がする。たぶん。</p>
+<p>というわけで無料で使えるお手軽サクサクボクセルアート作成ツール「MagicaVoxel」について紹介する。</p>
+<p>以前の記事でも簡単に触れたが、<a href="https://twitter.com/ephtracy" target="_blank" rel="external">@ephtracy</a>さんという方が開発されている。</p>
+<p><a href="http://ephtracy.github.io/" target="_blank" rel="external">配布サイトはコチラ</a>。</p>
+<p>簡単になにが出来るのかまとめると、</p>
+<ul>
+<li>小さなキューブ(立方体)を組み合わせて3Dモデルを作ることが出来る</li>
+<li>編集可能なボクセルデータは最大で126x126x126の大きさ</li>
+<li>256色のパレットを使用可能</li>
+<li>作ったボクセルアートを美麗にレンダリングすることが出来る</li>
+<li>レンダリング後はPNG画像として出力可能(背景の透過も可)</li>
+<li>独自形式(voxファイル)で保存</li>
+<li>objなどの一般的なフォーマットで3Dモデルをエクスポート出来る</li>
+<li>動作が軽い</li>
+<li>無料</li>
+<li>WindowsでもMacでも使える</li>
+</ul>
+<p>こんな感じ。</p>
+<p>絵心のない俺のような人間でも<a href="https://twitter.com/daishi_hmr/status/653599083240620032" target="_blank" rel="external">それなりのもの</a>を作ることができるので、ゲーム素材等を作るのに重宝している。</p>
+<p>ただし、けっこう独特のUIを持っているため、最初はとっつきにくいかもしれない。</p>
+<p>そんなわけで、これから何回かに分けてMagicaVoxelの使い方を説明したい。</p>
+<h2 id="マウス操作編"><a href="#マウス操作編" class="headerlink" title="マウス操作編"></a>マウス操作編</h2><h3 id="カメラ移動"><a href="#カメラ移動" class="headerlink" title="カメラ移動"></a>カメラ移動</h3><p>右ドラッグ</p>
+<img src="/b/2015/10/16/magicavoxel/rotate.gif" alt="カメラ移動" title="カメラ移動">
+<h3 id="カメラ注視点移動"><a href="#カメラ注視点移動" class="headerlink" title="カメラ注視点移動"></a>カメラ注視点移動</h3><p>スペースを押しながら右ドラッグ</p>
+<img src="/b/2015/10/16/magicavoxel/move.gif" alt="カメラ注視点移動" title="カメラ注視点移動">
+<h2 id="ファイルの操作編"><a href="#ファイルの操作編" class="headerlink" title="ファイルの操作編"></a>ファイルの操作編</h2><img src="/b/2015/10/16/magicavoxel/ss3.png" alt="ファイル操作に使うボタン" title="ファイル操作に使うボタン">
+<h3 id="読み込み"><a href="#読み込み" class="headerlink" title="読み込み"></a>読み込み</h3><img src="/b/2015/10/16/magicavoxel/load.gif" alt="読み込み" title="読み込み">
+<p>MagicaVoxelをインストールすると、はじめからいくつかのサンプルデータが入ってくる。</p>
+<p>右側のModelタブ内に表示されているのが、サンプルやユーザーが作ったデータだ。</p>
+<p>データを読み込む方法は簡単で、<strong>Modelタブ内のデータ名をクリックする</strong>だけでいい。</p>
+<p>この時、たとえ作成中のデータがあったとしても<span style="color:red"><strong>保存の確認などは一切されないので気をつけよう！</strong></span></p>
+<h3 id="複製"><a href="#複製" class="headerlink" title="複製"></a>複製</h3><img src="/b/2015/10/16/magicavoxel/copy.gif" alt="複製" title="複製">
+<p>読み込んだデータを複製して編集を始めたい時は、左上のcopyボタンを押す。</p>
+<p>中央上にあるファイル名のボックスが空欄になるので、そこに新しいファイル名を入力する。</p>
+<h3 id="新規作成"><a href="#新規作成" class="headerlink" title="新規作成"></a>新規作成</h3><img src="/b/2015/10/16/magicavoxel/new.gif" alt="新規作成" title="新規作成">
+<p>データを新規に作りたい時はnewボタンを押す。デフォルトの状態である立方体が画面に現れる。</p>
+<p>この時も、<span style="color:red"><strong>保存の確認などは一切されない！</strong></span> 気をつけよう。</p>
+<p>ファイル名を入力することで新たなファイルが作られる。</p>
+<h3 id="保存"><a href="#保存" class="headerlink" title="保存"></a>保存</h3><img src="/b/2015/10/16/magicavoxel/save.gif" alt="保存" title="保存">
+<p>編集中のデータを保存（上書き保存）したい時はsaveボタンを押す。</p>
+<h3 id="削除"><a href="#削除" class="headerlink" title="削除"></a>削除</h3><img src="/b/2015/10/16/magicavoxel/delete.gif" alt="削除" title="削除">
+<p>不要なファイルを削除する時は左下のdeleteボタンを押す。</p>
+<p>そろそろわかってきたことかと思うが、<span style="color:red"><strong>削除の確認なども当然されない！</strong></span> 十分気をつけてほしい。</p>
+<h2 id="データはどこに保存されているの"><a href="#データはどこに保存されているの" class="headerlink" title="データはどこに保存されているの?"></a>データはどこに保存されているの?</h2><p>最後に、MagicaVoxelのファイルはどこに保存されているかについて。</p>
+<p>MagicaVoxelのデータファイルはすべて<strong>インストールフォルダの中のvoxフォルダ</strong>に保存される。</p>
+<img src="/b/2015/10/16/magicavoxel/ss4.png" alt="ファイルはここ！" title="ファイルはここ！">
+<p>他所から持ってきたファイルを読み込みたい場合などは、ここに置くことでMagicaVoxelで開くことができるようになる。</p>
+<p><br><br><br></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-14T11:01:28.000Z"><a href="/b/2015/10/14/smartphone-stg/">2015-10-14</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/10/14/smartphone-stg/">phina.jsでスマホSTGのタッチ操作を実装しよう</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <img src="/b/2015/10/14/smartphone-stg/563be011742e79eab22ceeb598a9ac8e.gif" alt="タッチで操作だ！" title="タッチで操作だ！">
+<h2 id="タッチ操作でSTG"><a href="#タッチ操作でSTG" class="headerlink" title="タッチ操作でSTG!!"></a>タッチ操作でSTG!!</h2><p>シューターたる者、いつでもどこでもSTGをプレイしたいものだ。</p>
+<p>読者諸君もいつも持ち歩いている携帯電話に、「怒首領蜂大復活」や「ゴシックは魔法乙女」、「エスプガルーダII ～覚聖せよ。生まれし第三の輝石～　ARCADE VERSION」などをインストールしていることだろう。</p>
+<p>さて、スマートフォンにおけるSTGの操作方法にはいくつかのパターンがあるようだ。</p>
+<ol>
+<li>端末を傾けた方向に自機が移動する</li>
+<li>タッチした場所と自機の位置が完全に同期する</li>
+<li>バーチャルキーパッドで自機を操作する</li>
+<li>タッチした場所に向かって自機が移動する</li>
+<li>スワイプした方向に自機が移動する</li>
+</ol>
+<p>個人的に<strong>「これはねーだろ」</strong>と思った順に並べてみた。</p>
+<p><strong>「1.端末を傾けた方向に自機が移動する」</strong>や<strong>「3.バーチャルキーパッドで自機を操作する」</strong>なんかはiPhoneが流行り始めた時期にはよく見かけた気がする。当然だがすごく操作しづらい。</p>
+<p><strong>「2.タッチした場所と自機の位置が完全に同期する」</strong>は初心者が作ったSTGでよく採用されている気がする。指で完全に自機が隠れてしまい、弾避けどころではない。</p>
+<p><strong>「4.タッチした場所に向かって自機が移動する」</strong>はタブレット端末の場合は意外と良い場合もあったりするが、片手で操作したい場合はやはりつらい。</p>
+<p>というわけで<strong>「5.スワイプした方向に自機が移動する」</strong>である。</p>
+<p>画面のどこでも良いから指をすべらせると、指の移動方向に合わせて自機が移動する方法だ。これが究極だと思う。</p>
+<h2 id="phina-jsやtmlib-jsで実装しよう"><a href="#phina-jsやtmlib-jsで実装しよう" class="headerlink" title="phina.jsやtmlib.jsで実装しよう!!"></a>phina.jsやtmlib.jsで実装しよう!!</h2><p>さて、こいつをphina.js（またはtmlib.js）で実装してみる。これは驚くほどカンタンだ。</p>
+<p>まずは適当なオブジェクトを表示しよう。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">phina.main(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> app = phina.display.CanvasApp(&#123; <span class="attr">query</span>: <span class="string">"#app"</span> &#125;);</div><div class="line">  app.run();</div><div class="line">  </div><div class="line">  <span class="comment">// 自機</span></div><div class="line">  <span class="keyword">var</span> fighter = phina.display.TriangleShape().setPosition(<span class="number">320</span>, <span class="number">480</span>).addChildTo(app.currentScene);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>tmlib.jsの場合はこう。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">tm.main(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> app = tm.display.CanvasApp(<span class="string">"#app"</span>).resize(<span class="number">640</span>, <span class="number">960</span>).fitWindow();</div><div class="line">  app.run();</div><div class="line">  </div><div class="line">  <span class="comment">// 自機</span></div><div class="line">  <span class="keyword">var</span> fighter = tm.display.TriangleShape().setPosition(<span class="number">320</span>, <span class="number">480</span>).addChildTo(app.currentScene);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>で、自機に<em>enterframe</em>イベントのリスナーを登録する。</p>
+<p>リスナーの内容はこんな感じ。</p>
+<p>phina.jsの場合<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 感度</span></div><div class="line"><span class="keyword">var</span> sensitivity = <span class="number">2.0</span>;</div><div class="line"></div><div class="line">fighter.onenterframe = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// ポインター（マウスやタッチ）</span></div><div class="line">  <span class="keyword">var</span> pointer = e.app.pointer;</div><div class="line">  </div><div class="line">  <span class="comment">// 移動量×感度を自機の位置に足す</span></div><div class="line">  <span class="keyword">if</span> (pointer.getPointing())</div><div class="line">    <span class="keyword">this</span>.position.add(pointer.deltaPosition.mul(sensitivity));</div><div class="line">  </div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>tmlib.jsの場合<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sensitivity = <span class="number">2.0</span>;</div><div class="line"></div><div class="line">fighter.onenterframe = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> pointing = e.app.pointing;</div><div class="line">  </div><div class="line">  <span class="keyword">if</span> (pointing.getPointing())</div><div class="line">    <span class="keyword">this</span>.position.add(pointing.deltaPosition.mul(sensitivity));</div><div class="line">  </div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>phina.jsではオブジェクトの位置を2次元ベクトルとして保持している。</p>
+<p>くわえて、そのフレームでのポインターの移動量を同じく2次元ベクトルとして取得することが出来る。</p>
+<p>なので処理としては単純に加算するだけでOKなのだ。</p>
+<p>また、例では感度（sensitivity）として2.0という値を設定している。</p>
+<p>指の移動量をそのまま自機の移動量としてしまってもいいのだが、それだとたとえば自機を画面の左端から右端へ移動させたい場合に不都合が起こる。（高い確率で指が端末の端まで到達してしまって、一度離してタッチしなおさなければならない！！）</p>
+<p>また、指というのは案外精密に動く。指の動作に対し自機が多少大袈裟に動いたとしても問題ない場合が多いのだ。</p>
+<div class="runstant"><iframe src="http://lite.runstant.com/ready?v=1&link=http://goo.gl/DluqbZ" width="90%" height="640px" style="border:0px;box-shadow:0px 0px 2px 0px #aaa"></iframe></div>
+
+<h2 id="そんなわけで"><a href="#そんなわけで" class="headerlink" title="そんなわけで"></a>そんなわけで</h2><p>みんなもスマホブラウザ向けSTGを作ろうぜ！</p>
+<p><br><br><br></p>
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=daishihmr-22&o=9&p=8&l=as1&asins=B00421AUAI&ref=qf_sp_asin_til&fc1=666666&IS2=1&lt1=_blank&m=amazon&lc1=4F9CDB&bc1=FFFFFF&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=daishihmr-22&o=9&p=8&l=as1&asins=B0045UB5BE&ref=qf_sp_asin_til&fc1=666666&IS2=1&lt1=_blank&m=amazon&lc1=4F9CDB&bc1=FFFFFF&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=daishihmr-22&o=9&p=8&l=as1&asins=B004RKWZYS&ref=qf_sp_asin_til&fc1=666666&IS2=1&lt1=_blank&m=amazon&lc1=4F9CDB&bc1=FFFFFF&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+
+<nav id="pagination">
+  
+    <a href="/b/" class="alignleft prev">Prev</a>
+  
+  
+    <a href="/b/page/3/" class="alignright next">Next</a>
+  
+  <div class="clearfix"></div>
+</nav>
+
+      </div>
+    </div>
+    <aside id="sidebar" class="alignright">
+  <div class="widget tag">
+  <h3 class="title">about me</h3>
+  <ul class="entry">
+    <li>Daishi (だいし)</li>
+    <li><img width="100%" src="/b/common/profile_icon.png"></li>
+    <li>楢崎大志。<br>インターネットゲーム作りマン。<br>JavaScript好きです。STG好きです。プリキュアも好きです。能登麻美子と結婚したい。</li>
+    <li>twitter <a href="https://twitter.com/daishi_hmr" target="_blank">daishi_hmr</a></li>
+    <li>github <a href="https://github.com/daishihmr" target="_blank">daishihmr</a></li>
+    <li>qiita <a href="http://qiita.com/daishi_hmr">daishi_hmr</a></li>
+    <li>facebook <a href="https://www.facebook.com/daishi.narazaki">daishi.narazaki</a></li>
+    <li>website <a href="http://github.dev7.jp/" target="_blank">http://github.dev7.jp/</a></li>
+  </ul>
+</div>
+
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:github.dev7.jp">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/b/tags/Blender/">Blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
+  
+    <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
+  
+    <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
+  
+    <li><a href="/b/tags/STG/">STG</a><small>1</small></li>
+  
+    <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
+  
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>2</small></li>
+  
+    <li><a href="/b/tags/blender/">blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/bulletml-js/">bulletml.js</a><small>1</small></li>
+  
+    <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
+  
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+  
+    <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
+  
+    <li><a href="/b/tags/three-js/">three.js</a><small>3</small></li>
+  
+    <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  <div style="margin-bottom:60px">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-sidebar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="8072408520"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 daishihmr
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/b/js/jquery.imagesloaded.min.js"></script>
+<script src="/b/js/gallery.js"></script>
+<script src="/b/js/marioscript.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'daishiblog';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/b/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/b/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72&Operation=NoScript">Amazon.co.jp ウィジェット</A></NOSCRIPT>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-968682-24', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

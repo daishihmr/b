@@ -1,0 +1,358 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MagicaVoxelで作ったプリキュアをUnityで動かす | daishi blog</title>
+  <meta name="author" content="daishihmr">
+  
+  <meta name="description" content="つよく！ やさしく！ うつくしく！真のゲームクリエイターを目指すおじさんの物語！夢へ向かって…
+
+当記事はプリキュアAdvent Calendar 2015の13日目です。
+前→ プリキュア放送中に今誰が活躍してるかわかるやつ作ろうとした by 100_200さん
+次→ rubicureでプリキュア">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="MagicaVoxelで作ったプリキュアをUnityで動かす"/>
+  <meta property="og:site_name" content="daishi blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link rel="alternate" href="atom.xml" title="daishi blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/b/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+  <meta name="google-site-verification" content="PM9p0hYNSUGWMxz5ehxrIdhcssv3JYHGZPYn2GPFfO4" />
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/b/">daishi blog</a></h1>
+  <h2><a href="/b/">だいしブログ - JavaScriptとかでゲームとかを作ったり作らなかったりするブログ？</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="http://github.dev7.jp/">Home</a></li>
+    
+      <li><a href="/b/">BlogTop</a></li>
+    
+      <li><a href="/b/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft">
+      <div id="wrapper">
+        
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-12-14T15:19:06.000Z"><a href="/b/2015/12/15/precureadv20151213/">2015-12-15</a></time>
+      
+      
+  
+    <h1 class="title">MagicaVoxelで作ったプリキュアをUnityで動かす</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <blockquote>
+<p>つよく！ やさしく！ うつくしく！<br>真のゲームクリエイターを目指すおじさんの物語！<br>夢へ向かって…</p>
+</blockquote>
+<p>当記事は<a href="http://www.adventar.org/calendars/728" target="_blank" rel="external">プリキュアAdvent Calendar 2015</a>の13日目です。</p>
+<p>前→ <a href="http://100-200.hatenablog.com/entry/2015/12/09/043857" target="_blank" rel="external">プリキュア放送中に今誰が活躍してるかわかるやつ作ろうとした by 100_200さん</a></p>
+<p>次→ <a href="http://sue445.hatenablog.com/entry/2015/12/16/000000" target="_blank" rel="external">rubicureでプリキュアの誕生日を手軽に調べる by sue445さん</a></p>
+<h1 id="お手軽モデルデータ工場としてのMagicaVoxel"><a href="#お手軽モデルデータ工場としてのMagicaVoxel" class="headerlink" title="お手軽モデルデータ工場としてのMagicaVoxel"></a>お手軽モデルデータ工場としてのMagicaVoxel</h1><h3 id="個人でゲームを作る場合に強力な味方！"><a href="#個人でゲームを作る場合に強力な味方！" class="headerlink" title="個人でゲームを作る場合に強力な味方！"></a>個人でゲームを作る場合に強力な味方！</h3><p>世の中には<a href="https://voxel.codeplex.com/" target="_blank" rel="external">MagicaVoxel</a>というボクセルエディタがあって、わりと簡単にプリキュアの3Dモデルデータを作ることが出来ます。</p>
+<img src="/b/2015/12/15/precureadv20151213/dream_heart.gif" alt="のぞみ＆マナ" title="のぞみ＆マナ">
+<p>こいつを使ってUnityゲームの素材を作り、みんなニコニコ自家発電で楽しみましょうというのが本記事の趣旨です。</p>
+<h1 id="素材配布"><a href="#素材配布" class="headerlink" title="素材配布"></a>素材配布</h1><ul>
+<li><p><a href="http://github.dev7.jp/myvox/asset/base.vox">MagicaVoxel用素体</a></p>
+</li>
+<li><p><a href="http://github.dev7.jp/myvox/asset/BaseArmature.blend">素体用アーマチュア</a></p>
+</li>
+</ul>
+<h1 id="素体をベースにプリキュアをモデリング"><a href="#素体をベースにプリキュアをモデリング" class="headerlink" title="素体をベースにプリキュアをモデリング"></a>素体をベースにプリキュアをモデリング</h1><p>上記にリンクした<a href="http://github.dev7.jp/myvox/asset/base.vox">MagicaVoxel用素体</a>をベースにしてプリキュアを作成していきます。</p>
+<h3 id="準備"><a href="#準備" class="headerlink" title="準備"></a>準備</h3><p><a href="https://voxel.codeplex.com/" target="_blank" rel="external">MagicaVoxel</a>をインストールし、素体をインポートしましょう。</p>
+<img src="/b/2015/12/15/precureadv20151213/base.png" alt="素体" title="素体">
+<h3 id="（本当に最低限の）基本操作"><a href="#（本当に最低限の）基本操作" class="headerlink" title="（本当に最低限の）基本操作"></a>（本当に最低限の）基本操作</h3><p>あとはパレットから好きな色を取り、思うままボクセルを置いたり色を変えたり消したりしてプリキュアをモデリングしていきます。</p>
+<p>画面左上の「Brush」の下、「V」「F」「B」のボタンをのうち「V」をオンにしましょう。</p>
+<p>その状態で「Attach」モードにすると、3Dビューのカーソル位置にボクセルを置くことができます。</p>
+<p>「Erase」モードにすると、カーソル位置のボクセルを消すことができます。</p>
+<p>「Paint」モードではボクセルの色を変えます。</p>
+<p>とりあえずそれだけ出来れば、あとは<strong>なんとかなるなる！</strong></p>
+<h3 id="色にこだわれ！"><a href="#色にこだわれ！" class="headerlink" title="色にこだわれ！"></a>色にこだわれ！</h3><p>プリキュアの皆さんは実にカラフルで個性的なデザインをしていらっしゃいます。</p>
+<p>ボクセルアートという表現力に乏しい世界であっても、「色」さえ原作に忠実に再現すれば、多少形がイビツでもプリキュアに見えるモデルデータを作ることが出来ます（断言）。</p>
+<img src="/b/2015/12/15/precureadv20151213/allstars.png" alt="オールスターズ" title="オールスターズ">
+<h3 id="ちがうパーツをくっつけてはならない"><a href="#ちがうパーツをくっつけてはならない" class="headerlink" title="ちがうパーツをくっつけてはならない"></a>ちがうパーツをくっつけてはならない</h3><p>今回は最終的に、Unity上でSkinnedMeshアニメーションをさせることを目標としています。</p>
+<p>よって、髪や服とくっつけずにモデリングしないと、腕や脚が自由に動かせないモデルになってしまいます。</p>
+<img src="/b/2015/12/15/precureadv20151213/example3.png" alt="この部分の髪と腕がくっついてる！" title="この部分の髪と腕がくっついてる！">
+<p>上図のアンラブリーは髪と腕のボクセルがくっついて（隣接して）ますね。</p>
+<p>これをそのままアニメーションさせるとこんな感じになります。</p>
+<img src="/b/2015/12/15/precureadv20151213/example2.gif" alt="もちーん" title="もちーん">
+<p>腕と髪の頂点が共有されてしまうのでこのようになってしまうわけですね。</p>
+<p>Blender上でうまく編集して離れさせることも出来ますが、なかなか面倒です。</p>
+<p>面倒な目に遭う前に、気をつけてモデリングしましょう。</p>
+<img src="/b/2015/12/15/precureadv20151213/example4.png" alt="修正しました" title="修正しました">
+<p>特に注意が必要なのは、下図のような状態です。</p>
+<img src="/b/2015/12/15/precureadv20151213/example1.png" alt="１頂点を共有するボクセル" title="１頂点を共有するボクセル">
+<p>一見離れているようなのですが、こういう場合も同一頂点なのでうまくいきません。気をつけましょう。</p>
+<h1 id="Blenderでプリキュアにボーンを入れる"><a href="#Blenderでプリキュアにボーンを入れる" class="headerlink" title="Blenderでプリキュアにボーンを入れる"></a>Blenderでプリキュアにボーンを入れる</h1><p>さてさて、ボクセルプリキュアが完成したら、今度はBlenderにインポートしてボーンを入れていきます。</p>
+<h3 id="objで出力"><a href="#objで出力" class="headerlink" title="objで出力"></a>objで出力</h3><p>MagicaVoxel右下の「Export」-「obj」をクリックし、obj形式でモデルデータを出力します。</p>
+<p>出力先は、UnityプロジェクトのAssetsフォルダ内にするとのちのち楽です。</p>
+<img src="/b/2015/12/15/precureadv20151213/example6.png" alt="おぶじぇ" title="おぶじぇ">
+<h3 id="素体用アーマチュアを読み込む"><a href="#素体用アーマチュアを読み込む" class="headerlink" title="素体用アーマチュアを読み込む"></a>素体用アーマチュアを読み込む</h3><p>Blenderを起動し、さきほど配布した<a href="http://github.dev7.jp/myvox/asset/BaseArmature.blend">素体用アーマチュア</a>を開きます。</p>
+<img src="/b/2015/12/15/precureadv20151213/example5.png" alt="ぼ～ん" title="ぼ～ん">
+<h3 id="objをインポート"><a href="#objをインポート" class="headerlink" title="objをインポート"></a>objをインポート</h3><p>つづいて「File」-「Import」-「Wavefront (.obj)」でobjファイルを読み込みます。</p>
+<img src="/b/2015/12/15/precureadv20151213/example7.png" alt="読み込んだー" title="読み込んだー">
+<p>拡大縮小＆移動でモデルをアーマチュアのサイズ・位置に合わせます。</p>
+<img src="/b/2015/12/15/precureadv20151213/example8.png" alt="あわせたー" title="あわせたー">
+<h3 id="メッシュの編集"><a href="#メッシュの編集" class="headerlink" title="メッシュの編集"></a>メッシュの編集</h3><p>メッシュを編集します。</p>
+<p>MagicaVoxelはobj出力時に同一頂点の最適化を行いませんので、「Remove Doubles」コマンドで重複頂点を削除します。</p>
+<p>また、関節を入れたい位置に頂点を追加するなどしていい感じに編集します。</p>
+<p>私の場合は面倒なので、「Subdivide」で適当に頂点を増やしています。 </p>
+<h3 id="アーマチュアの編集"><a href="#アーマチュアの編集" class="headerlink" title="アーマチュアの編集"></a>アーマチュアの編集</h3><p>アーマチュアの各ボーンをいい感じにモデルに合わせて編集します。</p>
+<p>素体からプロポーションを大きく変えていなければ、特に編集の必要はないと思います。</p>
+<h3 id="親子にする"><a href="#親子にする" class="headerlink" title="親子にする"></a>親子にする</h3><p>メッシュ→アーマチュアの順に選択して「Make Parent」-「Armature Deform With Automatic Weights」でメッシュをボーンに関連付けます。</p>
+<p>ポーズモードで意図したとおりにボーンが入ったか確認してください。.</p>
+<img src="/b/2015/12/15/precureadv20151213/example9.png" alt="かくにーん" title="かくにーん">
+<h3 id="FBX形式でエクスポート"><a href="#FBX形式でエクスポート" class="headerlink" title="FBX形式でエクスポート"></a>FBX形式でエクスポート</h3><p>「File」-「Export」-「FBX (.fbx)」でエクスポートします。</p>
+<p>出力先はUnityプロジェクトのAssetsフォルダ内にしましょう。</p>
+<h3 id="UnityにFBXをインポート"><a href="#UnityにFBXをインポート" class="headerlink" title="UnityにFBXをインポート"></a>UnityにFBXをインポート</h3><p>Unityを起動し、出力したFBXを選択します。</p>
+<p>インスペクタの「Rig」タグ-「Animation Type」を「Humanoid」に設定し、「Apply」ボタンを押します。</p>
+<img src="/b/2015/12/15/precureadv20151213/example10.png" alt="ひゅー" title="ひゅー">
+<p>「Configure…」ボタンを押し、ボーンが正しく認識されていることを確認します。</p>
+
+<p>「Done」ボタンを押してアセットのメタ情報を確定します。</p>
+<h3 id="アニメーションをつける"><a href="#アニメーションをつける" class="headerlink" title="アニメーションをつける"></a>アニメーションをつける</h3><p>Asset Storeにある「Unityちゃん」（無料）のモーションなど、配布されているモーションを付けて楽しみましょう。</p>
+<img src="/b/2015/12/15/precureadv20151213/example11.gif" alt="DAMAGED01をつけてみた" title="DAMAGED01をつけてみた">
+<h3 id="参考リンク"><a href="#参考リンク" class="headerlink" title="参考リンク"></a>参考リンク</h3><ul>
+<li><a href="http://github.dev7.jp/b/tags/MagicaVoxel/">http://github.dev7.jp/b/tags/MagicaVoxel/</a><ul>
+<li>当ブロクのMagicaVoxel記事</li>
+</ul>
+</li>
+<li><a href="https://www.youtube.com/playlist?list=PL2E62B90A9EAF5E71" target="_blank" rel="external">https://www.youtube.com/playlist?list=PL2E62B90A9EAF5E71</a> SpreadBlenderさんのblender入門講座のリスト<ul>
+<li>Blenderの基本操作について学びやすい動画講座</li>
+</ul>
+</li>
+<li><a href="https://youtu.be/wdOk5QXYC6Y?list=PL82_oZKG3V-szJO2WTAFjYnR_Qnej7NBA" target="_blank" rel="external">https://youtu.be/wdOk5QXYC6Y?list=PL82_oZKG3V-szJO2WTAFjYnR_Qnej7NBA</a> Unity 5 Tutorial - Animation Control<ul>
+<li>Unityでスクリプトからアニメーションを制御する基礎</li>
+</ul>
+</li>
+<li><a href="http://www.nicovideo.jp/watch/sm27704710" target="_blank" rel="external">http://www.nicovideo.jp/watch/sm27704710</a> 【12分で】MagicaVoxelモデルをUnityで動かした【できる】<ul>
+<li>当記事の動画バージョン</li>
+</ul>
+</li>
+</ul>
+<h1 id="むすび"><a href="#むすび" class="headerlink" title="むすび"></a>むすび</h1><p>MagicaVoxelは非常に簡単に可愛らしいキャラクターを作ることが出来ます。</p>
+<p>作ったキャラクターを動かすのも、Blenderを使えば非常に簡単です。</p>
+<p>さらに、それを使ったゲームもUnityを使えば簡単に作ることが出来ます。</p>
+<p>みなさんもぜひオリジナルプリキュアゲームを作って楽しいプリキュアライフを送ってください。</p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/b/tags/MagicaVoxel/">MagicaVoxel</a>, <a href="/b/tags/プリキュア/">プリキュア</a>, <a href="/b/tags/Unity/">Unity</a>, <a href="/b/tags/Blender/">Blender</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+
+      </div>
+    </div>
+    <aside id="sidebar" class="alignright">
+  <div class="widget tag">
+  <h3 class="title">about me</h3>
+  <ul class="entry">
+    <li>Daishi (だいし)</li>
+    <li><img width="100%" src="/b/common/profile_icon.png"></li>
+    <li>楢崎大志。<br>インターネットゲーム作りマン。<br>JavaScript好きです。STG好きです。プリキュアも好きです。能登麻美子と結婚したい。</li>
+    <li>twitter <a href="https://twitter.com/daishi_hmr" target="_blank">daishi_hmr</a></li>
+    <li>github <a href="https://github.com/daishihmr" target="_blank">daishihmr</a></li>
+    <li>qiita <a href="http://qiita.com/daishi_hmr">daishi_hmr</a></li>
+    <li>facebook <a href="https://www.facebook.com/daishi.narazaki">daishi.narazaki</a></li>
+    <li>website <a href="http://github.dev7.jp/" target="_blank">http://github.dev7.jp/</a></li>
+  </ul>
+</div>
+
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:github.dev7.jp">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/b/tags/Blender/">Blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
+  
+    <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
+  
+    <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
+  
+    <li><a href="/b/tags/STG/">STG</a><small>1</small></li>
+  
+    <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
+  
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>2</small></li>
+  
+    <li><a href="/b/tags/blender/">blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/bulletml-js/">bulletml.js</a><small>1</small></li>
+  
+    <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
+  
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+  
+    <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
+  
+    <li><a href="/b/tags/three-js/">three.js</a><small>3</small></li>
+  
+    <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  <div style="margin-bottom:60px">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-sidebar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="8072408520"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 daishihmr
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/b/js/jquery.imagesloaded.min.js"></script>
+<script src="/b/js/gallery.js"></script>
+<script src="/b/js/marioscript.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'daishiblog';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/b/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/b/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72&Operation=NoScript">Amazon.co.jp ウィジェット</A></NOSCRIPT>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-968682-24', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

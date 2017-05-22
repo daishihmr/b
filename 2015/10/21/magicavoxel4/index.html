@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MagicaVoxelの使い方(4) - シェイプ編 | daishi blog</title>
+  <meta name="author" content="daishihmr">
+  
+  <meta name="description" content="Shapeモードへの切り替え左上の「Brush」ボタンを押す。再度押すとBrushモードに戻る。
+
+シェイプ編集
+「+」ボタン…Attach Mode。シェイプを追加する。
+「-」ボタン…Erase Mode。シェイプ状にボクセルを削除する。
+「&amp;gt;」ボタン…Paint Mode。シェイプ状にボ">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="MagicaVoxelの使い方(4) - シェイプ編"/>
+  <meta property="og:site_name" content="daishi blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link rel="alternate" href="atom.xml" title="daishi blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/b/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+  <meta name="google-site-verification" content="PM9p0hYNSUGWMxz5ehxrIdhcssv3JYHGZPYn2GPFfO4" />
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/b/">daishi blog</a></h1>
+  <h2><a href="/b/">だいしブログ - JavaScriptとかでゲームとかを作ったり作らなかったりするブログ？</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="http://github.dev7.jp/">Home</a></li>
+    
+      <li><a href="/b/">BlogTop</a></li>
+    
+      <li><a href="/b/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft">
+      <div id="wrapper">
+        
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-21T13:00:51.000Z"><a href="/b/2015/10/21/magicavoxel4/">2015-10-21</a></time>
+      
+      
+  
+    <h1 class="title">MagicaVoxelの使い方(4) - シェイプ編</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <img src="/b/2015/10/21/magicavoxel4/shapemenu.png" alt="Shapeメニュー" title="Shapeメニュー">
+<h2 id="Shapeモードへの切り替え"><a href="#Shapeモードへの切り替え" class="headerlink" title="Shapeモードへの切り替え"></a>Shapeモードへの切り替え</h2><p>左上の「Brush」ボタンを押す。再度押すとBrushモードに戻る。</p>
+<img src="/b/2015/10/21/magicavoxel4/switch.gif" alt="切り替え" title="切り替え">
+<h2 id="シェイプ編集"><a href="#シェイプ編集" class="headerlink" title="シェイプ編集"></a>シェイプ編集</h2><ul>
+<li>「+」ボタン…Attach Mode。シェイプを追加する。</li>
+<li>「-」ボタン…Erase Mode。シェイプ状にボクセルを削除する。</li>
+<li>「&gt;」ボタン…Paint Mode。シェイプ状にボクセルを着色する。</li>
+</ul>
+<h3 id="Line"><a href="#Line" class="headerlink" title="Line"></a>Line</h3><p>直線を描く。</p>
+<img src="/b/2015/10/21/magicavoxel4/line.gif" alt="Line" title="Line">
+<h3 id="Cube"><a href="#Cube" class="headerlink" title="Cube"></a>Cube</h3><p>立方体を描く。</p>
+<img src="/b/2015/10/21/magicavoxel4/cube.gif" alt="Cube" title="Cube">
+<h3 id="Sphere"><a href="#Sphere" class="headerlink" title="Sphere"></a>Sphere</h3><p>球体を描く。</p>
+<img src="/b/2015/10/21/magicavoxel4/sphere.gif" alt="Sphere" title="Sphere">
+<h3 id="Circle"><a href="#Circle" class="headerlink" title="Circle"></a>Circle</h3><p>円を描く。</p>
+<img src="/b/2015/10/21/magicavoxel4/circle.gif" alt="Circle" title="Circle">
+<h2 id="Pattern"><a href="#Pattern" class="headerlink" title="Pattern"></a>Pattern</h2><p>保存済みのボクセルモデルを読み込み、編集中のモデルデータに追加する機能。</p>
+<p> 1.「Pattern」ボタンをONにする。</p>
+<ol>
+<li>左上のタブを「Model」から「Pattern」に切り替える。</li>
+<li>表示したいモデルデータを選択する。</li>
+</ol>
+<p>以降は左クリックでカーソル位置に選択したモデルデータを追加できるようになる。</p>
+<img src="/b/2015/10/21/magicavoxel4/pattern.gif" alt="Pattern" title="Pattern">
+<p>Patternモード中はキーボードの「+」と「-」で貼り付けデータの回転が可能。</p>
+<img src="/b/2015/10/21/magicavoxel4/pattern_rot.gif" alt="Pattern" title="Pattern">
+<p>キーボードのカーソルキーで貼り付け位置の修正が可能。</p>
+<img src="/b/2015/10/21/magicavoxel4/pattern_mov.gif" alt="Pattern" title="Pattern">
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/b/tags/MagicaVoxel/">MagicaVoxel</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+
+      </div>
+    </div>
+    <aside id="sidebar" class="alignright">
+  <div class="widget tag">
+  <h3 class="title">about me</h3>
+  <ul class="entry">
+    <li>Daishi (だいし)</li>
+    <li><img width="100%" src="/b/common/profile_icon.png"></li>
+    <li>楢崎大志。<br>インターネットゲーム作りマン。<br>JavaScript好きです。STG好きです。プリキュアも好きです。能登麻美子と結婚したい。</li>
+    <li>twitter <a href="https://twitter.com/daishi_hmr" target="_blank">daishi_hmr</a></li>
+    <li>github <a href="https://github.com/daishihmr" target="_blank">daishihmr</a></li>
+    <li>qiita <a href="http://qiita.com/daishi_hmr">daishi_hmr</a></li>
+    <li>facebook <a href="https://www.facebook.com/daishi.narazaki">daishi.narazaki</a></li>
+    <li>website <a href="http://github.dev7.jp/" target="_blank">http://github.dev7.jp/</a></li>
+  </ul>
+</div>
+
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:github.dev7.jp">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/b/tags/Blender/">Blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
+  
+    <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
+  
+    <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
+  
+    <li><a href="/b/tags/STG/">STG</a><small>1</small></li>
+  
+    <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
+  
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>2</small></li>
+  
+    <li><a href="/b/tags/blender/">blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/bulletml-js/">bulletml.js</a><small>1</small></li>
+  
+    <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
+  
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+  
+    <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
+  
+    <li><a href="/b/tags/three-js/">three.js</a><small>3</small></li>
+  
+    <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  <div style="margin-bottom:60px">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-sidebar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="8072408520"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 daishihmr
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/b/js/jquery.imagesloaded.min.js"></script>
+<script src="/b/js/gallery.js"></script>
+<script src="/b/js/marioscript.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'daishiblog';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/b/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/b/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72&Operation=NoScript">Amazon.co.jp ウィジェット</A></NOSCRIPT>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-968682-24', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

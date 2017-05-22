@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>GLBoostで俺のキャラを動かす | daishi blog</title>
+  <meta name="author" content="daishihmr">
+  
+  <meta name="description" content="GLBoost Advent Calendar 2016の4日目です。
+Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！
+動作サンプル
+GLBoostではglTFっつー形式のデータが読み込めるらしいです。
+Blenderからは直接glTFのデータを出力することが出来ない（一応">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="GLBoostで俺のキャラを動かす"/>
+  <meta property="og:site_name" content="daishi blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link rel="alternate" href="atom.xml" title="daishi blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/b/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+  <meta name="google-site-verification" content="PM9p0hYNSUGWMxz5ehxrIdhcssv3JYHGZPYn2GPFfO4" />
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/b/">daishi blog</a></h1>
+  <h2><a href="/b/">だいしブログ - JavaScriptとかでゲームとかを作ったり作らなかったりするブログ？</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="http://github.dev7.jp/">Home</a></li>
+    
+      <li><a href="/b/">BlogTop</a></li>
+    
+      <li><a href="/b/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft">
+      <div id="wrapper">
+        
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-12-05T11:21:49.000Z"><a href="/b/2016/12/05/glboostadvcal20161204/">2016-12-05</a></time>
+      
+      
+  
+    <h1 class="title">GLBoostで俺のキャラを動かす</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://qiita.com/advent-calendar/2016/glboost" target="_blank" rel="external">GLBoost Advent Calendar 2016</a>の4日目です。</p>
+<h2 id="Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！"><a href="#Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！" class="headerlink" title="Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！"></a>Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！</h2><img src="/b/2016/12/05/glboostadvcal20161204/anim.gif" alt="ミラクルキック" title="ミラクルキック">
+<p><a href="http://github.dev7.jp/glboostadvcal20161204/">動作サンプル</a></p>
+<p><a href="https://github.com/emadurandal/GLBoost" target="_blank" rel="external">GLBoost</a>ではglTFっつー形式のデータが読み込めるらしいです。</p>
+<p>Blenderからは直接glTFのデータを出力することが出来ない（一応プラグインはあるみたいですが、なんか動かん…）ので、一度COLLADAで出力したものを変換します。</p>
+<img src="/b/2016/12/05/glboostadvcal20161204/export1.png" alt="COLLADAで出力" title="COLLADAで出力">
+<img src="/b/2016/12/05/glboostadvcal20161204/export2.png" alt="テクスチャも中に含めちゃおう" title="テクスチャも中に含めちゃおう">
+<p>出力したデータ（*.dae）はオンラインの変換サービスでお手軽に変換しましょう。</p>
+<p><a href="http://collada2gltf.mediagis.com/" target="_blank" rel="external">Collada 2 glTF</a></p>
+<img src="/b/2016/12/05/glboostadvcal20161204/collada2gltf.png" alt="Collada 2 glTF" title="Collada 2 glTF">
+<h2 id="作ったglTFデータを読み込むぜ"><a href="#作ったglTFデータを読み込むぜ" class="headerlink" title="作ったglTFデータを読み込むぜ"></a>作ったglTFデータを読み込むぜ</h2><p>GLBoostのexampleフォルダからスキニングアニメーションのサンプルを探して適当に改造します。</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> canvas = document.getElementById('canvas');</div><div class="line"><span class="built_in">var</span> <span class="built_in">context</span> = <span class="built_in">new</span> GLBoost.GLBoostMiddleContext(canvas);</div><div class="line"></div><div class="line"><span class="built_in">var</span> renderer = <span class="built_in">context</span>.createRenderer(&#123; clearColor: &#123; red: <span class="number">0.25</span>, green: <span class="number">0.25</span>, blue: <span class="number">0.25</span>, alpha: <span class="number">1</span> &#125; &#125;);</div><div class="line"><span class="built_in">var</span> <span class="built_in">scene</span> = <span class="built_in">context</span>.createScene();</div><div class="line"></div><div class="line"><span class="built_in">var</span> light1 = <span class="built_in">context</span>.createPointLight(<span class="built_in">new</span> GLBoost.Vector3(<span class="number">1.25</span>, <span class="number">1.25</span>, <span class="number">1.25</span>));</div><div class="line">light1.<span class="built_in">translate</span> = <span class="built_in">new</span> GLBoost.Vector3(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>);</div><div class="line"><span class="built_in">scene</span>.addChild(light1);</div><div class="line"></div><div class="line"><span class="built_in">var</span> light2 = <span class="built_in">context</span>.createPointLight(<span class="built_in">new</span> GLBoost.Vector3(<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>));</div><div class="line">light2.<span class="built_in">translate</span> = <span class="built_in">new</span> GLBoost.Vector3(-<span class="number">10</span>, <span class="number">10</span>, -<span class="number">10</span>);</div><div class="line"><span class="built_in">scene</span>.addChild(light2);</div><div class="line"></div><div class="line"><span class="built_in">var</span> camera = <span class="built_in">context</span>.createPerspectiveCamera(&#123;</div><div class="line">  eye: <span class="built_in">new</span> GLBoost.Vector3(<span class="number">5</span>, <span class="number">3</span>, <span class="number">5</span>),</div><div class="line">  <span class="built_in">center</span>: <span class="built_in">new</span> GLBoost.Vector3(<span class="number">0.0</span>, <span class="number">2</span>, <span class="number">0.0</span>),</div><div class="line">  up: <span class="built_in">new</span> GLBoost.Vector3(<span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>),</div><div class="line">&#125;, &#123;</div><div class="line">  fovy: <span class="number">45.0</span>,</div><div class="line">  aspect: <span class="number">1.0</span>,</div><div class="line">  zNear: <span class="number">0.1</span>,</div><div class="line">  zFar: <span class="number">1000</span>,</div><div class="line">&#125;);</div><div class="line"><span class="built_in">scene</span>.addChild(camera);</div><div class="line"></div><div class="line"><span class="built_in">var</span> expression = <span class="built_in">context</span>.createExpressionAndRenderPasses(<span class="number">1</span>);</div><div class="line">expression.renderPasses[<span class="number">0</span>].<span class="built_in">scene</span> = <span class="built_in">scene</span>;</div><div class="line">expression.prepareToRender();</div><div class="line"></div><div class="line"><span class="built_in">var</span> render = function() &#123;</div><div class="line">  <span class="built_in">scene</span>.setCurrentAnimationValue('<span class="built_in">time</span>', (Date.now() <span class="symbol">%</span> <span class="number">1300</span>) / <span class="number">1000</span>);</div><div class="line">  renderer.clearCanvas();</div><div class="line">  renderer.<span class="built_in">draw</span>(expression);</div><div class="line"></div><div class="line">  requestAnimationFrame(render);</div><div class="line">&#125;;</div><div class="line">render();</div><div class="line"></div><div class="line"><span class="built_in">var</span> glTFLoader = GLBoost.GLTFLoader.getInstance();</div><div class="line">glTFLoader</div><div class="line">  .loadGLTF(<span class="built_in">context</span>, 'kick.gltf', <span class="number">1</span>, null)</div><div class="line">  .<span class="keyword">then</span>(function(group) &#123;</div><div class="line">    group.<span class="built_in">scale</span> = <span class="built_in">new</span> GLBoost.Vector3(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>);</div><div class="line">    <span class="built_in">scene</span>.addChild(group);</div><div class="line"></div><div class="line">    expression.prepareToRender();</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<p>出来たー(/･ω･)/</p>
+<h2 id="今回作ったもの"><a href="#今回作ったもの" class="headerlink" title="今回作ったもの"></a>今回作ったもの</h2><p><a href="http://github.dev7.jp/glboostadvcal20161204/">動作サンプル</a></p>
+<p><a href="https://github.com/daishihmr/glboostadvcal20161204" target="_blank" rel="external">githubリポジトリ</a></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/b/tags/MagicaVoxel/">MagicaVoxel</a>, <a href="/b/tags/GLBoost/">GLBoost</a>, <a href="/b/tags/blender/">blender</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+
+      </div>
+    </div>
+    <aside id="sidebar" class="alignright">
+  <div class="widget tag">
+  <h3 class="title">about me</h3>
+  <ul class="entry">
+    <li>Daishi (だいし)</li>
+    <li><img width="100%" src="/b/common/profile_icon.png"></li>
+    <li>楢崎大志。<br>インターネットゲーム作りマン。<br>JavaScript好きです。STG好きです。プリキュアも好きです。能登麻美子と結婚したい。</li>
+    <li>twitter <a href="https://twitter.com/daishi_hmr" target="_blank">daishi_hmr</a></li>
+    <li>github <a href="https://github.com/daishihmr" target="_blank">daishihmr</a></li>
+    <li>qiita <a href="http://qiita.com/daishi_hmr">daishi_hmr</a></li>
+    <li>facebook <a href="https://www.facebook.com/daishi.narazaki">daishi.narazaki</a></li>
+    <li>website <a href="http://github.dev7.jp/" target="_blank">http://github.dev7.jp/</a></li>
+  </ul>
+</div>
+
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:github.dev7.jp">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/b/tags/Blender/">Blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
+  
+    <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
+  
+    <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
+  
+    <li><a href="/b/tags/STG/">STG</a><small>1</small></li>
+  
+    <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
+  
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>2</small></li>
+  
+    <li><a href="/b/tags/blender/">blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/bulletml-js/">bulletml.js</a><small>1</small></li>
+  
+    <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
+  
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+  
+    <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
+  
+    <li><a href="/b/tags/three-js/">three.js</a><small>3</small></li>
+  
+    <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  <div style="margin-bottom:60px">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-sidebar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="8072408520"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 daishihmr
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/b/js/jquery.imagesloaded.min.js"></script>
+<script src="/b/js/gallery.js"></script>
+<script src="/b/js/marioscript.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'daishiblog';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/b/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/b/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72&Operation=NoScript">Amazon.co.jp ウィジェット</A></NOSCRIPT>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-968682-24', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

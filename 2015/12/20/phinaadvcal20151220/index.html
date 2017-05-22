@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>せっかくだから俺も3Dやってみた | daishi blog</title>
+  <meta name="author" content="daishihmr">
+  
+  <meta name="description" content="phina.js Advent Calendar 2015の20日目です。
+前 emadurandalさん次 minimoさん
+3Dのゲームを作るよ！@emadurandal さんが昨日の記事でご紹介されていたとおりphina.jsにはThreeLayerというものがあり、three.jsと連携して">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="せっかくだから俺も3Dやってみた"/>
+  <meta property="og:site_name" content="daishi blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link rel="alternate" href="atom.xml" title="daishi blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/b/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+  <meta name="google-site-verification" content="PM9p0hYNSUGWMxz5ehxrIdhcssv3JYHGZPYn2GPFfO4" />
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/b/">daishi blog</a></h1>
+  <h2><a href="/b/">だいしブログ - JavaScriptとかでゲームとかを作ったり作らなかったりするブログ？</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="http://github.dev7.jp/">Home</a></li>
+    
+      <li><a href="/b/">BlogTop</a></li>
+    
+      <li><a href="/b/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft">
+      <div id="wrapper">
+        
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-12-20T12:43:33.000Z"><a href="/b/2015/12/20/phinaadvcal20151220/">2015-12-20</a></time>
+      
+      
+  
+    <h1 class="title">せっかくだから俺も3Dやってみた</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2015</a>の20日目です。</p>
+<p>前 <a href="http://qiita.com/emadurandal/items/93223877936b5dc767f5" target="_blank" rel="external">emadurandalさん</a><br>次 <a href="http://qiita.com/minimo/items/1e28c2e892d75d08e93a" target="_blank" rel="external">minimoさん</a></p>
+<h1 id="3Dのゲームを作るよ！"><a href="#3Dのゲームを作るよ！" class="headerlink" title="3Dのゲームを作るよ！"></a>3Dのゲームを作るよ！</h1><p>@emadurandal さんが<a href="http://qiita.com/emadurandal/items/93223877936b5dc767f5" target="_blank" rel="external">昨日の記事</a>でご紹介されていたとおりphina.jsにはThreeLayerというものがあり、three.jsと連携して3Dゲームを作ることが出来ます。</p>
+<p>というわけでさっそくやってみました。</p>
+<h2 id="バトルシップ！"><a href="#バトルシップ！" class="headerlink" title="バトルシップ！"></a>バトルシップ！</h2><img src="/b/2015/12/20/phinaadvcal20151220/ss.png" alt="おふね～" title="おふね～">
+<p>私が過去に作った<a href="http://9leap.net/games/3592" target="_blank" rel="external">大海戦！ヤマトさん</a>というゲームを3D化したものを開発しています。</p>
+<p>まだ作成途中ですが、three.jsのExampleフォルダに入っている<a href="http://threejs.org/examples/webgl_shaders_ocean.html" target="_blank" rel="external">WaterShader</a>を<del>丸パクリ</del>利用してみました。</p>
+<p>また、<a href="https://ephtracy.github.io/" target="_blank" rel="external">MagicaVoxel</a>のvoxファイルをjsで使うためのライブラリ<a href="http://github.dev7.jp/vox.js/">vox.js</a>を使い、20分でモデリングした大和型戦艦を登場させています。</p>
+<p>今回の記事ではphina.jsとthree.jsを連携する上でいくつか気づいたことをまとめてみます。</p>
+<h3 id="phina-asset-AssetManagerでテクスチャをロード"><a href="#phina-asset-AssetManagerでテクスチャをロード" class="headerlink" title="phina.asset.AssetManagerでテクスチャをロード"></a>phina.asset.AssetManagerでテクスチャをロード</h3><p>three.jsではテクスチャに画像ファイルを使う際、ImageUtils.loadTexture()メソッドなどを使い画像をロードします。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> texture = THREE.ImageUtils.loadTexture( <span class="string">"textures/water.jpg"</span> );</div><div class="line"><span class="keyword">var</span> material = <span class="keyword">new</span> THREE.MeshPhongMaterial(&#123;</div><div class="line">  <span class="attr">map</span>: texture</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>phina.jsにはアセットを一括管理するしくみがありますので、3D用のテクスチャもこちらでロードしたいところです。</p>
+<p>そこでこのようにしてみました。</p>
+<ul>
+<li>ロード時</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> loadingScene = phina.game.LoadingScene(&#123;</div><div class="line">  <span class="attr">assets</span>: &#123;</div><div class="line">    <span class="attr">image</span>: &#123;</div><div class="line">      <span class="string">"curescarlet"</span>: <span class="string">"./assets/curescarlet.png"</span>,</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li>利用時</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> texture = <span class="keyword">new</span> THREE.Texture(phina.asset.AssetManager.get(<span class="string">"image"</span>, <span class="string">"curescarlet"</span>).domElement);</div><div class="line"><span class="keyword">var</span> material = <span class="keyword">new</span> THREE.MeshPhongMaterial(&#123;</div><div class="line">  <span class="attr">map</span>: texture</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>ロード時は2Dスプライト用のテクスチャとまったく同じです。</p>
+<p>利用時は画像アセット（phina.asset.Texture）のdomElementプロパティからimg要素を取得できるので、それをTHREE.Textureのコンストラクタに渡してあげればテクスチャオブジェクトを作ることが出来ます。</p>
+<h3 id="Tweenerでアニメーション"><a href="#Tweenerでアニメーション" class="headerlink" title="Tweenerでアニメーション"></a>Tweenerでアニメーション</h3><p>phina.accessory.Tweenerを使ったアニメーションは簡単かつ見栄えのする演出方法です。ゲームを作る上ではぜひ利用していきたいしくみですね。</p>
+<p>phina.js Advent Calendar 2015でも @simiraaaa さんが記事を書いていらっしゃいます。</p>
+<p><a href="http://qiita.com/simiraaaa/items/b80fec588fa2db272f67" target="_blank" rel="external">Tweenerを使いこなそう!</a></p>
+<p>THREE.Mesh等の3Dオブジェクトでトゥイーンアニメーションを実現するには、phinaのエレメントでラップしてしまうと手っ取り早いです。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">phina.define(<span class="string">"ThreeElement"</span>, &#123;</div><div class="line">  <span class="attr">superClass</span>: <span class="string">"phina.app.Element"</span>,</div><div class="line">  </div><div class="line">  <span class="comment">// THREE.Object3Dオブジェクトを受け取る</span></div><div class="line">  init: <span class="function"><span class="keyword">function</span>(<span class="params">threeObject</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit();</div><div class="line">    <span class="keyword">this</span>.$t = threeObject;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="comment">// _accessorで座標のgetter/setterを定義する</span></div><div class="line">  _accessor: &#123;</div><div class="line">    <span class="attr">x</span>: &#123;</div><div class="line">      <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.$t.position.x &#125;,</div><div class="line">      <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123; <span class="keyword">this</span>.$t.position.x = v &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">y</span>: &#123;</div><div class="line">      <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.$t.position.y &#125;,</div><div class="line">      <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123; <span class="keyword">this</span>.$t.position.y = v &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">z</span>: &#123;</div><div class="line">      <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.$t.position.z &#125;,</div><div class="line">      <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123; <span class="keyword">this</span>.$t.position.z = v &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line"><span class="comment">// three.jsのメッシュ</span></div><div class="line"><span class="keyword">var</span> shipThree = <span class="keyword">new</span> THREE.Mesh(geometory, material);</div><div class="line"></div><div class="line"><span class="comment">// phina.jsのエレメントでラップ</span></div><div class="line"><span class="keyword">var</span> shipPhina = ThreeElement(_ship);</div><div class="line"></div><div class="line"><span class="comment">// アニメーション</span></div><div class="line">shipPhina.tweener.to(&#123;</div><div class="line">  <span class="attr">x</span>: <span class="number">1000</span>,</div><div class="line">  <span class="attr">y</span>: <span class="number">200</span></div><div class="line">&#125;, <span class="number">3000</span>, <span class="string">"easeOutBack"</span>);</div></pre></td></tr></table></figure>
+<p>カメラなどをスムーズに移動させたい場合に便利ですね。</p>
+<h2 id="今回はここまで"><a href="#今回はここまで" class="headerlink" title="今回はここまで"></a>今回はここまで</h2><p>というわけで簡単ではありますが、phina.jsとthree.jsを連携する際に覚えておくと便利な使い方でした。</p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/b/tags/three-js/">three.js</a>, <a href="/b/tags/phina-js/">phina.js</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+
+      </div>
+    </div>
+    <aside id="sidebar" class="alignright">
+  <div class="widget tag">
+  <h3 class="title">about me</h3>
+  <ul class="entry">
+    <li>Daishi (だいし)</li>
+    <li><img width="100%" src="/b/common/profile_icon.png"></li>
+    <li>楢崎大志。<br>インターネットゲーム作りマン。<br>JavaScript好きです。STG好きです。プリキュアも好きです。能登麻美子と結婚したい。</li>
+    <li>twitter <a href="https://twitter.com/daishi_hmr" target="_blank">daishi_hmr</a></li>
+    <li>github <a href="https://github.com/daishihmr" target="_blank">daishihmr</a></li>
+    <li>qiita <a href="http://qiita.com/daishi_hmr">daishi_hmr</a></li>
+    <li>facebook <a href="https://www.facebook.com/daishi.narazaki">daishi.narazaki</a></li>
+    <li>website <a href="http://github.dev7.jp/" target="_blank">http://github.dev7.jp/</a></li>
+  </ul>
+</div>
+
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:github.dev7.jp">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/b/tags/Blender/">Blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
+  
+    <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
+  
+    <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
+  
+    <li><a href="/b/tags/STG/">STG</a><small>1</small></li>
+  
+    <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
+  
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>2</small></li>
+  
+    <li><a href="/b/tags/blender/">blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/bulletml-js/">bulletml.js</a><small>1</small></li>
+  
+    <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
+  
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+  
+    <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
+  
+    <li><a href="/b/tags/three-js/">three.js</a><small>3</small></li>
+  
+    <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  <div style="margin-bottom:60px">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-sidebar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="8072408520"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 daishihmr
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/b/js/jquery.imagesloaded.min.js"></script>
+<script src="/b/js/gallery.js"></script>
+<script src="/b/js/marioscript.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'daishiblog';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/b/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/b/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72&Operation=NoScript">Amazon.co.jp ウィジェット</A></NOSCRIPT>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-968682-24', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

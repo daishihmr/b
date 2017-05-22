@@ -1,0 +1,697 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 3 | daishi blog</title>
+  <meta name="author" content="daishihmr">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="daishi blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link rel="alternate" href="atom.xml" title="daishi blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/b/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+  <meta name="google-site-verification" content="PM9p0hYNSUGWMxz5ehxrIdhcssv3JYHGZPYn2GPFfO4" />
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/b/">daishi blog</a></h1>
+  <h2><a href="/b/">だいしブログ - JavaScriptとかでゲームとかを作ったり作らなかったりするブログ？</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="http://github.dev7.jp/">Home</a></li>
+    
+      <li><a href="/b/">BlogTop</a></li>
+    
+      <li><a href="/b/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft">
+      <div id="wrapper">
+        
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-12T18:59:04.000Z"><a href="/b/2015/10/13/gamepad/">2015-10-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/10/13/gamepad/">phina.jsでゲームパッドを使う</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://www.amazon.co.jp/gp/product/B004DL20UU/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B004DL20UU&linkCode=as2&tag=daishihmr-22" target="_blank" rel="external"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B004DL20UU&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=daishihmr-22"></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=daishihmr-22&l=as2&o=9&a=B004DL20UU" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;"></p>
+<h2 id="ゲームパッドを使おう！"><a href="#ゲームパッドを使おう！" class="headerlink" title="ゲームパッドを使おう！"></a>ゲームパッドを使おう！</h2><p>phina.jsには<a href="http://www.w3.org/TR/gamepad/" target="_blank" rel="external">Gamepad API</a>に対応した機能が備わっているので、作ったブラウザゲームをゲームパッドで遊ぶことが出来る。</p>
+<p>使い方はわりと簡単。</p>
+<ol>
+<li>phina.input.GamepadManagerオブジェクトを毎フレームでupdate</li>
+<li>phina.input.GamepadManagerオブジェクトからGamepadオブジェクトを取得</li>
+<li>入力情報を取得してゲームに反映させる</li>
+</ol>
+<h2 id="0-準備"><a href="#0-準備" class="headerlink" title="0.準備"></a>0.準備</h2><p>とりあえず四角形を表示する。今回のサンプルではこの四角をゲームパッドで動かしてみよう。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"ja"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"main.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">phina.main(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> app = phina.display.CanvasApp(&#123;</div><div class="line">    <span class="attr">query</span>: <span class="string">"#app"</span></div><div class="line">  &#125;);</div><div class="line">  <span class="keyword">var</span> scene = app.currentScene;</div><div class="line"></div><div class="line">  <span class="comment">// こいつを動かすぜ！  </span></div><div class="line">  <span class="keyword">var</span> rectangle = phina.display.RectangleShape();</div><div class="line">  rectangle.addChildTo(scene);</div><div class="line"></div><div class="line">  app.run();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="1-phina-input-GamepadManagerを毎フレームでupdate"><a href="#1-phina-input-GamepadManagerを毎フレームでupdate" class="headerlink" title="1.phina.input.GamepadManagerを毎フレームでupdate"></a>1.phina.input.GamepadManagerを毎フレームでupdate</h2><p>phina.input.GamepadManagerオブジェクトを作成し、scene.update()など、毎フレームで実行される場所で <code>update()</code> を呼び出す。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// GamepadManager作成</span></div><div class="line">app.gamepadManager = phina.input.GamepadManager();</div><div class="line"></div><div class="line"><span class="comment">// gamepadManagerを更新</span></div><div class="line">scene.update = <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;</div><div class="line">  app.gamepadManager.update();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h2 id="2-gamepadManagerからGamepadオブジェクトを取得"><a href="#2-gamepadManagerからGamepadオブジェクトを取得" class="headerlink" title="2. gamepadManagerからGamepadオブジェクトを取得"></a>2. gamepadManagerからGamepadオブジェクトを取得</h2><p><code>gamepadManager.get()</code> メソッドがGamepadオブジェクトを返す。</p>
+<p>ゲームパッドはコンピュータに複数接続されている可能性があるので、インデックスを指定したい場合は <code>get(1)</code> のように指定する。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">rectangle.update = <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> gamepad = app.gamepadManager.get();</div><div class="line">  </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h2 id="3-入力情報を取得してゲームに反映させる"><a href="#3-入力情報を取得してゲームに反映させる" class="headerlink" title="3.入力情報を取得してゲームに反映させる"></a>3.入力情報を取得してゲームに反映させる</h2><p>取得したGamepadオブジェクトからは、入力情報がphina.input.Keyboardと同じように取り出すことが出来る。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> gamepad = app.gamepadManager.get();</div><div class="line"></div><div class="line"><span class="comment">// Aボタンが押されているか</span></div><div class="line"><span class="keyword">var</span> aPressed = gamepad.getKey(<span class="string">"a"</span>);</div><div class="line"></div><div class="line"><span class="comment">// このフレームでBボタンが押された</span></div><div class="line"><span class="keyword">var</span> bDown = gamepad.getKeyDown(<span class="string">"b"</span>);</div><div class="line"></div><div class="line"><span class="comment">// このフレームでXボタンが離された</span></div><div class="line"><span class="keyword">var</span> xUp = gamepad.getKeyDown(<span class="string">"x"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 十字キーの入力状態をベクトルで</span></div><div class="line"><span class="keyword">var</span> crossButtonVector = gamepad.getKeyDirection();</div><div class="line"></div><div class="line"><span class="comment">// アナログスティックの入力状態をベクトルで</span></div><div class="line"><span class="keyword">var</span> stickVector = gamepad.getStickDirection();</div></pre></td></tr></table></figure>
+<p>今回はゲームオブジェクトをアナログスティックで操作することにしよう。</p>
+<p>アナログスティックはかなりデリケートなので、「これ以上の入力があれば有効とする」という閾値を決めておく必要がある。</p>
+<p>これはphina.geom.Vector2のlengthメソッドを使えば簡単に実現することが出来る。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// アナログスティックの入力状態をベクトルで</span></div><div class="line"><span class="keyword">var</span> stickVector = gamepad.getStickDirection();</div><div class="line"></div><div class="line"><span class="comment">// アナログスティックの倒し具合が0.5以上の場合のみ入力を有効とする</span></div><div class="line"><span class="keyword">if</span> (stickVector.length() &gt; <span class="number">0.5</span>) &#123;</div><div class="line">  <span class="comment">// 四角を移動させる</span></div><div class="line">  rectangle.position.add(stickVector.mul(<span class="number">10</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<div class="runstant"><iframe src="http://lite.runstant.com/ready?v=1&http://goo.gl/IhuYiM" width="90%" height="640px" style="border:0px;box-shadow:0px 0px 2px 0px #aaa"></iframe></div>
+
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>まあこんな感じで、phina.jsではゲームパッドが簡単に使えるわけだ。</p>
+<p>PCで使えるGamepad APIに対応したゲームパッドとしては、Xbox360コントローラーがオススメである。</p>
+<p>単品でも購入できるが、Xbox360を買えばもれなく付いてくるので持ってない人は是非買いましょう。</p>
+<p>CAVEの面白いシューティングゲームがたくさん遊べるぞ！</p>
+<p><br><br><br></p>
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=daishihmr-22&o=9&p=8&l=as1&asins=B000BPJTHE&ref=qf_sp_asin_til&fc1=666666&IS2=1&lt1=_blank&m=amazon&lc1=4F9CDB&bc1=FFFFFF&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=daishihmr-22&o=9&p=8&l=as1&asins=B00JB5HUQC&ref=qf_sp_asin_til&fc1=666666&IS2=1&lt1=_blank&m=amazon&lc1=4F9CDB&bc1=FFFFFF&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=daishihmr-22&o=9&p=8&l=as1&asins=B00BSOBP5Q&ref=qf_sp_asin_til&fc1=666666&IS2=1&lt1=_blank&m=amazon&lc1=4F9CDB&bc1=FFFFFF&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-09T17:01:42.000Z"><a href="/b/2015/10/10/outline/">2015-10-10</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/10/10/outline/">phina.jsでSpriteの輪郭を強調</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="https://gyazo.com/e71e61b809d4916919c54c342d612e87" target="_blank" rel="external"><img src="https://i.gyazo.com/e71e61b809d4916919c54c342d612e87.gif" alt="Gyazo"></a></p>
+<h2 id="自機や敵やアイテムが視認しづらいめう！"><a href="#自機や敵やアイテムが視認しづらいめう！" class="headerlink" title="自機や敵やアイテムが視認しづらいめう！"></a>自機や敵やアイテムが視認しづらいめう！</h2><p>PhinaShooterでは全体をドット調で表現していこうと思っている。<br>で、そのためにCanvasを480x320という小さなサイズで描いた上で拡大するという方法をとっている。</p>
+<p>ただ、当然画面が粗くなって各スプライトの視認性が悪くなってしまった。</p>
+<p>そこで上の動画のようにスプライトの輪郭を点滅させて強調表示することにした。</p>
+<h2 id="輪郭を強調するめう！"><a href="#輪郭を強調するめう！" class="headerlink" title="輪郭を強調するめう！"></a>輪郭を強調するめう！</h2><p>方法としては原始的で、</p>
+<ol>
+<li>画像アセットのロード後に輪郭のみ抽出した画像を作成する</li>
+<li>AssetManagerに作成した画像を登録する</li>
+<li>スプライトに輪郭のみの画像を重ねて表示する</li>
+</ol>
+<p>こんな感じでやってみた。</p>
+<p>まず、輪郭抽出の方法だが、元画像からピクセルデータを取り出し、</p>
+<ul>
+<li>アルファ値が0より大きく</li>
+<li>上下左右にアルファ値が0のピクセルがある</li>
+</ul>
+<p>…という条件を満たすピクセルだけを白く塗りつぶした新しい画像を作成する。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> texture = phina.asset.AssetManager.get(<span class="string">"image"</span>, textureName);</div><div class="line"><span class="keyword">var</span> w = texture.domElement.width;</div><div class="line"><span class="keyword">var</span> h = texture.domElement.height;</div><div class="line"></div><div class="line"><span class="comment">// 元画像</span></div><div class="line"><span class="keyword">var</span> src = phina.graphics.Canvas().setSize(w, h);</div><div class="line">src.context.drawImage(texture.domElement, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line"></div><div class="line"><span class="comment">// 元画像からピクセルデータを取り出す</span></div><div class="line"><span class="keyword">var</span> srcData = src.context.getImageData(<span class="number">0</span>, <span class="number">0</span>, w, h);</div><div class="line"></div><div class="line"><span class="comment">// 輪郭のみの画像</span></div><div class="line"><span class="keyword">var</span> dst = phina.graphics.Canvas().setSize(w, h);</div><div class="line">dst.fillStyle = <span class="string">"white"</span>;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> y = <span class="number">0</span>; y &lt; h; y++) &#123;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> x = <span class="number">0</span>; x &lt; w; x++) &#123;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> cIndex = ((y + <span class="number">0</span>) * w + (x + <span class="number">0</span>)) * <span class="number">4</span> + <span class="number">3</span>;</div><div class="line">    <span class="keyword">var</span> a = srcData.data[cIndex]; <span class="comment">// 対象ピクセルのアルファ値</span></div><div class="line"></div><div class="line">    <span class="keyword">var</span> lIndex = ((y + <span class="number">0</span>) * w + (x - <span class="number">1</span>)) * <span class="number">4</span> + <span class="number">3</span>;</div><div class="line">    <span class="keyword">var</span> rIndex = ((y + <span class="number">0</span>) * w + (x + <span class="number">1</span>)) * <span class="number">4</span> + <span class="number">3</span>;</div><div class="line">    <span class="keyword">var</span> tIndex = ((y - <span class="number">1</span>) * w + (x + <span class="number">0</span>)) * <span class="number">4</span> + <span class="number">3</span>;</div><div class="line">    <span class="keyword">var</span> bIndex = ((y + <span class="number">1</span>) * w + (x + <span class="number">0</span>)) * <span class="number">4</span> + <span class="number">3</span>;</div><div class="line">    <span class="keyword">var</span> l = (<span class="number">0</span> &lt;= lIndex &amp;&amp; lIndex &lt; srcData.data.length) ? srcData.data[lIndex] : <span class="number">255</span>; <span class="comment">// 左隣のピクセルのアルファ値</span></div><div class="line">    <span class="keyword">var</span> r = (<span class="number">0</span> &lt;= rIndex &amp;&amp; rIndex &lt; srcData.data.length) ? srcData.data[rIndex] : <span class="number">255</span>; <span class="comment">// 右</span></div><div class="line">    <span class="keyword">var</span> t = (<span class="number">0</span> &lt;= tIndex &amp;&amp; tIndex &lt; srcData.data.length) ? srcData.data[tIndex] : <span class="number">255</span>; <span class="comment">// 上</span></div><div class="line">    <span class="keyword">var</span> b = (<span class="number">0</span> &lt;= bIndex &amp;&amp; bIndex &lt; srcData.data.length) ? srcData.data[bIndex] : <span class="number">255</span>; <span class="comment">// 下</span></div><div class="line"></div><div class="line">    <span class="comment">// 対象ピクセルが不透明で、上下左右に透明なピクセルがある場合</span></div><div class="line">    <span class="keyword">if</span> (a &gt; <span class="number">0</span> &amp;&amp; (l == <span class="number">0</span> || r == <span class="number">0</span> || t == <span class="number">0</span> || b == <span class="number">0</span>)) &#123;</div><div class="line">      dst.fillRect(x, y, <span class="number">1</span>, <span class="number">1</span>); <span class="comment">// 1x1の四角を描画</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>こうして作った画像をAssetManagerに登録する。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">phina.asset.AssetManager.set(<span class="string">"image"</span>, textureName + <span class="string">"Outline"</span>, dst);</div></pre></td></tr></table></figure>
+<p>アセット名はもとの名前に後ろに”Outline”をつけてみた。</p>
+<p>で、こいつを利用するスプライトだが、通常のSpriteクラスを拡張して作る。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">phina.define(<span class="string">"ps.OutlinedSprite"</span>, &#123;</div><div class="line">  <span class="attr">superClass</span>: <span class="string">"phina.display.Sprite"</span>,</div><div class="line"></div><div class="line">  <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params">texture, width, height</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit(texture, width, height);</div><div class="line"></div><div class="line">    <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line"></div><div class="line">    <span class="comment">// 輪郭スプライト</span></div><div class="line">    <span class="keyword">this</span>.outline = phina.display.Sprite(texture + <span class="string">"Outline"</span>, width, height).addChildTo(<span class="keyword">this</span>);</div><div class="line">    <span class="keyword">this</span>.outline.update = <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;</div><div class="line">      <span class="comment">// frameIndexは親と同期させる</span></div><div class="line">      <span class="keyword">this</span>.frameIndex = self.frameIndex;</div><div class="line">      <span class="keyword">this</span>.alpha = ps.OutlinedSprite.staticAlpha;</div><div class="line">    &#125;;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">_static</span>: &#123;</div><div class="line">    <span class="attr">staticAlpha</span>: <span class="number">1.0</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>輪郭スプライトを元スプライトの子要素として追加しておく。</p>
+<p>さらにupdateメソッド内でframeIndexが親スプライトと同期するようにする。</p>
+<p>また、輪郭スプライトのアルファ値は外部から設定できるようにしておき、MainSceneなどのupdateで更新する。</p>
+<h2 id="オブジェクトの種類に応じて色を変えるめう！"><a href="#オブジェクトの種類に応じて色を変えるめう！" class="headerlink" title="オブジェクトの種類に応じて色を変えるめう！"></a>オブジェクトの種類に応じて色を変えるめう！</h2><p>これで視認性が良くなったと思うので、さらに<span style="color:blue">自機は青</span>、<span style="color:green">アイテムは緑</span>、<span style="color:red">敵は赤</span>といった具合にオブジェクトの種類に応じて輪郭色を変えてみた。</p>
+<p>これで粗い画面でも最低限の識別ができるようになったと思う。</p>
+<p><br><br><br></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-09T14:14:46.000Z"><a href="/b/2015/10/09/phinashooter/">2015-10-09</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/10/09/phinashooter/">PhinaShooter近況</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <img src="/b/2015/10/09/phinashooter/ss.png" alt="ss.png" title="">
+<p>とりあえず現状できてること</p>
+<ul>
+<li>bulletml.jsによる敵弾発射</li>
+<li>自機のコントロール（キーボード、タッチ、ゲームパッド）</li>
+<li>ゲーム画面の各種HUD表示</li>
+<li>背景</li>
+<li>全体的なシーンフロー</li>
+</ul>
+<p>背景はgl-matrix.jsを使って3D表示してみた。WebGLは使わず普通のCanvasAPIで描いてる。</p>
+<p>今回は全体的にドット調で行こうと思っているので、フォントもレトロゲームっぽいものを選択した。</p>
+<p><br><br><br></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-02T05:48:30.000Z"><a href="/b/2015/10/02/phinashooter/">2015-10-02</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/10/02/phinashooter/">Phina Shooter製作開始</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>rougeを作る手がどうにも止まってしまって進まないので、<del>某所からの圧力に負けて</del>違うのを作り始めた。</p>
+<p>タイトルはPhina Shooterになる予定。</p>
+<img src="/b/2015/10/02/phinashooter/title.png" alt="title.png" title="">
+<p><a href="https://github.com/daishihmr/phina-shooter" target="_blank" rel="external">https://github.com/daishihmr/phina-shooter</a></p>
+<p>今回はphina.jsを<strong>まっとうに</strong>使って<strong>普通に</strong>実装し、読みやすいソースにしていきたい。ちゃんとphina.js利用者が参考にできるようにね。</p>
+<p>とりあえずゲームのフローや得点システムあたりを考え中。</p>
+<p><br><br><br></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-09-30T00:06:50.000Z"><a href="/b/2015/09/30/voxjs/">2015-09-30</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/09/30/voxjs/">MagicaVoxelで作ったデータをThree.jsで表示する</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="時代はボクセル！"><a href="#時代はボクセル！" class="headerlink" title="時代はボクセル！"></a>時代はボクセル！</h2><p>ゲーム「<a href="http://www.crossyroad.com/ja/" target="_blank" rel="external">Crossy Road</a>」とか映画「<a href="http://www.pixel-movie.jp/" target="_blank" rel="external">ピクセル</a>」とかあるしね。</p>
+<h2 id="MagicaVoxelってなんだ"><a href="#MagicaVoxelってなんだ" class="headerlink" title="MagicaVoxelってなんだ"></a>MagicaVoxelってなんだ</h2><p><a href="https://ephtracy.github.io/" target="_blank" rel="external">MagicaVoxel</a><br><img src="https://ephtracy.github.io/image/snap0105.png" alt=""></p>
+<p>@ephtracy さんが開発された、ボクセルアート作成ツールです。</p>
+<p>シンプルな操作系とサクサクした動作の軽さが魅力！</p>
+<h2 id="vox-js"><a href="#vox-js" class="headerlink" title="vox.js"></a>vox.js</h2><p>というわけで、MagicaVoxelで作ったデータをJSで読み込むライブラリを作りました。</p>
+<p><a href="http://daishihmr.github.io/vox.js/" target="_blank" rel="external">vox.js</a></p>
+<p>使い方は簡単。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.rawgit.com/daishihmr/vox.js/1.0.1/build/vox.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// パーサーを作ります</span></div><div class="line"><span class="keyword">var</span> parser = <span class="keyword">new</span> vox.Parser();</div><div class="line"></div><div class="line"><span class="comment">// *.voxファイルを読み込みます</span></div><div class="line">parser.parse(<span class="string">"hoge.vox"</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params">voxelData</span>) </span>&#123; <span class="comment">// ←ボクセルデータが取れます</span></div><div class="line"></div><div class="line">  <span class="comment">// データ全体の大きさ</span></div><div class="line">  voxelData.size; <span class="comment">// =&gt; &#123; x: number, y: number, z: number &#125;</span></div><div class="line"></div><div class="line">  <span class="comment">// ボクセルの配列</span></div><div class="line">  voxelData.voxels; <span class="comment">// =&gt; [Voxel, Voxel, Voxel, ...]</span></div><div class="line"></div><div class="line">  <span class="comment">// ボクセル一個のデータ</span></div><div class="line">  voxelData.voxels[<span class="number">0</span>]; <span class="comment">// =&gt; &#123; x: number, y: number, z: number, colorIndex: number &#125;</span></div><div class="line"></div><div class="line">  <span class="comment">// カラーパレット</span></div><div class="line">  voxelData.palette; <span class="comment">// =&gt; [Color, Color, Color, ...]</span></div><div class="line">  voxelData.palette[<span class="number">0</span>]; <span class="comment">// =&gt; &#123; r: number, g: number, b: number, a: number &#125;</span></div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="Three-jsで表示"><a href="#Three-jsで表示" class="headerlink" title="Three.jsで表示"></a>Three.jsで表示</h2><p>読み込んだボクセルデータをTHREE.Meshに変換する機能も持っています。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ビルダーを作ります。引数にボクセルデータをわたします</span></div><div class="line"><span class="keyword">var</span> builder = <span class="keyword">new</span> vox.MeshBuilder(voxelData);</div><div class="line"><span class="comment">// THREE.Meshを作ります</span></div><div class="line"><span class="keyword">var</span> mesh = builder.createMesh();</div><div class="line"></div><div class="line"><span class="comment">// THREE.Sceneに追加するなどして使ってください</span></div><div class="line">scene.add(mesh);</div></pre></td></tr></table></figure>
+<p>できたー！<br><img src="/b/2015/09/30/voxjs/ranun.png" alt="ラナン" title="ラナン"></p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>MagicaVoxelは本当に簡単に使えるツールです。<br>絵心というものとは無縁の人生を送ってきた僕でも<a href="https://github.com/daishihmr/myvox/blob/master/README.md" target="_blank" rel="external">これくらいの物</a>はチャチャッと作ることが出来ました。<br>みなさんも是非やってみてください。</p>
+<p><br><br><br></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-09-29T22:39:19.000Z"><a href="/b/2015/09/30/rouge/">2015-09-30</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/09/30/rouge/">新作STG 現在の進捗</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>今作ってるゲームについて。</p>
+<img src="https://pbs.twimg.com/media/CPHpto7UEAAo40j.png" width="200">
+<img src="https://pbs.twimg.com/media/CPUj-jRU8AA6AzX.png" width="200">
+<img src="https://pbs.twimg.com/media/CPU-rNBU8AQqH1W.png" width="200">
+<p>コードネームは rouge 。自作STGとしては7作目となる。</p>
+<p>やること（やりたいこと）。</p>
+<ul>
+<li>内容は普通の弾幕STG</li>
+<li>WebGLを使って弾をたくさん出す</li>
+<li>2Dスプライトではなく3Dモデルでゲーム画面を作る</li>
+<li>three.js等のWebGLライブラリは使わない</li>
+<li>phina.jsを使う。同時にphina.jsに機能追加の貢献をする</li>
+<li><a type="amzn" asin="B007N10EMI">弾銃フィーバロン</a>方式。小型機編隊はすべて早回しを起こす</li>
+<li>ランクを維持する限り敵弾の速度が上昇し続ける</li>
+</ul>
+<p>目下の課題。</p>
+<ul>
+<li>タイトルが未定</li>
+<li>ビジュアルイメージが決まらない。キャラが地上を走る？ 戦闘機が空を飛ぶ？ ボクセル調？ 普通にモデリング？</li>
+<li>配布形式が未定。当初はElectronでデスクトップアプリ化するつもりだった。が、ElectronがGamepad APIに対応してないように見えるため迷走中。</li>
+</ul>
+<p>現状出来てること。</p>
+<ul>
+<li>オリジナルのエンジンでメッシュの表示</li>
+<li>3Dオブジェクトの親子関係</li>
+<li>弾幕を1回のドローコールで描画</li>
+<li>弾と自機の当たり判定をピクセルデータで行う</li>
+<li>パーティクルシステム</li>
+<li>MagicaVoxelで作ったobjデータを読み込む</li>
+<li>ゲームパッドでの操作</li>
+<li>3Dモデルの奥や手前に2Dスプライト表示</li>
+<li>自機移動平面上にない砲口から敵弾が発射される場合でも自機移動平面上を移動していく。（かつ、きちんと砲口から出ているように見える）</li>
+<li>任意の回転軸を持つ砲塔が自機を追う</li>
+</ul>
+<p><br><br><br></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-09-29T12:47:28.000Z"><a href="/b/2015/09/29/doga/">2015-09-29</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/09/29/doga/">DOGAを使うことにするかも</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>DOGA-L3で作った多関節物体をポーズデータ込みでgl.enchant.jsのSprite3Dに変換するツールを以前作ったのだが、そいつを今作ってるゲームに使おうと思い始めた。<br>ツールが吐き出すJSONはそのままに、jsでメッシュ化するだけで出来るはず。</p>
+<p><br><br><br></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-09-28T10:32:06.000Z"><a href="/b/2015/09/28/test/">2015-09-28</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/09/28/test/">新しいブログ</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>ではじめてみる。</p>
+<p>制作日記的な感じにしたい。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> hello = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"ソースコードも書ける"</span>);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><br><br><br></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+
+<nav id="pagination">
+  
+    <a href="/b/page/2/" class="alignleft prev">Prev</a>
+  
+  
+  <div class="clearfix"></div>
+</nav>
+
+      </div>
+    </div>
+    <aside id="sidebar" class="alignright">
+  <div class="widget tag">
+  <h3 class="title">about me</h3>
+  <ul class="entry">
+    <li>Daishi (だいし)</li>
+    <li><img width="100%" src="/b/common/profile_icon.png"></li>
+    <li>楢崎大志。<br>インターネットゲーム作りマン。<br>JavaScript好きです。STG好きです。プリキュアも好きです。能登麻美子と結婚したい。</li>
+    <li>twitter <a href="https://twitter.com/daishi_hmr" target="_blank">daishi_hmr</a></li>
+    <li>github <a href="https://github.com/daishihmr" target="_blank">daishihmr</a></li>
+    <li>qiita <a href="http://qiita.com/daishi_hmr">daishi_hmr</a></li>
+    <li>facebook <a href="https://www.facebook.com/daishi.narazaki">daishi.narazaki</a></li>
+    <li>website <a href="http://github.dev7.jp/" target="_blank">http://github.dev7.jp/</a></li>
+  </ul>
+</div>
+
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:github.dev7.jp">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/b/tags/Blender/">Blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
+  
+    <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
+  
+    <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
+  
+    <li><a href="/b/tags/STG/">STG</a><small>1</small></li>
+  
+    <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
+  
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>2</small></li>
+  
+    <li><a href="/b/tags/blender/">blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/bulletml-js/">bulletml.js</a><small>1</small></li>
+  
+    <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
+  
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+  
+    <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
+  
+    <li><a href="/b/tags/three-js/">three.js</a><small>3</small></li>
+  
+    <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  <div style="margin-bottom:60px">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-sidebar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="8072408520"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 daishihmr
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/b/js/jquery.imagesloaded.min.js"></script>
+<script src="/b/js/gallery.js"></script>
+<script src="/b/js/marioscript.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'daishiblog';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/b/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/b/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72&Operation=NoScript">Amazon.co.jp ウィジェット</A></NOSCRIPT>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-968682-24', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

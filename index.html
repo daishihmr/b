@@ -1,0 +1,907 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>daishi blog</title>
+  <meta name="author" content="daishihmr">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="daishi blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link rel="alternate" href="atom.xml" title="daishi blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/b/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+  <meta name="google-site-verification" content="PM9p0hYNSUGWMxz5ehxrIdhcssv3JYHGZPYn2GPFfO4" />
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/b/">daishi blog</a></h1>
+  <h2><a href="/b/">だいしブログ - JavaScriptとかでゲームとかを作ったり作らなかったりするブログ？</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="http://github.dev7.jp/">Home</a></li>
+    
+      <li><a href="/b/">BlogTop</a></li>
+    
+      <li><a href="/b/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft">
+      <div id="wrapper">
+        
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-05-22T10:52:20.000Z"><a href="/b/2017/05/22/threejs-cubeTexture/">2017-05-22</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2017/05/22/threejs-cubeTexture/">three.jsのCubeTexture 画像の指定順</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>覚え書き。</p>
+<p>X軸プラス方向を東と見なし、</p>
+<ol>
+<li>東</li>
+<li>西</li>
+<li>上</li>
+<li>下</li>
+<li>北</li>
+<li>南</li>
+</ol>
+<p>の順に指定する。</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> <span class="attr">skyboxTexture</span> = new THREE.CubeTexture([</div><div class="line">  <span class="string">"DaylightBox_Front"</span>,</div><div class="line">  <span class="string">"DaylightBox_Back"</span>,</div><div class="line">  <span class="string">"DaylightBox_Top"</span>,</div><div class="line">  <span class="string">"DaylightBox_Bottom"</span>,</div><div class="line">  <span class="string">"DaylightBox_Left"</span>,</div><div class="line">  <span class="string">"DaylightBox_Right"</span>,</div><div class="line">].<span class="built_in">map</span>(<span class="attr">name</span> =&gt; AssetManager.get(<span class="string">"image"</span>, name).domElement));</div><div class="line">skyboxTexture.<span class="attr">needsUpdate</span> = <span class="literal">true</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> <span class="attr">skyboxTexture</span> = new THREE.CubeTexture([</div><div class="line">  <span class="string">"clouds1_east"</span>,</div><div class="line">  <span class="string">"clouds1_west"</span>,</div><div class="line">  <span class="string">"clouds1_up"</span>,</div><div class="line">  <span class="string">"clouds1_down"</span>,</div><div class="line">  <span class="string">"clouds1_north"</span>,</div><div class="line">  <span class="string">"clouds1_south"</span>,</div><div class="line">].<span class="built_in">map</span>(<span class="attr">name</span> =&gt; AssetManager.get(<span class="string">"image"</span>, name).domElement));</div><div class="line">skyboxTexture.<span class="attr">needsUpdate</span> = <span class="literal">true</span>;</div></pre></td></tr></table></figure>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-12-22T05:24:01.000Z"><a href="/b/2016/12/22/phinajsadvcal20161218/">2016-12-22</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2016/12/22/phinajsadvcal20161218/">phina.jsとWebGLでいろいろ</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://qiita.com/advent-calendar/2016/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2016</a>の18日目です。<strong>大遅刻！</strong></p>
+<ul>
+<li>昨日 <a href="http://qiita.com/minimo/items/b55b792c2fa19964acb4" target="_blank" rel="external">phina.jsでTiledMapEditorを利用する by minimoさん</a></li>
+<li>明日 <a href="http://qiita.com/minimo/items/a0aa17d05172b5bfca70" target="_blank" rel="external">phina.jsでスプライトをpixi.jsを利用して描画する by minimoさん</a></li>
+</ul>
+<h2 id="今回のアレ"><a href="#今回のアレ" class="headerlink" title="今回のアレ"></a>今回のアレ</h2><img src="/b/2016/12/22/phinajsadvcal20161218/top.png" alt="ズァッ！！" title="ズァッ！！">
+<p>うごくやつはこちら→<a href="http://github.dev7.jp/phinajsadvcal20161218/">http://github.dev7.jp/phinajsadvcal20161218/</a></p>
+<h2 id="WebGLでいろいろしたいぜ！"><a href="#WebGLでいろいろしたいぜ！" class="headerlink" title="WebGLでいろいろしたいぜ！"></a>WebGLでいろいろしたいぜ！</h2><p><a href="http://github.dev7.jp/b/2015/12/10/phinaadvcal20151210/">去年の記事</a>で紹介したように、phina.jsはレイヤーを使ってWebGLの描画結果を自分のシーングラフに追加することが出来る。</p>
+<p>このしくみを使っていろいろうまいことをやってしまおうというのが今回の趣旨。</p>
+<p>WebGLといえば3DCGなわけだが、それだけではない。GPUあまりある計算能力を2Dゲームへ応用すれば色々と面白いことを実現することが出来る。</p>
+<h2 id="インスタンシングを使って大量に表示するぜ！"><a href="#インスタンシングを使って大量に表示するぜ！" class="headerlink" title="インスタンシングを使って大量に表示するぜ！"></a>インスタンシングを使って大量に表示するぜ！</h2><p>WebGLにはインスタンシングという拡張機能があって、それを使えば同じ種類のオブジェクトを大量かつ高速に描画することが出来る。</p>
+<p>そんなわけなので、四角いポリゴン板に画像を貼ったメッシュをたくさん描けば<strong>超弾幕</strong>が可能なのだ。</p>
+<img src="/b/2016/12/22/phinajsadvcal20161218/kimomo.jpg" alt="超弾幕" title="超弾幕">
+<h2 id="ポストプロセッシングでいろいろフィルターをかけるぜ！"><a href="#ポストプロセッシングでいろいろフィルターをかけるぜ！" class="headerlink" title="ポストプロセッシングでいろいろフィルターをかけるぜ！"></a>ポストプロセッシングでいろいろフィルターをかけるぜ！</h2><p>一旦描画した結果をテクスチャとして取り込み、シェーダーを使ってさらにいろいろと効果をかけることもできる。</p>
+<img src="/b/2016/12/22/phinajsadvcal20161218/reverse.png" alt="ネガポジ反転したり" title="ネガポジ反転したり">
+<img src="/b/2016/12/22/phinajsadvcal20161218/mosaic.png" alt="モザイク処理したり" title="モザイク処理したり">
+<h2 id="どうやってやるんだよ？"><a href="#どうやってやるんだよ？" class="headerlink" title="どうやってやるんだよ？"></a>どうやってやるんだよ？</h2><p>以前からちょっとずつ作っている俺専用WebGLライブラリである<strong>phigl.js</strong>というのがあって、今回はそれを使ってみた。</p>
+<p>phigl.jsはphina.jsと一緒に使うことを前提とした薄～いWebGLライブラリ。</p>
+<p>高度な機能はないけど、ちょっとしたことをやりたい時は便利かもしれない。</p>
+<p>phigl.jsに現在備わっている機能は次のような感じ。</p>
+<ul>
+<li>シェーダーソースをAssetManagerで読み込む機能</li>
+<li>attribute変数やuniform変数をサクッ扱うための機能</li>
+<li>オフスクリーンレンダリングのためのバッファをカンタンに用意する機能</li>
+<li>インスタンシングを扱う機能</li>
+<li>VAOを扱う機能</li>
+<li>テクスチャを扱う機能</li>
+</ul>
+<h2 id="今回作ったもの"><a href="#今回作ったもの" class="headerlink" title="今回作ったもの"></a>今回作ったもの</h2><p><a href="http://github.dev7.jp/phinajsadvcal20161218/">うごくやつ</a></p>
+<p><a href="https://github.com/daishihmr/phinajsadvcal20161218" target="_blank" rel="external">github</a> (<a href="https://github.com/daishihmr/phinajsadvcal20161218/archive/gh-pages.zip" target="_blank" rel="external">download-zip</a>)</p>
+<p><a href="https://github.com/daishihmr/phigl.js" target="_blank" rel="external">phigl.js - phina.jsでWebGLを使うための俺専用スーパー最強ライブラリ</a></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-12-05T11:21:49.000Z"><a href="/b/2016/12/05/glboostadvcal20161204/">2016-12-05</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2016/12/05/glboostadvcal20161204/">GLBoostで俺のキャラを動かす</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://qiita.com/advent-calendar/2016/glboost" target="_blank" rel="external">GLBoost Advent Calendar 2016</a>の4日目です。</p>
+<h2 id="Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！"><a href="#Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！" class="headerlink" title="Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！"></a>Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！</h2><img src="/b/2016/12/05/glboostadvcal20161204/anim.gif" alt="ミラクルキック" title="ミラクルキック">
+<p><a href="http://github.dev7.jp/glboostadvcal20161204/">動作サンプル</a></p>
+<p><a href="https://github.com/emadurandal/GLBoost" target="_blank" rel="external">GLBoost</a>ではglTFっつー形式のデータが読み込めるらしいです。</p>
+<p>Blenderからは直接glTFのデータを出力することが出来ない（一応プラグインはあるみたいですが、なんか動かん…）ので、一度COLLADAで出力したものを変換します。</p>
+<img src="/b/2016/12/05/glboostadvcal20161204/export1.png" alt="COLLADAで出力" title="COLLADAで出力">
+<img src="/b/2016/12/05/glboostadvcal20161204/export2.png" alt="テクスチャも中に含めちゃおう" title="テクスチャも中に含めちゃおう">
+<p>出力したデータ（*.dae）はオンラインの変換サービスでお手軽に変換しましょう。</p>
+<p><a href="http://collada2gltf.mediagis.com/" target="_blank" rel="external">Collada 2 glTF</a></p>
+<img src="/b/2016/12/05/glboostadvcal20161204/collada2gltf.png" alt="Collada 2 glTF" title="Collada 2 glTF">
+<h2 id="作ったglTFデータを読み込むぜ"><a href="#作ったglTFデータを読み込むぜ" class="headerlink" title="作ったglTFデータを読み込むぜ"></a>作ったglTFデータを読み込むぜ</h2><p>GLBoostのexampleフォルダからスキニングアニメーションのサンプルを探して適当に改造します。</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> canvas = document.getElementById('canvas');</div><div class="line"><span class="built_in">var</span> <span class="built_in">context</span> = <span class="built_in">new</span> GLBoost.GLBoostMiddleContext(canvas);</div><div class="line"></div><div class="line"><span class="built_in">var</span> renderer = <span class="built_in">context</span>.createRenderer(&#123; clearColor: &#123; red: <span class="number">0.25</span>, green: <span class="number">0.25</span>, blue: <span class="number">0.25</span>, alpha: <span class="number">1</span> &#125; &#125;);</div><div class="line"><span class="built_in">var</span> <span class="built_in">scene</span> = <span class="built_in">context</span>.createScene();</div><div class="line"></div><div class="line"><span class="built_in">var</span> light1 = <span class="built_in">context</span>.createPointLight(<span class="built_in">new</span> GLBoost.Vector3(<span class="number">1.25</span>, <span class="number">1.25</span>, <span class="number">1.25</span>));</div><div class="line">light1.<span class="built_in">translate</span> = <span class="built_in">new</span> GLBoost.Vector3(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>);</div><div class="line"><span class="built_in">scene</span>.addChild(light1);</div><div class="line"></div><div class="line"><span class="built_in">var</span> light2 = <span class="built_in">context</span>.createPointLight(<span class="built_in">new</span> GLBoost.Vector3(<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>));</div><div class="line">light2.<span class="built_in">translate</span> = <span class="built_in">new</span> GLBoost.Vector3(-<span class="number">10</span>, <span class="number">10</span>, -<span class="number">10</span>);</div><div class="line"><span class="built_in">scene</span>.addChild(light2);</div><div class="line"></div><div class="line"><span class="built_in">var</span> camera = <span class="built_in">context</span>.createPerspectiveCamera(&#123;</div><div class="line">  eye: <span class="built_in">new</span> GLBoost.Vector3(<span class="number">5</span>, <span class="number">3</span>, <span class="number">5</span>),</div><div class="line">  <span class="built_in">center</span>: <span class="built_in">new</span> GLBoost.Vector3(<span class="number">0.0</span>, <span class="number">2</span>, <span class="number">0.0</span>),</div><div class="line">  up: <span class="built_in">new</span> GLBoost.Vector3(<span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>),</div><div class="line">&#125;, &#123;</div><div class="line">  fovy: <span class="number">45.0</span>,</div><div class="line">  aspect: <span class="number">1.0</span>,</div><div class="line">  zNear: <span class="number">0.1</span>,</div><div class="line">  zFar: <span class="number">1000</span>,</div><div class="line">&#125;);</div><div class="line"><span class="built_in">scene</span>.addChild(camera);</div><div class="line"></div><div class="line"><span class="built_in">var</span> expression = <span class="built_in">context</span>.createExpressionAndRenderPasses(<span class="number">1</span>);</div><div class="line">expression.renderPasses[<span class="number">0</span>].<span class="built_in">scene</span> = <span class="built_in">scene</span>;</div><div class="line">expression.prepareToRender();</div><div class="line"></div><div class="line"><span class="built_in">var</span> render = function() &#123;</div><div class="line">  <span class="built_in">scene</span>.setCurrentAnimationValue('<span class="built_in">time</span>', (Date.now() <span class="symbol">%</span> <span class="number">1300</span>) / <span class="number">1000</span>);</div><div class="line">  renderer.clearCanvas();</div><div class="line">  renderer.<span class="built_in">draw</span>(expression);</div><div class="line"></div><div class="line">  requestAnimationFrame(render);</div><div class="line">&#125;;</div><div class="line">render();</div><div class="line"></div><div class="line"><span class="built_in">var</span> glTFLoader = GLBoost.GLTFLoader.getInstance();</div><div class="line">glTFLoader</div><div class="line">  .loadGLTF(<span class="built_in">context</span>, 'kick.gltf', <span class="number">1</span>, null)</div><div class="line">  .<span class="keyword">then</span>(function(group) &#123;</div><div class="line">    group.<span class="built_in">scale</span> = <span class="built_in">new</span> GLBoost.Vector3(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>);</div><div class="line">    <span class="built_in">scene</span>.addChild(group);</div><div class="line"></div><div class="line">    expression.prepareToRender();</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<p>出来たー(/･ω･)/</p>
+<h2 id="今回作ったもの"><a href="#今回作ったもの" class="headerlink" title="今回作ったもの"></a>今回作ったもの</h2><p><a href="http://github.dev7.jp/glboostadvcal20161204/">動作サンプル</a></p>
+<p><a href="https://github.com/daishihmr/glboostadvcal20161204" target="_blank" rel="external">githubリポジトリ</a></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-12-02T17:30:09.000Z"><a href="/b/2016/12/03/phinajsadvcal20161202/">2016-12-03</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2016/12/03/phinajsadvcal20161202/">phina.jsでbulletml.jsを使う！</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://qiita.com/advent-calendar/2016/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2016</a>の2日目です。</p>
+<ul>
+<li>昨日 <a href="">はじめに by phiさん</a></li>
+<li>明日 <a href="http://qiita.com/minimo/items/bf60fe3bd3887575242d" target="_blank" rel="external">Spriteの元画像をテクスチャアトラスっぽく使ってみる by minimoさん</a></li>
+</ul>
+<h2 id="ネタがねえんだよ！-アニキ！"><a href="#ネタがねえんだよ！-アニキ！" class="headerlink" title="ネタがねえんだよ！ アニキ！"></a>ネタがねえんだよ！ アニキ！</h2><p>ネタがない（時間もない）ので持ちネタでいきます。</p>
+<img src="/b/2016/12/03/phinajsadvcal20161202/c2af719a46f554502e47bd37ca1f52b2.gif" alt="避けろ！" title="避けろ！">
+<h2 id="BulletMLってなんだよ！？"><a href="#BulletMLってなんだよ！？" class="headerlink" title="BulletMLってなんだよ！？"></a>BulletMLってなんだよ！？</h2><p>BulletMLとは弾幕記述言語であります。くわしくは<a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/" target="_blank" rel="external">こちら</a>。</p>
+<p>このBulletMLをJavaScriptで使えるようにしたのが拙作<a href="https://github.com/daishihmr/bulletml.js/" target="_blank" rel="external">bulletml.js</a>ってわけです。</p>
+<h2 id="phina-jsでBulletMLを使うぜ！"><a href="#phina-jsでBulletMLを使うぜ！" class="headerlink" title="phina.jsでBulletMLを使うぜ！"></a>phina.jsでBulletMLを使うぜ！</h2><p>それではphina.jsでbulletml.jsを使ってみましょう。</p>
+<p>main.js<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> SCREEN_WIDTH = <span class="number">640</span>;</div><div class="line"><span class="keyword">var</span> SCREEN_HEIGHT = <span class="number">960</span>;</div><div class="line"></div><div class="line">phina.globalize();</div><div class="line"></div><div class="line">phina.define(<span class="string">"MainScene"</span>, &#123;</div><div class="line">  superClass: <span class="string">"DisplayScene"</span>,</div><div class="line">  init: function() &#123;</div><div class="line">    <span class="keyword">this</span>.superInit();</div><div class="line"></div><div class="line">    <span class="keyword">this</span>.fromJSON(&#123;</div><div class="line">      children: &#123;</div><div class="line"></div><div class="line">        <span class="comment">// 自機</span></div><div class="line">        player: &#123;</div><div class="line">          className: <span class="string">"TriangleShape"</span>,</div><div class="line">          x: <span class="keyword">this</span>.gridX.span(<span class="number">8</span>),</div><div class="line">          y: <span class="keyword">this</span>.gridY.span(<span class="number">14</span>),</div><div class="line">          update: function(app) &#123;</div><div class="line">            <span class="comment">// ポインティングデバイスで操作するよー</span></div><div class="line">            <span class="keyword">var</span> p = app.pointer;</div><div class="line">            <span class="keyword">if</span> (p.getPointing()) &#123;</div><div class="line">              <span class="keyword">this</span>.position.add(p.deltaPosition.mul(<span class="number">1.7</span>));</div><div class="line">            &#125;</div><div class="line">          &#125;,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        <span class="comment">// 敵</span></div><div class="line">        enemy: &#123;</div><div class="line">          className: <span class="string">"RectangleShape"</span>,</div><div class="line">          x: <span class="keyword">this</span>.gridX.span(<span class="number">8</span>),</div><div class="line">          y: <span class="keyword">this</span>.gridY.span(<span class="number">4</span>),</div><div class="line">          runner: <span class="literal">null</span>,</div><div class="line">          update: function() &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.runner) &#123;</div><div class="line">              <span class="keyword">this</span>.runner.x = <span class="keyword">this</span>.x;</div><div class="line">              <span class="keyword">this</span>.runner.y = <span class="keyword">this</span>.y;</div><div class="line">              <span class="keyword">this</span>.runner.update();</div><div class="line">            &#125;</div><div class="line">          &#125;,</div><div class="line">        &#125;,</div><div class="line">      &#125;,</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">// bulletmlエンジンに対する設定</span></div><div class="line">    <span class="keyword">var</span> bulletConfig = &#123;</div><div class="line">      <span class="comment">// 敵が狙うターゲット</span></div><div class="line">      target: <span class="keyword">this</span>.player,</div><div class="line"></div><div class="line">      <span class="comment">// 弾が発射された時に呼ばれる関数</span></div><div class="line">      createNewBullet: function(runner) &#123;</div><div class="line">        <span class="comment">// シーンのfireBulletイベントを発火する</span></div><div class="line">        <span class="keyword">this</span>.flare(<span class="string">"fireBullet"</span>, &#123; runner: runner &#125;);</div><div class="line">      &#125;.bind(<span class="keyword">this</span>),</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="comment">// fireBulletイベントのハンドラ</span></div><div class="line">    <span class="keyword">this</span>.on(<span class="string">"fireBullet"</span>, function(e) &#123;</div><div class="line">      <span class="comment">// 弾オブジェクトを生成してシーンに追加</span></div><div class="line">      Bullet(e.runner).addChildTo(<span class="keyword">this</span>);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">// 攻撃パターンアセット</span></div><div class="line">    <span class="keyword">var</span> xmlAsset = AssetManager.<span class="keyword">get</span>(<span class="string">"xml"</span>, <span class="string">"attackPattern"</span>);</div><div class="line">    <span class="comment">// 敵のrunnerプロパティに攻撃パターンをセット</span></div><div class="line">    <span class="keyword">this</span>.enemy.runner = bulletml.buildXML(xmlAsset.<span class="keyword">data</span>).createRunner(bulletConfig);</div><div class="line">  &#125;,</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 敵弾クラス</span></div><div class="line">phina.define(<span class="string">"Bullet"</span>, &#123;</div><div class="line">  superClass: <span class="string">"CircleShape"</span>,</div><div class="line">  init: function(runner) &#123;</div><div class="line">    <span class="keyword">this</span>.superInit(&#123; radius: <span class="number">10</span> &#125;);</div><div class="line">    <span class="keyword">this</span>.runner = runner;</div><div class="line">    </div><div class="line">    <span class="comment">// 初期位置セット</span></div><div class="line">    <span class="keyword">this</span>.x = runner.x;</div><div class="line">    <span class="keyword">this</span>.y = runner.y;</div><div class="line">  &#125;,</div><div class="line">  update: function() &#123;</div><div class="line">    <span class="keyword">this</span>.runner.update();</div><div class="line">    <span class="keyword">this</span>.x = <span class="keyword">this</span>.runner.x;</div><div class="line">    <span class="keyword">this</span>.y = <span class="keyword">this</span>.runner.y;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.x &lt; <span class="number">0</span> || SCREEN_WIDTH &lt; <span class="keyword">this</span>.x || <span class="keyword">this</span>.y &lt; <span class="number">0</span> || SCREEN_HEIGHT &lt; <span class="keyword">this</span>.y) &#123;</div><div class="line">      <span class="keyword">this</span>.remove();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">GameApp(&#123;</div><div class="line">  width: SCREEN_WIDTH,</div><div class="line">  height: SCREEN_HEIGHT,</div><div class="line">  startLabel: <span class="string">"main"</span>,</div><div class="line">  </div><div class="line">  <span class="comment">// attackPattern.xmlをアセットとして読み込むよー</span></div><div class="line">  assets: &#123;</div><div class="line">    xml: &#123;</div><div class="line">      attackPattern: <span class="string">"attackPattern.xml"</span>,</div><div class="line">    &#125;,</div><div class="line">  &#125;,</div><div class="line">&#125;).run();</div></pre></td></tr></table></figure></p>
+<h3 id="今回のポイント！！"><a href="#今回のポイント！！" class="headerlink" title="今回のポイント！！"></a>今回のポイント！！</h3><h4 id="XMLをアセットとして読み込む"><a href="#XMLをアセットとして読み込む" class="headerlink" title="XMLをアセットとして読み込む"></a>XMLをアセットとして読み込む</h4><p>BulletMLはXMLで記述されるので、今回はXMLファイルとして用意しています。</p>
+<p>phina.jsにはXMLファイルをアセットとして読み込む機能があるので、それを利用しています。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">assets</span>: &#123;</div><div class="line">  <span class="attribute">xml</span>: &#123;</div><div class="line">    attackPattern: <span class="string">"attackPattern.xml"</span>,</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Runner"><a href="#Runner" class="headerlink" title="Runner"></a>Runner</h4><p>bulletml.jsには<em>Runner</em>という概念があります。</p>
+<p>このオブジェクトが「敵」や「弾」の動きを制御します。</p>
+<p>今回のサンプルでは敵のRunnerはアセットとして読み込んだxmlファイルを元に作成しセットしています。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 敵のrunnerプロパティに攻撃パターンをセット</span></div><div class="line"><span class="keyword">this</span>.enemy.runner = bulletml.buildXML(xmlAsset.<span class="keyword">data</span>).createRunner(bulletConfig);</div></pre></td></tr></table></figure>
+<p>また、各弾のRunnerはcreateNewBullet関数に引数として渡ってきますので、それを敵弾クラスにセットしています。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 弾が発射された時に呼ばれる関数</span></div><div class="line">createNewBullet: <span class="function"><span class="keyword">function</span>(<span class="params">runner</span>) </span>&#123;</div><div class="line">  <span class="comment">// シーンのfireBulletイベントを発火する</span></div><div class="line">  <span class="keyword">this</span>.flare(<span class="string">"fireBullet"</span>, &#123; <span class="attr">runner</span>: runner &#125;);</div><div class="line">&#125;.bind(<span class="keyword">this</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 弾オブジェクトを生成してシーンに追加</span></div><div class="line">Bullet<span class="comment">(e.runner)</span>.addChildTo<span class="comment">(this)</span>;</div></pre></td></tr></table></figure>
+<p>Runnerはupdateメソッドを実行するたびに内部値(x, y, direction)を変化させたり、新たな弾を生成したりします。</p>
+<p>ですので、phina.jsのupdateメソッド内でRunnerのupdateメソッドを呼び出すことで弾幕パターンを進行していくわけですね。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>というわけで持ちネタでした。</p>
+<p>本AdventCaldendarにはあと何回か寄稿しようと思っていますので、次はもうちょっとちゃんとしたネタを書きますね。</p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-07-16T11:26:24.000Z"><a href="/b/2016/07/16/mgopt/">2016-07-16</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2016/07/16/mgopt/">MagicaVoxelで作ったデータの頂点数を減らす</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="頂点数が多すぎるんだよ！アニキ！"><a href="#頂点数が多すぎるんだよ！アニキ！" class="headerlink" title="頂点数が多すぎるんだよ！アニキ！"></a>頂点数が多すぎるんだよ！アニキ！</h2><p><a href="https://ephtracy.github.io/" target="_blank" rel="external">MagicaVoxel</a>は非常に便利なんだけど、こいつで作ったデータは頂点数が無駄に多くなっちゃうのだ。</p>
+<p>凝った模様の入った複雑なデータを作っちゃうと、ゲームが重くなってコリャイカンって感じになる。</p>
+<p>なんとかして最適化する方法はないだろうか。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard02.png" alt="普通にOBJ形式でエクスポートしたデータ。頂点数は2,605" title="普通にOBJ形式でエクスポートしたデータ。頂点数は2,605">
+<h2 id="最適化方針！"><a href="#最適化方針！" class="headerlink" title="最適化方針！"></a>最適化方針！</h2><ol>
+<li>頂点カラー付きの形式でエクスポート</li>
+<li>Blenderで重複頂点削除・UV展開</li>
+<li>頂点カラーをテクスチャに焼きこむ</li>
+<li>頂点数を削減</li>
+</ol>
+<h3 id="頂点カラー付きの形式でエクスポート"><a href="#頂点カラー付きの形式でエクスポート" class="headerlink" title="頂点カラー付きの形式でエクスポート"></a>頂点カラー付きの形式でエクスポート</h3><p>MagicaVoxelからPLY形式でエクスポートする。PLY形式は頂点カラー情報の入ったフォーマット。</p>
+<img src="/b/2016/07/16/mgopt/ply.png" alt="PLY形式でエクスポート" title="PLY形式でエクスポート">
+<p>Blenderにインポート。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard03.png" alt="Blenderにインポート" title="Blenderにインポート">
+<h3 id="重複した頂点を削除する"><a href="#重複した頂点を削除する" class="headerlink" title="重複した頂点を削除する"></a>重複した頂点を削除する</h3><p>「Remove Doubles」で重複した頂点を削除する。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard05.png" alt="「Remove Doubles」で重複した頂点を削除する" title="「Remove Doubles」で重複した頂点を削除する">
+<h3 id="UV展開"><a href="#UV展開" class="headerlink" title="UV展開"></a>UV展開</h3><p>Smart UV Projectでスマァ～トにUV展開する。または必要に応じて手動でUV展開する。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard06.png" alt="Smart UV Projectでスマァ～トにUV展開" title="Smart UV Projectでスマァ～トにUV展開">
+<img src="/b/2016/07/16/mgopt/Clipboard07.png" alt="Smart UV Projectでスマァ～トにUV展開" title="Smart UV Projectでスマァ～トにUV展開">
+<h3 id="頂点カラーをテクスチャに焼く"><a href="#頂点カラーをテクスチャに焼く" class="headerlink" title="頂点カラーをテクスチャに焼く"></a>頂点カラーをテクスチャに焼く</h3><p>Screen Layoutを「UV Editing」に。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard08.png" alt="Screen Layoutを「UV Editing」に" title="Screen Layoutを「UV Editing」に">
+<p>「New」のところを押して新規にテクスチャを作成。名前を「vc」とかにしとく。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard10.png" alt="「New」のところを押して新規にテクスチャを作成" title="「New」のところを押して新規にテクスチャを作成">
+<p>Screen Layoutを「default」に戻す。</p>
+<p>PropertiesウインドウのRenderタブ内のBakeパネルを開き、Bake Modeを「Vertex Colors」にした上でBakeボタンを押す。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard11.png" alt="「Vertex Colors」をBake" title="「Vertex Colors」をBake">
+<p>テクスチャに頂点カラーが焼き込まれる。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard12.png" alt="焼きこまれた" title="焼きこまれた">
+<p>モデルに新規にマテリアルをアタッチし、作成されたテクスチャを貼る。</p>
+<p>テクスチャに色情報を取り込んだので、頂点カラーはもう必要ない。削除しよう。</p>
+<p>モデルの頂点をすべて選択して「Remove Vertex Color」。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard15.png" alt="Remove Vertex Color" title="Remove Vertex Color">
+<h3 id="不要な頂点を削減"><a href="#不要な頂点を削減" class="headerlink" title="不要な頂点を削減"></a>不要な頂点を削減</h3><p>モデルにDecimateモディファイアを追加する。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard13.png" alt="Decimateモディファイアを追加" title="Decimateモディファイアを追加">
+<p>Planerを選択し、Angle Limitを5°とかにしてApplyする。結果が変になったら調整。</p>
+<img src="/b/2016/07/16/mgopt/Clipboard14.png" alt="Planer" title="Planer">
+<p>あとは手動で余計な頂点やエッジを削除する。</p>
+<h3 id="出来た！"><a href="#出来た！" class="headerlink" title="出来た！"></a>出来た！</h3><p>平面部分から余計な頂点が削除され、かつ元の色情報はテクスチャによって再現される。</p>
+<p>あとはテクスチャを画像ファイルとして保存して編集したり、モデルにいい感じの関節を追加したりしていこう。</p>
+<img src="/b/2016/07/16/mgopt/raku.png" alt="顔にらくがきしてみたり" title="顔にらくがきしてみたり">
+<img src="/b/2016/07/16/mgopt/untitled.png" alt="顔にらくがきしてみたり" title="顔にらくがきしてみたり">
+<h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><p>以上のやり方で頂点数を最低限まで減らせるはずだ。</p>
+<p>平面が多く、色がたくさん使われたボクセルモデルであれば効果が顕著に出ると思う。</p>
+<p>ただ、お手軽にモデルデータを用意できるという理由でMagicaVoxelを採用しているはずなのに、こんなやり方だと手間がかかりすぎてしまうのも事実。</p>
+<p>もっと楽にやる方法があればいいなあ。</p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-07-05T18:31:42.000Z"><a href="/b/2016/07/06/towamap/">2016-07-06</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2016/07/06/towamap/">mcmapでトワ様ワールドを出力してみた</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://blog.wrim.pl/mcmap/" target="_blank" rel="external">mcmap</a>ってツールを使って俺が運営しているマインクラフトサーバー「トワ様ワールド」を出力してみた。</p>
+<h4 id="全体像（現状開拓している範囲）"><a href="#全体像（現状開拓している範囲）" class="headerlink" title="全体像（現状開拓している範囲）"></a>全体像（現状開拓している範囲）</h4><img src="/b/2016/07/06/towamap/small.png" alt="-" title="-">
+<h4 id="トワ様王国首都"><a href="#トワ様王国首都" class="headerlink" title="トワ様王国首都"></a>トワ様王国首都</h4><img src="/b/2016/07/06/towamap/towa.png" alt="-" title="-">
+<h4 id="だいし王国"><a href="#だいし王国" class="headerlink" title="だいし王国"></a>だいし王国</h4><img src="/b/2016/07/06/towamap/daishi.png" alt="-" title="-">
+<h4 id="全体像"><a href="#全体像" class="headerlink" title="全体像"></a>全体像</h4><p><a href="/b/2016/07/06/towamap/all.png">ファイルが巨大なので注意</a></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-06-28T02:37:03.000Z"><a href="/b/2016/06/28/towasama/">2016-06-28</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2016/06/28/towasama/">Minecraftサーバーを運営している件</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>実は俺はMinecraftサーバーを運営している。</p>
+<p>それなりに長いことやっているので、プレイヤー募集を兼ねて紹介したい。</p>
+<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><ul>
+<li>アドレスは mctowa.dev7.jp:25565</li>
+<li>通称トワ様サーバー</li>
+<li>稼働しているのは週末だけ（金曜21:00～月曜3:00）</li>
+<li>現在のバージョンは1.10.2</li>
+<li>Modは一切なしのバニラ</li>
+<li>難易度Hard</li>
+<li>20歳未満の未成年は立ち入り非推奨</li>
+<li>今んとこ、定期的にログインしているのは4人程度</li>
+<li>破壊行為・他プレイヤーの殺傷行為を行うプレイヤーは予告なくBANする場合あり</li>
+</ul>
+<h2 id="どんなプレイを？"><a href="#どんなプレイを？" class="headerlink" title="どんなプレイを？"></a>どんなプレイを？</h2><p>エンダードラゴン討伐済み。</p>
+<p>近いうちにウィザー戦も行いたい。</p>
+<p>また、初期リスポーン地点（通称トワ様王国）周辺の開発は一通り完了している。</p>
+<p>現在は各プレイヤーがそれぞれ僻地で自分の国を開発中。</p>
+<p>いずれは各拠点を鉄道などの交通網で結んでいきたい。</p>
+<h2 id="トワ様サーバーの日々"><a href="#トワ様サーバーの日々" class="headerlink" title="トワ様サーバーの日々"></a>トワ様サーバーの日々</h2><img src="/b/2016/06/28/towasama/2016-06-28_09.38.43.png" alt="-" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.39.19.png" alt="-" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.39.51.png" alt="-" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.34.02.png" alt="-" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.35.13.png" alt="-" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.47.51.png" alt="-" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.50.57.png" alt="-" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.53.46.png" alt="-" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.35.22.png" alt="-" title="-">
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-06-13T07:34:40.000Z"><a href="/b/2016/06/13/magicavoxel0-97-3/">2016-06-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2016/06/13/magicavoxel0-97-3/">MagicaVoxel0.97.3のアップデート内容</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>2016年6月5日にバージョン0.97.3へのアップデートが行われていたようです。</p>
+<p><a href="https://ephtracy.github.io/" target="_blank" rel="external">https://ephtracy.github.io/</a></p>
+<p>主にレンダリング関係の更新のようです。</p>
+<h2 id="1-New-Metal-Plastic-Material-with-GGX-NDF"><a href="#1-New-Metal-Plastic-Material-with-GGX-NDF" class="headerlink" title="1. New Metal/Plastic Material with GGX NDF"></a>1. New Metal/Plastic Material with GGX NDF</h2><p>従来からあった金属っぽい質感にくわえ、プラスチックっぽいレンダリングが出来るようになりました。</p>
+<h4 id="金属っぽく"><a href="#金属っぽく" class="headerlink" title="金属っぽく"></a>金属っぽく</h4><img src="/b/2016/06/13/magicavoxel0-97-3/ss1.png" alt="ss1.png" title="">
+<h4 id="プラスチックっぽく"><a href="#プラスチックっぽく" class="headerlink" title="プラスチックっぽく"></a>プラスチックっぽく</h4><img src="/b/2016/06/13/magicavoxel0-97-3/ss2.png" alt="ss2.png" title="">
+<h2 id="2-Post-Effect"><a href="#2-Post-Effect" class="headerlink" title="2. Post Effect"></a>2. Post Effect</h2><p>レンダリング画像にポストエフェクトをかけられるようになりました。</p>
+<h4 id="Exposure"><a href="#Exposure" class="headerlink" title="Exposure"></a>Exposure</h4><p>暗いすぎる画像を明るく。</p>
+<img src="/b/2016/06/13/magicavoxel0-97-3/ss3.png" alt="ss3.png" title="">
+<h4 id="Vignette"><a href="#Vignette" class="headerlink" title="Vignette"></a>Vignette</h4><p>トイカメラっぽいアレ。</p>
+<img src="/b/2016/06/13/magicavoxel0-97-3/ss4.png" alt="ss4.png" title="">
+<h4 id="Gamma-Correction"><a href="#Gamma-Correction" class="headerlink" title="Gamma Correction"></a>Gamma Correction</h4><p>ガンマ値を設定可能に。</p>
+<img src="/b/2016/06/13/magicavoxel0-97-3/ss5.png" alt="ss5.png" title="">
+<img src="/b/2016/06/13/magicavoxel0-97-3/ss6.png" alt="ss6.png" title="">
+<h2 id="3-Pick-up-Sun-Sky-Color-from-Palette"><a href="#3-Pick-up-Sun-Sky-Color-from-Palette" class="headerlink" title="3. Pick up Sun/Sky Color from Palette"></a>3. Pick up Sun/Sky Color from Palette</h2><p>SUNライトとSKYライトに対し、光源色を設定可能になりました。</p>
+<img src="/b/2016/06/13/magicavoxel0-97-3/ss7.png" alt="ss7.png" title="">
+<img src="/b/2016/06/13/magicavoxel0-97-3/ss8.png" alt="ss8.png" title="">
+<h2 id="4-Better-Quality-of-Soft-Shadow"><a href="#4-Better-Quality-of-Soft-Shadow" class="headerlink" title="4. Better Quality of Soft Shadow"></a>4. Better Quality of Soft Shadow</h2><p>ソフトシャドウがよりクオリティアップしたようです。</p>
+<h2 id="5-Sample-gt-GI-on-the-top-right-enable-stochastic-sampling-for-better-indirect-illumination"><a href="#5-Sample-gt-GI-on-the-top-right-enable-stochastic-sampling-for-better-indirect-illumination" class="headerlink" title="5. Sample-&gt;GI : on the top right, enable stochastic sampling for better indirect illumination"></a>5. Sample-&gt;GI : on the top right, enable stochastic sampling for better indirect illumination</h2><p>グローバルイルミネーションを使えるようになりました。</p>
+<p>…らしいんですが機能してるんかなコレ？</p>
+<img src="/b/2016/06/13/magicavoxel0-97-3/ss9.png" alt="ss9.png" title="">
+<img src="/b/2016/06/13/magicavoxel0-97-3/ss10.png" alt="ss10.png" title="">
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-06-13T06:37:47.000Z"><a href="/b/2016/06/13/magicavoxelexport/">2016-06-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2016/06/13/magicavoxelexport/">MagicaVoxel OBJエクスポート時の設定について</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="OBJエクスポート時の設定について"><a href="#OBJエクスポート時の設定について" class="headerlink" title="OBJエクスポート時の設定について"></a>OBJエクスポート時の設定について</h1><p>設定をアレコレいじるには、MagicaVoxelのインストールフォルダにある config/config.txt ファイルを編集します。</p>
+<h2 id="最適化をやめる"><a href="#最適化をやめる" class="headerlink" title="最適化をやめる"></a>最適化をやめる</h2><p>同じ色毎に面をマージする設定のオン／オフを切り替えます。</p>
+<h4 id="最適化オン"><a href="#最適化オン" class="headerlink" title="最適化オン"></a>最適化オン</h4><img src="/b/2016/06/13/magicavoxelexport/ss2.png" alt="最適化オン" title="最適化オン">
+<h4 id="最適化オフ"><a href="#最適化オフ" class="headerlink" title="最適化オフ"></a>最適化オフ</h4><img src="/b/2016/06/13/magicavoxelexport/ss3.png" alt="最適化オフ" title="最適化オフ">
+<h4 id="やりかた"><a href="#やりかた" class="headerlink" title="やりかた"></a>やりかた</h4><p>ファイル config/config.txt の file_obj -&gt; optimize を’1’に設定するとオン、’0’にするとオフになります。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">file_obj</div><div class="line">(</div><div class="line">  (省略)</div><div class="line"></div><div class="line">  optimize    = <span class="string">'1'</span>     <span class="regexp">//</span> ←ここ</div><div class="line"><span class="regexp">//</span>optimize    = <span class="string">'0'</span>     <span class="regexp">//</span> こうするとオフ</div><div class="line">)</div></pre></td></tr></table></figure>
+<h2 id="中心点を決める"><a href="#中心点を決める" class="headerlink" title="中心点を決める"></a>中心点を決める</h2><p>objデータの空間上の中心座標を決めます。</p>
+<h4 id="接地面を中心に"><a href="#接地面を中心に" class="headerlink" title="接地面を中心に"></a>接地面を中心に</h4><img src="/b/2016/06/13/magicavoxelexport/ss5.png" alt="(0.5, 0.5, 0.0)" title="(0.5, 0.5, 0.0)">
+<h4 id="モデルの真ん中を中心に"><a href="#モデルの真ん中を中心に" class="headerlink" title="モデルの真ん中を中心に"></a>モデルの真ん中を中心に</h4><img src="/b/2016/06/13/magicavoxelexport/ss4.png" alt="(0.5, 0.5, 0.5)" title="(0.5, 0.5, 0.5)">
+<h4 id="やりかた-1"><a href="#やりかた-1" class="headerlink" title="やりかた"></a>やりかた</h4><figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">file_obj</div><div class="line"><span class="comment">(</span></div><div class="line">  (省略)</div><div class="line">  </div><div class="line">  pivot     = <span class="string">'0.5 0.5 0'</span> <span class="comment">// ←ここ</span></div><div class="line"></div><div class="line">  <span class="comment">(省略)</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<h2 id="その他"><a href="#その他" class="headerlink" title="その他"></a>その他</h2><ul>
+<li>出力時スケール</li>
+<li>UV座標のオフセット</li>
+<li>面方向（頂点指定の周回方向）</li>
+<li>座標軸</li>
+</ul>
+<p>などを設定することができます。</p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-12-25T06:05:43.000Z"><a href="/b/2015/12/25/phinaadvcal20151224/">2015-12-25</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/12/25/phinaadvcal20151224/">俺とphina.jsとGithub</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>本記事は<a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2015</a>の24日目です。<br>クリスマス当日になってしまいました。遅れて申し訳ないです。</p>
+<p>前 <a href="http://qiita.com/omatoro/items/d594c4c3c8945856f5ef" target="_blank" rel="external">omatoroさん</a><br>次 <a href="http://phiary.me/phina-js-cordova-game-flick-arrow/" target="_blank" rel="external">phiさん</a></p>
+<h1 id="俺とphina-js"><a href="#俺とphina-js" class="headerlink" title="俺とphina.js"></a>俺とphina.js</h1><p>思えばphina.js（の前身であるtmlib.js）との付き合いも4年目を迎えようとしています。<br>ずいぶん長いことJavaScriptブラウザゲーム作りを楽しませて頂きました。<br>改めてphiさんをはじめとしたJSゲーム界隈の皆様に感謝を捧げさせていただきます。</p>
+<h1 id="この記事は…"><a href="#この記事は…" class="headerlink" title="この記事は…?"></a>この記事は…?</h1><p>さてさて、本記事は去る2015年の5月に行われた「tmlib.jsゆるふわ勉強会」にて私が発表したLTの資料をリライトしたものになります。</p>
+<p><a href="http://github.dev7.jp/slide20150530/#/">スライドはこちら</a></p>
+<h1 id="ゲーム開発を通じてphina-jsに貢献する方法"><a href="#ゲーム開発を通じてphina-jsに貢献する方法" class="headerlink" title="ゲーム開発を通じてphina.jsに貢献する方法"></a>ゲーム開発を通じてphina.jsに貢献する方法</h1><p>今回はゲーム開発を通じ、Github上のphina.jsプロジェクトにPullRequest貢献する方法を紹介します。</p>
+<h2 id="1-phina-jsを使ったゲームを作ることを決意する"><a href="#1-phina-jsを使ったゲームを作ることを決意する" class="headerlink" title="1. phina.jsを使ったゲームを作ることを決意する"></a>1. phina.jsを使ったゲームを作ることを決意する</h2><p>まずは何はなくとも自分のゲームを作り始めます。</p>
+<p>どんなゲームを作りたいかを考え、気合を入れて作業に入りましょう。</p>
+<h2 id="2-phina-jsをForkする"><a href="#2-phina-jsをForkする" class="headerlink" title="2. phina.jsをForkする"></a>2. phina.jsをForkする</h2><img src="/b/2015/12/25/phinaadvcal20151224/fork.png" alt="Forkボタン" title="Forkボタン">
+<p>phiさんがGithub上に公開されている<a href="https://github.com/phi-jp/phina.js" target="_blank" rel="external">phina.jsのプロジェクト</a>をForkします。</p>
+<h2 id="3-プロジェクトの雛形を作る"><a href="#3-プロジェクトの雛形を作る" class="headerlink" title="3. プロジェクトの雛形を作る"></a>3. プロジェクトの雛形を作る</h2><p>開発マシン上に自分のゲームを作る準備をします。</p>
+<p>git initでgitリポジトリ化します。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git init</div></pre></td></tr></table></figure>
+<p>次にgit submodule addコマンドで<strong>Forkした自分のphina.js</strong>をサブモジュールとして追加します。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git submodule add https://github.com/daishihmr/phina.js.git</div></pre></td></tr></table></figure>
+<p>そしてForkしたサブモジュールphina.js内に、<strong>自分のゲーム開発用のブランチ</strong>を作成します。<br>以後、このブランチのことを<strong>ゲームブランチ</strong>と呼ぶことにします。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> tmlib.js</div><div class="line">$ git checkout -b mygame</div></pre></td></tr></table></figure>
+<p>ゲームで使うphina.jsはこのブランチでビルドします。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm install</div><div class="line">$ gulp</div><div class="line">$ cp build/phina.js ../libs/</div></pre></td></tr></table></figure>
+<h2 id="4-ゲーム開発開始！"><a href="#4-ゲーム開発開始！" class="headerlink" title="4. ゲーム開発開始！"></a>4. ゲーム開発開始！</h2><p>いよいよゲーム開発スタートです。<br>魂の赴くまま、自分が面白いと思うゲームを作りましょう。</p>
+<p>そんな中、ふとこういうことを思う時が来るかもしれません。</p>
+<ul>
+<li>「……あ、こんな機能欲しいな」</li>
+<li>「……あ、phina.jsのここんとこ、バグってるや」</li>
+</ul>
+<p>そんな状況に遭ったら次のステップです。</p>
+<h2 id="5-新たにブランチを切ってphina-jsに追加・修正"><a href="#5-新たにブランチを切ってphina-jsに追加・修正" class="headerlink" title="5. 新たにブランチを切ってphina.jsに追加・修正"></a>5. 新たにブランチを切ってphina.jsに追加・修正</h2><p><strong>developブランチから</strong>新たにブランチを分岐させます。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git checkout develop</div><div class="line">$ git checkout -b feature/physics</div></pre></td></tr></table></figure>
+<p>機能追加の場合は「<strong>feature/○○</strong>」、バグ修正の場合は「<strong>hotfix/××</strong>」というブランチ名にしましょう。</p>
+<p>分岐したブランチ内で機能追加・修正が完了したら、ゲームブランチへマージします。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git checkout mygame</div><div class="line">$ git merge feature/physics</div></pre></td></tr></table></figure>
+<p><strong>マージ後もfeatureブランチは消さないでください！</strong><br>変更履歴は大切な財産であるとともに、作成したブランチはのちのち使うことになります。</p>
+<p>マージしたら再びビルドし、自分のゲームに組み込んで引き続き開発しましょう。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ gulp</div><div class="line">$ cp build/phina.js ../libs/</div></pre></td></tr></table></figure>
+<p>追加した機能にバグがあったり修正自体が間違っていた場合は、もう一度featureブランチに戻って再度修正→ゲームブランチにマージ→ビルドします。</p>
+<h2 id="6-ゲーム完成！"><a href="#6-ゲーム完成！" class="headerlink" title="6. ゲーム完成！"></a>6. ゲーム完成！</h2><p>ついにあなたのゲームが完成しました！<br>公開したり友達に自慢したりストアで販売したりして大いに楽しんでください。</p>
+<p>さて、リポジトリをみるとfeatureブランチがたくさん出来ているはずです。<br>もしその中に「この機能はみんなに使ってもらいたい！」「他にもこの機能を欲しがっている人がいるはず！」と思えるようなfeatureブランチがあったなら、ぜひ<strong>プルリクエスト</strong>しましょう！</p>
+<img src="/b/2015/12/25/phinaadvcal20151224/pullreq1.png" alt="Github上でfeatureブランチからpull request作成！" title="Github上でfeatureブランチからpull request作成！">
+<img src="/b/2015/12/25/phinaadvcal20151224/pullreq2.png" alt="追加した機能についてわかりやすくコメントを書こう！" title="追加した機能についてわかりやすくコメントを書こう！">
+<h2 id="7-まとめ"><a href="#7-まとめ" class="headerlink" title="7. まとめ"></a>7. まとめ</h2><p>今回紹介した流れをまとめると以下のようになります。</p>
+<ol>
+<li>自分のゲームのために欲しい機能を作る</li>
+<li>ゲーム開発の中で機能をテストし、バグを取る</li>
+<li>完成した段階で機能をphina.js本体にマージしてもらう</li>
+</ol>
+<p>この方法の利点は、</p>
+<ul>
+<li>確実に需要がある機能が出来る（<strong>少なくとも一人は使ってる！</strong>）</li>
+<li>実際に使うことで十分にテストできる</li>
+</ul>
+<p>ということだと思います。<br>単なる机上の空論ではない、実戦で「磨き上げた」コードをプルリクすることができます。</p>
+<h1 id="今回はここまで"><a href="#今回はここまで" class="headerlink" title="今回はここまで"></a>今回はここまで</h1><p>今回はゲーム開発を通じてphina.jsへ貢献する私なりの方法を紹介しました。<br>これからphina.jsを使ってゲームを作ってみようという方はぜひ参考にしてください。</p>
+<p><strong>みんなで育てようphina.js！！</strong></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+
+<nav id="pagination">
+  
+  
+    <a href="/b/page/2/" class="alignright next">Next</a>
+  
+  <div class="clearfix"></div>
+</nav>
+
+      </div>
+    </div>
+    <aside id="sidebar" class="alignright">
+  <div class="widget tag">
+  <h3 class="title">about me</h3>
+  <ul class="entry">
+    <li>Daishi (だいし)</li>
+    <li><img width="100%" src="/b/common/profile_icon.png"></li>
+    <li>楢崎大志。<br>インターネットゲーム作りマン。<br>JavaScript好きです。STG好きです。プリキュアも好きです。能登麻美子と結婚したい。</li>
+    <li>twitter <a href="https://twitter.com/daishi_hmr" target="_blank">daishi_hmr</a></li>
+    <li>github <a href="https://github.com/daishihmr" target="_blank">daishihmr</a></li>
+    <li>qiita <a href="http://qiita.com/daishi_hmr">daishi_hmr</a></li>
+    <li>facebook <a href="https://www.facebook.com/daishi.narazaki">daishi.narazaki</a></li>
+    <li>website <a href="http://github.dev7.jp/" target="_blank">http://github.dev7.jp/</a></li>
+  </ul>
+</div>
+
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:github.dev7.jp">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/b/tags/Blender/">Blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
+  
+    <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
+  
+    <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
+  
+    <li><a href="/b/tags/STG/">STG</a><small>1</small></li>
+  
+    <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
+  
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>2</small></li>
+  
+    <li><a href="/b/tags/blender/">blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/bulletml-js/">bulletml.js</a><small>1</small></li>
+  
+    <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
+  
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+  
+    <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
+  
+    <li><a href="/b/tags/three-js/">three.js</a><small>3</small></li>
+  
+    <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  <div style="margin-bottom:60px">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-sidebar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="8072408520"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 daishihmr
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/b/js/jquery.imagesloaded.min.js"></script>
+<script src="/b/js/gallery.js"></script>
+<script src="/b/js/marioscript.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'daishiblog';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/b/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/b/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72&Operation=NoScript">Amazon.co.jp ウィジェット</A></NOSCRIPT>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-968682-24', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

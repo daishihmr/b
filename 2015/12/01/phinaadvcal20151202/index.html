@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ManagerSceneでゲームの流れを管理しよう | daishi blog</title>
+  <meta name="author" content="daishihmr">
+  
+  <meta name="description" content="phina.js Advent Calendar 2015の2日目です。
+phiさん 前 ←→ 次 emadurandalさん
+シューティングゲーム作るよ！新進気鋭の国産JavaScriptゲームエンジン「tmlib.js」の後継である「phina.js」がリリースされました！
+さっそくですが、ph">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="ManagerSceneでゲームの流れを管理しよう"/>
+  <meta property="og:site_name" content="daishi blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link rel="alternate" href="atom.xml" title="daishi blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/b/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+  <meta name="google-site-verification" content="PM9p0hYNSUGWMxz5ehxrIdhcssv3JYHGZPYn2GPFfO4" />
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/b/">daishi blog</a></h1>
+  <h2><a href="/b/">だいしブログ - JavaScriptとかでゲームとかを作ったり作らなかったりするブログ？</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="http://github.dev7.jp/">Home</a></li>
+    
+      <li><a href="/b/">BlogTop</a></li>
+    
+      <li><a href="/b/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft">
+      <div id="wrapper">
+        
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-12-01T13:49:22.000Z"><a href="/b/2015/12/01/phinaadvcal20151202/">2015-12-01</a></time>
+      
+      
+  
+    <h1 class="title">ManagerSceneでゲームの流れを管理しよう</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2015</a>の2日目です。</p>
+<p><a href="http://phiary.me/phinajs-release/" target="_blank" rel="external">phiさん</a> 前 ←→ 次 <a href="http://qiita.com/emadurandal/private/ac6d7a74a9b5521018d5" target="_blank" rel="external">emadurandalさん</a></p>
+<h2 id="シューティングゲーム作るよ！"><a href="#シューティングゲーム作るよ！" class="headerlink" title="シューティングゲーム作るよ！"></a>シューティングゲーム作るよ！</h2><p>新進気鋭の国産JavaScriptゲームエンジン「tmlib.js」の後継である「<strong>phina.js</strong>」が<a href="http://phiary.me/phinajs-release/" target="_blank" rel="external">リリースされました</a>！</p>
+<p>さっそくですが、phina.jsの紹介＋サンプル提供を兼ねてシューティングゲームを開発中です。</p>
+<img src="/b/2015/12/01/phinaadvcal20151202/ss.png" alt="PhinaShooter" title="PhinaShooter">
+<p><a href="http://github.dev7.jp/phina-shooter/bundle/">PhinaShooter</a></p>
+<p>まだまだ開発途上ですが、phina.jsの新機能をふんだんに盛り込んでいきたいと考えています。</p>
+<h2 id="ManagerSceneを使ってシーン遷移をスッキリ管理"><a href="#ManagerSceneを使ってシーン遷移をスッキリ管理" class="headerlink" title="ManagerSceneを使ってシーン遷移をスッキリ管理"></a>ManagerSceneを使ってシーン遷移をスッキリ管理</h2><p>本ゲームはたくさんのシーンを次々に遷移しながら実行されます。</p>
+<p>開発にあたる際、たとえばステージ３の道中中盤をデザインしている時に、テストのためにわざわざタイトル画面から実際にプレイするのは大変ですよね。</p>
+<p>シーンごとに独立して製作し、あとで組み合わせる方法をとるのがスマートです。</p>
+<p>そんな時に役立つのが<strong>phina.game.ManagerScene</strong>です。</p>
+<h3 id="ManagerSceneの基本的な使い方"><a href="#ManagerSceneの基本的な使い方" class="headerlink" title="ManagerSceneの基本的な使い方"></a>ManagerSceneの基本的な使い方</h3><p>シーンAからシーンBへ遷移し、その後再びシーンAに戻ってくるような流れを作りたい場合、以下のようなコードになります。</p>
+<ul>
+<li>SceneSequence.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// SceneSequenceクラス</span></div><div class="line">phina.define(<span class="string">"SceneSequence"</span>, &#123;</div><div class="line"></div><div class="line">  <span class="comment">// phina.game.ManagerSceneを継承します</span></div><div class="line">  superClass: <span class="string">"phina.game.ManagerScene"</span>,</div><div class="line"></div><div class="line">  <span class="comment">// 初期化</span></div><div class="line">  init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit(&#123;</div><div class="line">      <span class="attr">scenes</span>: [</div><div class="line"></div><div class="line">        <span class="comment">// A</span></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"シーンA"</span>, <span class="comment">// ラベル。参照用</span></div><div class="line">          className: <span class="string">"SceneA"</span>, <span class="comment">// シーンAのクラス名</span></div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        <span class="comment">// B</span></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"シーンB"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"SceneB"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"シーンA"</span> <span class="comment">// シーン終了時に次に遷移するシーンのラベル</span></div><div class="line">        &#125;</div><div class="line">      ]</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li>SceneA.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// シーンクラス</span></div><div class="line">phina.define(<span class="string">"SceneA"</span>, &#123;</div><div class="line"></div><div class="line">  <span class="comment">// phina.display.CanvasSceneを継承します</span></div><div class="line">  superClass: <span class="string">"phina.display.CanvasScene"</span>,</div><div class="line"></div><div class="line">  <span class="comment">// 初期化</span></div><div class="line">  init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit();</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"これはシーンAです"</span>);</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="comment">// 毎フレーム行う処理  </span></div><div class="line">  update: <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;</div><div class="line">    <span class="comment">// クリックされたら</span></div><div class="line">    <span class="keyword">if</span> (app.pointing.getPointingEnd()) &#123;</div><div class="line">      <span class="comment">// exitメソッドでシーンを終了させます</span></div><div class="line">      <span class="keyword">this</span>.exit();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>（SceneB.jsは省略）</p>
+<p>Sceneクラス内で <code>exit()</code> メソッドを呼び出すことにより、そのシーンを終了させることが出来ます。</p>
+<p>終了後は、</p>
+<ul>
+<li>nextLabelで指定されたシーン</li>
+</ul>
+<p>nextLabel指定がなければ</p>
+<ul>
+<li>ManagerScene内で次に書かれているシーン</li>
+</ul>
+<p>に遷移します。</p>
+<h3 id="条件分岐"><a href="#条件分岐" class="headerlink" title="条件分岐"></a>条件分岐</h3><p>特定の条件を満たす場合のみ遷移先を変えたい時もありますね。</p>
+<p>たとえば、ゲーム中に3回ミスをしてしまったら次のステージではなくゲームオーバーシーンに遷移させたい場合などです。</p>
+<p>そういった時は以下のように記述します。</p>
+<ul>
+<li>SettingScene.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">      scenes: [</div><div class="line">...</div><div class="line">        <span class="comment">// ゲームオーバーシーンを追加</span></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"ゲームオーバー"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"GameOverScene"</span></div><div class="line">        &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<ul>
+<li>SceneA.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">    <span class="comment">// ミスをした時の処理</span></div><div class="line">    miss: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">this</span>.missCount += <span class="number">1</span>;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.missCount &gt;= <span class="number">3</span>) &#123;</div><div class="line"></div><div class="line">        <span class="comment">// ManagerScene側で設定したラベルを指定します</span></div><div class="line">        <span class="keyword">this</span>.exit(<span class="string">"ゲームオーバー"</span>);</div><div class="line"></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p><code>exit()</code> メソッドに引数としてラベル名を渡すことで、ManagerSceneで設定したラベルを指定してジャンプすることが出来ます。</p>
+<h3 id="シーンに引数を渡す"><a href="#シーンに引数を渡す" class="headerlink" title="シーンに引数を渡す"></a>シーンに引数を渡す</h3><p>ManagerSceneでは次のシーンへの遷移時、シーンクラスをインスタンス化します。</p>
+<p>その際にシーンクラスのコンストラクタへ引数を渡すことが出来ます。</p>
+<ul>
+<li>SceneSequence.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"ゲームオーバー"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"GameOverScene"</span>,</div><div class="line">          </div><div class="line">          <span class="comment">// GameOverSceneクラスのコンストラクタに渡すパラメータ</span></div><div class="line">          <span class="built_in">arguments</span>: &#123; <span class="attr">message</span>: <span class="string">"死んでしまった！"</span> &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<ul>
+<li>GameOverScene.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">phina.define(<span class="string">"GameOverScene"</span>, &#123;</div><div class="line"></div><div class="line">  <span class="comment">// phina.display.CanvasSceneを継承します</span></div><div class="line">  superClass: <span class="string">"phina.display.CanvasScene"</span>,</div><div class="line"></div><div class="line">  <span class="comment">// 初期化</span></div><div class="line">  init: <span class="function"><span class="keyword">function</span>(<span class="params">param</span>) </span>&#123; <span class="comment">// 引数を受け取ります</span></div><div class="line">    <span class="keyword">this</span>.superInit();</div><div class="line"></div><div class="line">    <span class="comment">// 引数内のmessageプロパティを表示します</span></div><div class="line">    <span class="built_in">console</span>.log(param.message);</div><div class="line">  &#125;,</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="次のシーンに値を渡す"><a href="#次のシーンに値を渡す" class="headerlink" title="次のシーンに値を渡す"></a>次のシーンに値を渡す</h3><p>遷移前のシーンから次のシーンに情報を渡すことが出来ます。</p>
+<p>ゲームシーン中に獲得したスコアをリザルトシーンで表示する時などに使えますね。</p>
+<ul>
+<li>SceneA.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">    <span class="comment">// ミスをした時の処理</span></div><div class="line">    miss: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">this</span>.missCount += <span class="number">1</span>;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.missCount &gt;= <span class="number">3</span>) &#123;</div><div class="line"></div><div class="line">         <span class="comment">// exitの第２引数にオブジェクトを渡します</span></div><div class="line">        <span class="keyword">this</span>.exit(<span class="string">"ゲームオーバー"</span>, &#123; <span class="attr">score</span>:<span class="keyword">this</span>.score &#125;);</div><div class="line"></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<ul>
+<li>GameOverScene.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">    <span class="comment">// 引数内のmessageプロパティとscoreプロパティを表示します</span></div><div class="line">    <span class="built_in">console</span>.log(param.message, param.score);</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>exit()メソッドの第２引数に渡したオブジェクトとManagerSceneで設定したargumentsオブジェクトはマージされます。</p>
+<h3 id="入れ子構造"><a href="#入れ子構造" class="headerlink" title="入れ子構造"></a>入れ子構造</h3><p>ManagerScene自体もまたSceneのサブクラスですので、ManagerSceneから別のManagerSceneを呼び出すことも可能です。</p>
+<p>ステージ１から最後までプレイするアーケードモードと、ステージを選んでプレイする練習モードを実装したい場合などに利用できます。</p>
+<p><a href="http://goo.gl/ifSxmu" target="_blank" rel="external">サンプル</a></p>
+<ul>
+<li>ゲーム全体の流れ</li>
+</ul>
+<img src="/b/2015/12/01/phinaadvcal20151202/PhinaShooter-SceneSequence.svg" alt="PhinaShooter-SceneSequence.svg" title="">
+<ul>
+<li>アーケードモードの流れ</li>
+</ul>
+<img src="/b/2015/12/01/phinaadvcal20151202/PhinaShooter-SceneSequenceArcade.svg" alt="PhinaShooter-SceneSequenceArcade.svg" title="">
+<ul>
+<li>練習モードの流れ</li>
+</ul>
+<img src="/b/2015/12/01/phinaadvcal20151202/PhinaShooter-SceneSequencePractice.svg" alt="PhinaShooter-SceneSequencePractice.svg" title="">
+<ul>
+<li>PhinaShooter.js（抜粋）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* メインシーケンス */</span></div><div class="line">phina.define(<span class="string">"ps.MainSequence"</span>, &#123;</div><div class="line">  <span class="attr">superClass</span>: <span class="string">"phina.game.ManagerScene"</span>,</div><div class="line"></div><div class="line">  <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit(&#123;</div><div class="line">      <span class="attr">scenes</span>: [</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"load"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.LoadingScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">0</span> &#125;,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"title"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.TitleScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        <span class="comment">// アーケードモード</span></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"arcadeMode"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.ArcadeModeSequence"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"title"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        <span class="comment">// 練習モード</span></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"practiceMode"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.PracticeModeSequence"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"title"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"tutorial"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.TutorialScene"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"title"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"setting"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.SettingScene"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"title"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"ranking"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.RankingScene"</span>,</div><div class="line">          <span class="attr">nextLabel</span>: <span class="string">"title"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">      ],</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/* アーケードモード */</span></div><div class="line">phina.define(<span class="string">"ps.ArcadeModeSequence"</span>, &#123;</div><div class="line">  <span class="attr">superClass</span>: <span class="string">"phina.game.ManagerScene"</span>,</div><div class="line">  </div><div class="line">  <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit(&#123;</div><div class="line">      <span class="attr">scenes</span>: [</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage1preload"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.LoadingScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">1</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage1"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.GameScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">1</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage1result"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.ResultScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage2preload"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.LoadingScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">2</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage2"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.GameScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">2</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage2result"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.ResultScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage3preload"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.LoadingScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">3</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage3"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.GameScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: &#123; <span class="attr">stageId</span>:<span class="number">3</span> &#125;,</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage3result"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.ResultScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"ending"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.EndingScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"gameover"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.GameoverScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"nameEntry"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.NameEntryScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">      ],</div><div class="line">    &#125;);</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">onfinish</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.exit();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/* 練習モード */</span></div><div class="line">phina.define(<span class="string">"ps.PracticeModeSequence"</span>, &#123;</div><div class="line">  <span class="attr">superClass</span>: <span class="string">"phina.game.ManagerScene"</span>,</div><div class="line">  </div><div class="line">  <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  </div><div class="line">    <span class="keyword">var</span> sharedData = &#123;&#125;;</div><div class="line">  </div><div class="line">    <span class="keyword">this</span>.superInit(&#123;</div><div class="line">      <span class="attr">scenes</span>: [</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stageSelect"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.StageSelectScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: sharedData,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"preload"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.LoadingScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: sharedData,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"stage"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.GameScene"</span>,</div><div class="line">          <span class="attr">arguments</span>: sharedData,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">          <span class="attr">label</span>: <span class="string">"result"</span>,</div><div class="line">          <span class="attr">className</span>: <span class="string">"ps.ResultScene"</span>,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">      ],</div><div class="line">    &#125;);</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">onfinish</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.exit();</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><p>今回紹介したように、ManagerSceneを使ってシーン管理をすることで、アプリケーション全体をシンプルでスマートかつ変更に強い構造にすることが出来ます。</p>
+<p>ぜひ使ってみてください。</p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/b/tags/phina-js/">phina.js</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+
+      </div>
+    </div>
+    <aside id="sidebar" class="alignright">
+  <div class="widget tag">
+  <h3 class="title">about me</h3>
+  <ul class="entry">
+    <li>Daishi (だいし)</li>
+    <li><img width="100%" src="/b/common/profile_icon.png"></li>
+    <li>楢崎大志。<br>インターネットゲーム作りマン。<br>JavaScript好きです。STG好きです。プリキュアも好きです。能登麻美子と結婚したい。</li>
+    <li>twitter <a href="https://twitter.com/daishi_hmr" target="_blank">daishi_hmr</a></li>
+    <li>github <a href="https://github.com/daishihmr" target="_blank">daishihmr</a></li>
+    <li>qiita <a href="http://qiita.com/daishi_hmr">daishi_hmr</a></li>
+    <li>facebook <a href="https://www.facebook.com/daishi.narazaki">daishi.narazaki</a></li>
+    <li>website <a href="http://github.dev7.jp/" target="_blank">http://github.dev7.jp/</a></li>
+  </ul>
+</div>
+
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:github.dev7.jp">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/b/tags/Blender/">Blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
+  
+    <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
+  
+    <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
+  
+    <li><a href="/b/tags/STG/">STG</a><small>1</small></li>
+  
+    <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
+  
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>2</small></li>
+  
+    <li><a href="/b/tags/blender/">blender</a><small>1</small></li>
+  
+    <li><a href="/b/tags/bulletml-js/">bulletml.js</a><small>1</small></li>
+  
+    <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
+  
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+  
+    <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
+  
+    <li><a href="/b/tags/three-js/">three.js</a><small>3</small></li>
+  
+    <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  <div style="margin-bottom:60px">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-sidebar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="8072408520"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 daishihmr
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/b/js/jquery.imagesloaded.min.js"></script>
+<script src="/b/js/gallery.js"></script>
+<script src="/b/js/marioscript.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'daishiblog';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/b/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/b/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=JP&ID=V20070822%2FJP%2Fdaishihmr-22%2F8005%2Ffc775cce-76fc-4e84-90fe-ac510d297d72&Operation=NoScript">Amazon.co.jp ウィジェット</A></NOSCRIPT>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-968682-24', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
