@@ -5,7 +5,7 @@
   <link href="/b/atom.xml" rel="self"/>
   
   <link href="http://github.dev7.jp/"/>
-  <updated>2017-05-22T11:56:38.046Z</updated>
+  <updated>2017-05-22T11:58:39.732Z</updated>
   <id>http://github.dev7.jp/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://github.dev7.jp/2017/05/22/threejs-blender-skinned/"/>
     <id>http://github.dev7.jp/2017/05/22/threejs-blender-skinned/</id>
     <published>2017-05-22T11:56:38.000Z</published>
-    <updated>2017-05-22T11:56:38.046Z</updated>
+    <updated>2017-05-22T11:58:39.732Z</updated>
     
     <content type="html"><![CDATA[<p>覚え書き。</p>
 <p>アーマチュアやらモーションがついたやつを出力するときの設定。</p>
@@ -37,7 +37,11 @@
     </summary>
     
     
-      <category term="-- three.js -- blender -- WebGL" scheme="http://github.dev7.jp/tags/three-js-blender-WebGL/"/>
+      <category term="three.js" scheme="http://github.dev7.jp/tags/three-js/"/>
+    
+      <category term="blender" scheme="http://github.dev7.jp/tags/blender/"/>
+    
+      <category term="WebGL&#39;" scheme="http://github.dev7.jp/tags/WebGL/"/>
     
   </entry>
   
