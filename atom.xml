@@ -39,9 +39,9 @@
     
       <category term="three.js" scheme="http://github.dev7.jp/tags/three-js/"/>
     
-      <category term="blender" scheme="http://github.dev7.jp/tags/blender/"/>
-    
       <category term="WebGL" scheme="http://github.dev7.jp/tags/WebGL/"/>
+    
+      <category term="blender" scheme="http://github.dev7.jp/tags/blender/"/>
     
   </entry>
   
@@ -573,9 +573,9 @@
     </summary>
     
     
-      <category term="phina.js" scheme="http://github.dev7.jp/tags/phina-js/"/>
-    
       <category term="three.js" scheme="http://github.dev7.jp/tags/three-js/"/>
+    
+      <category term="phina.js" scheme="http://github.dev7.jp/tags/phina-js/"/>
     
   </entry>
   
