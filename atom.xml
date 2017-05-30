@@ -56,9 +56,9 @@
     </summary>
     
     
-      <category term="three.js" scheme="http://github.dev7.jp/tags/three-js/"/>
-    
       <category term="phina.js" scheme="http://github.dev7.jp/tags/phina-js/"/>
+    
+      <category term="three.js" scheme="http://github.dev7.jp/tags/three-js/"/>
     
       <category term="WebGL" scheme="http://github.dev7.jp/tags/WebGL/"/>
     
@@ -69,7 +69,7 @@
     <link href="http://github.dev7.jp/2017/05/22/threejs-blender-skinned/"/>
     <id>http://github.dev7.jp/2017/05/22/threejs-blender-skinned/</id>
     <published>2017-05-22T11:56:38.000Z</published>
-    <updated>2017-05-22T12:00:26.437Z</updated>
+    <updated>2017-05-30T22:00:16.139Z</updated>
     
     <content type="html"><![CDATA[<p>覚え書き。</p>
 <p>アーマチュアやらモーションがついたやつを出力するときの設定。</p>
@@ -88,7 +88,7 @@
     
       <category term="three.js" scheme="http://github.dev7.jp/tags/three-js/"/>
     
-      <category term="blender" scheme="http://github.dev7.jp/tags/blender/"/>
+      <category term="Blender" scheme="http://github.dev7.jp/tags/Blender/"/>
     
       <category term="WebGL" scheme="http://github.dev7.jp/tags/WebGL/"/>
     
@@ -622,9 +622,9 @@
     </summary>
     
     
-      <category term="three.js" scheme="http://github.dev7.jp/tags/three-js/"/>
-    
       <category term="phina.js" scheme="http://github.dev7.jp/tags/phina-js/"/>
+    
+      <category term="three.js" scheme="http://github.dev7.jp/tags/three-js/"/>
     
   </entry>
   
