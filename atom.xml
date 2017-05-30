@@ -5,7 +5,7 @@
   <link href="/b/atom.xml" rel="self"/>
   
   <link href="http://github.dev7.jp/"/>
-  <updated>2017-05-30T05:21:05.290Z</updated>
+  <updated>2017-05-30T06:47:23.363Z</updated>
   <id>http://github.dev7.jp/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://github.dev7.jp/2017/05/30/motioncontroller/"/>
     <id>http://github.dev7.jp/2017/05/30/motioncontroller/</id>
     <published>2017-05-30T04:43:09.000Z</published>
-    <updated>2017-05-30T05:21:05.290Z</updated>
+    <updated>2017-05-30T06:47:23.363Z</updated>
     
     <content type="html"><![CDATA[<h2 id="JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！"><a href="#JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！" class="headerlink" title="JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！"></a>JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！</h2><p>そろそろJSでも3Dゲームの時代ってことで、俺が愛してやまない<a href="http://phinajs.com/" target="_blank" rel="external">phina.js</a>とそれほどでもない<a href="https://threejs.org/" target="_blank" rel="external">three.js</a>でゲームを作ってる。</p>
 <h2 id="モーションを再生したいんだぜ！"><a href="#モーションを再生したいんだぜ！" class="headerlink" title="モーションを再生したいんだぜ！"></a>モーションを再生したいんだぜ！</h2><p>3Dでゲームつったらやっぱボーン入れてモーションつけて動かしたいわけです。</p>
@@ -32,9 +32,9 @@
 <p>使い方はこんな感じで。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 敵キャラをロードしてシーンに配置</span></div><div class="line"><span class="keyword">let</span> enemy = SkinnedMesh(<span class="string">"enemy3"</span>).addChildTo(<span class="keyword">this</span>);</div><div class="line"></div><div class="line"><span class="comment">// アイドルモーション</span></div><div class="line"><span class="keyword">let</span> motionIdle = enemy.getMotion(<span class="string">"idle"</span>);</div><div class="line"><span class="comment">// アイドルモーションはループON</span></div><div class="line">motionIdle.setLoop(<span class="literal">true</span>);</div><div class="line"></div><div class="line"><span class="comment">// 攻撃モーション</span></div><div class="line"><span class="keyword">let</span> motionAttack = enemy.getMotion(<span class="string">"attack0"</span>);</div><div class="line"></div><div class="line"><span class="comment">// アイドルモーションにトランジションを追加。</span></div><div class="line"><span class="comment">// タップフラグが立ったら攻撃モーションへ移行する。</span></div><div class="line">motionIdle.addTransition(<span class="function"><span class="params">()</span> =&gt;</span> tapFlag, motionAttack, <span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="comment">// 攻撃モーションにトランジションを追加。</span></div><div class="line"><span class="comment">// モーションが「完了」したらアイドルモーションへ移行する。</span></div><div class="line">motionAttack.addTransition(<span class="string">"finished"</span>, motionIdle, <span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="comment">// 敵キャラのモーションをアイドルモーションにスイッチ。</span></div><div class="line">enemy.motionController.switchMotion(motionIdle);</div></pre></td></tr></table></figure>
 <p>まず、<a href="https://github.com/daishihmr/blog20170530/blob/master/SkinnedMesh.js" target="_blank" rel="external">SkinnedMesh</a>というクラスを用意した。</p>
-<p>これはthree.jsの<a href="https://threejs.org/examples/#webgl_animation_skinning_blending" target="_blank" rel="external">BlendCharacter</a>というクラスを単純にラップしたものだ。<a href="http://phina.js" target="_blank" rel="noopener noreferrer">phina.js</a>のシーングラフに追加できるようにphina.app.Elementを継承している。</p>
-<p>さらに<a href="https://github.com/daishihmr/blog20170530/blob/master/MotionController.js" target="_blank" rel="external">MotionController</a>というクラスを実装した。こちらはSkinnedMeshに付与できるアクセサリだ。</p>
-<p>BlendCharacterオブジェクトからはgetMotionメソッドでモーションオブジェクトを取り出すことが出来る。</p>
+<p>これはthree.jsの<a href="https://threejs.org/examples/#webgl_animation_skinning_blending" target="_blank" rel="external">BlendCharacter</a>というクラスを単純にラップしたものだ。phina.js のシーングラフに追加できるように<a href="https://github.com/phinajs/phina.js/blob/develop/src/app/element.js" target="_blank" rel="external">phina.app.Element</a>を継承している。</p>
+<p>さらに<a href="https://github.com/daishihmr/blog20170530/blob/master/MotionController.js" target="_blank" rel="external">MotionController</a>というクラスを実装した。こちらはSkinnedMeshに付与できる<a href="http://qiita.com/minimo/items/25304f0834ecff853077" target="_blank" rel="external">アクセサリ</a>だ。</p>
+<p>SkinnedMeshオブジェクトからはgetMotionメソッドでモーションオブジェクトを取り出すことが出来る。</p>
 <figure class="highlight ceylon"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// アイドルモーション</span></div><div class="line"><span class="keyword">let</span> motionIdle = enemy.getMotion(<span class="string">"idle"</span>);</div></pre></td></tr></table></figure>
 <figure class="highlight ceylon"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 攻撃モーション</span></div><div class="line"><span class="keyword">let</span> motionAttack = enemy.getMotion(<span class="string">"attack0"</span>);</div></pre></td></tr></table></figure>
 <p>指定しているモーション名はblender上で名付けたやつだね。</p>
@@ -227,9 +227,9 @@
     
       <category term="MagicaVoxel" scheme="http://github.dev7.jp/tags/MagicaVoxel/"/>
     
-      <category term="blender" scheme="http://github.dev7.jp/tags/blender/"/>
-    
       <category term="GLBoost" scheme="http://github.dev7.jp/tags/GLBoost/"/>
+    
+      <category term="blender" scheme="http://github.dev7.jp/tags/blender/"/>
     
   </entry>
   
