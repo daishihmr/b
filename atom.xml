@@ -5,7 +5,7 @@
   <link href="/b/atom.xml" rel="self"/>
   
   <link href="http://github.dev7.jp/"/>
-  <updated>2017-05-22T12:00:26.437Z</updated>
+  <updated>2017-05-30T05:21:05.290Z</updated>
   <id>http://github.dev7.jp/</id>
   
   <author>
@@ -14,6 +14,55 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>phina.js + three.jsでモーションコントローラー作った</title>
+    <link href="http://github.dev7.jp/2017/05/30/motioncontroller/"/>
+    <id>http://github.dev7.jp/2017/05/30/motioncontroller/</id>
+    <published>2017-05-30T04:43:09.000Z</published>
+    <updated>2017-05-30T05:21:05.290Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！"><a href="#JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！" class="headerlink" title="JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！"></a>JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！</h2><p>そろそろJSでも3Dゲームの時代ってことで、俺が愛してやまない<a href="http://phinajs.com/" target="_blank" rel="external">phina.js</a>とそれほどでもない<a href="https://threejs.org/" target="_blank" rel="external">three.js</a>でゲームを作ってる。</p>
+<h2 id="モーションを再生したいんだぜ！"><a href="#モーションを再生したいんだぜ！" class="headerlink" title="モーションを再生したいんだぜ！"></a>モーションを再生したいんだぜ！</h2><p>3Dでゲームつったらやっぱボーン入れてモーションつけて動かしたいわけです。</p>
+<p>three.jsには<a href="https://blender.jp/" target="_blank" rel="external">blender</a>からデータを読み込む仕組みがあるので、これを利用してちょっとしたモーションコントローラーを作ってみた。</p>
+<p><a href="https://docs.unity3d.com/jp/540/Manual/AnimatorControllers.html" target="_blank" rel="external">Unityのやつ</a>を参考にしたのでわりと似ている。</p>
+<iframe src="http://github.dev7.jp/blog20170530/index.html" width="480" height="320"></iframe>
+
+<p>上記のサンプルはblenderで作成したモーションを読み込んで動かしてる。</p>
+<p>使い方はこんな感じで。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 敵キャラをロードしてシーンに配置</span></div><div class="line"><span class="keyword">let</span> enemy = SkinnedMesh(<span class="string">"enemy3"</span>).addChildTo(<span class="keyword">this</span>);</div><div class="line"></div><div class="line"><span class="comment">// アイドルモーション</span></div><div class="line"><span class="keyword">let</span> motionIdle = enemy.getMotion(<span class="string">"idle"</span>);</div><div class="line"><span class="comment">// アイドルモーションはループON</span></div><div class="line">motionIdle.setLoop(<span class="literal">true</span>);</div><div class="line"></div><div class="line"><span class="comment">// 攻撃モーション</span></div><div class="line"><span class="keyword">let</span> motionAttack = enemy.getMotion(<span class="string">"attack0"</span>);</div><div class="line"></div><div class="line"><span class="comment">// アイドルモーションにトランジションを追加。</span></div><div class="line"><span class="comment">// タップフラグが立ったら攻撃モーションへ移行する。</span></div><div class="line">motionIdle.addTransition(<span class="function"><span class="params">()</span> =&gt;</span> tapFlag, motionAttack, <span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="comment">// 攻撃モーションにトランジションを追加。</span></div><div class="line"><span class="comment">// モーションが「完了」したらアイドルモーションへ移行する。</span></div><div class="line">motionAttack.addTransition(<span class="string">"finished"</span>, motionIdle, <span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="comment">// 敵キャラのモーションをアイドルモーションにスイッチ。</span></div><div class="line">enemy.motionController.switchMotion(motionIdle);</div></pre></td></tr></table></figure>
+<p>まず、<a href="https://github.com/daishihmr/blog20170530/blob/master/SkinnedMesh.js" target="_blank" rel="external">SkinnedMesh</a>というクラスを用意した。</p>
+<p>これはthree.jsの<a href="https://threejs.org/examples/#webgl_animation_skinning_blending" target="_blank" rel="external">BlendCharacter</a>というクラスを単純にラップしたものだ。<a href="http://phina.js" target="_blank" rel="noopener noreferrer">phina.js</a>のシーングラフに追加できるようにphina.app.Elementを継承している。</p>
+<p>さらに<a href="https://github.com/daishihmr/blog20170530/blob/master/MotionController.js" target="_blank" rel="external">MotionController</a>というクラスを実装した。こちらはSkinnedMeshに付与できるアクセサリだ。</p>
+<p>BlendCharacterオブジェクトからはgetMotionメソッドでモーションオブジェクトを取り出すことが出来る。</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// アイドルモーション</span></div><div class="line"><span class="keyword">let</span> motionIdle = enemy.getMotion(<span class="string">"idle"</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 攻撃モーション</span></div><div class="line"><span class="keyword">let</span> motionAttack = enemy.getMotion(<span class="string">"attack0"</span>);</div></pre></td></tr></table></figure>
+<p>指定しているモーション名はblender上で名付けたやつだね。</p>
+<img src="/b/2017/05/30/motioncontroller/blender2.png" alt="blenderのAction" title="blenderのAction">
+<p>このモーションオブジェクトにはaddTransitionというメソッドが生えていて、他のモーションへの移行を条件とともに登録することができる。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// アイドルモーションにトランジションを追加。</span></div><div class="line"><span class="comment">// タップフラグが立ったら攻撃モーションへ移行する。</span></div><div class="line">motionIdle.addTransition(<span class="function"><span class="params">()</span> =&gt;</span> tapFlag, motionAttack, <span class="number">10</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 攻撃モーションにトランジションを追加。</span></div><div class="line"><span class="comment">// モーションが「完了」したらアイドルモーションへ移行する。</span></div><div class="line"><span class="selector-tag">motionAttack</span><span class="selector-class">.addTransition</span>(<span class="string">"finished"</span>, motionIdle, <span class="number">10</span>);</div></pre></td></tr></table></figure>
+<p>この条件の監視やモーションの移行を司っているのがMotionControllerというわけ。</p>
+<p>目玉としてはこのモーションのトランジションにはdurationを指定できて、モーションとモーションの間をなめらかにつなぐことが出来る。この機能には当然、みんな大好きphina.jsのTweenerを使っている。</p>
+<h2 id="今後どうすんだよ！"><a href="#今後どうすんだよ！" class="headerlink" title="今後どうすんだよ！"></a>今後どうすんだよ！</h2><p>とりあえず10月くらいまでにゲームを完成させたい。</p>
+<p>んで、出来た機能はまとめてphina.js用のプラグインとしてリリースしたいと思っている。</p>
+<h2 id="ソースとか"><a href="#ソースとか" class="headerlink" title="ソースとか"></a>ソースとか</h2><p>サンプルのソースは<a href="https://github.com/daishihmr/blog20170530" target="_blank" rel="external">こちら</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！&quot;&gt;&lt;a href=&quot;#JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！&quot; class=&quot;headerlink&quot; title=&quot;JavaScriptで本格的な3Dゲームが作りたいんだ！
+    
+    </summary>
+    
+    
+      <category term="three.js" scheme="http://github.dev7.jp/tags/three-js/"/>
+    
+      <category term="phina.js" scheme="http://github.dev7.jp/tags/phina-js/"/>
+    
+      <category term="WebGL" scheme="http://github.dev7.jp/tags/WebGL/"/>
+    
+  </entry>
   
   <entry>
     <title>blenderからthree.jsのSkinnedMeshを出力するときの設定</title>
@@ -178,9 +227,9 @@
     
       <category term="MagicaVoxel" scheme="http://github.dev7.jp/tags/MagicaVoxel/"/>
     
-      <category term="GLBoost" scheme="http://github.dev7.jp/tags/GLBoost/"/>
-    
       <category term="blender" scheme="http://github.dev7.jp/tags/blender/"/>
+    
+      <category term="GLBoost" scheme="http://github.dev7.jp/tags/GLBoost/"/>
     
   </entry>
   
@@ -1050,76 +1099,6 @@
     
       &lt;img src=&quot;/b/2015/10/17/magicavoxel2/ss1.png&quot; alt=&quot;ブラシパネル(1)&quot; title=&quot;ブラシパネル(1)&quot;&gt;
 &lt;h2 id=&quot;ボクセルを置く-Attach&quot;&gt;&lt;a href=&quot;#ボクセルを置く-Attach&quot; class=&quot;he
-    
-    </summary>
-    
-    
-      <category term="MagicaVoxel" scheme="http://github.dev7.jp/tags/MagicaVoxel/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MagicaVoxelの使い方(1) - ファイルの操作編</title>
-    <link href="http://github.dev7.jp/2015/10/16/magicavoxel/"/>
-    <id>http://github.dev7.jp/2015/10/16/magicavoxel/</id>
-    <published>2015-10-16T11:23:57.000Z</published>
-    <updated>2017-05-22T10:41:27.849Z</updated>
-    
-    <content type="html"><![CDATA[<img src="/b/2015/10/16/magicavoxel/ss1.png" alt="アコちゃん" title="アコちゃん">
-<h2 id="ウワサのボクセルアート作成ツール「MagicaVoxel」-ってなんだ"><a href="#ウワサのボクセルアート作成ツール「MagicaVoxel」-ってなんだ" class="headerlink" title="ウワサのボクセルアート作成ツール「MagicaVoxel」 ってなんだ!?"></a>ウワサのボクセルアート作成ツール「MagicaVoxel」 ってなんだ!?</h2><p>最近ボクセルがキてる。ような気がする。たぶん。</p>
-<p>というわけで無料で使えるお手軽サクサクボクセルアート作成ツール「MagicaVoxel」について紹介する。</p>
-<p>以前の記事でも簡単に触れたが、<a href="https://twitter.com/ephtracy" target="_blank" rel="external">@ephtracy</a>さんという方が開発されている。</p>
-<p><a href="http://ephtracy.github.io/" target="_blank" rel="external">配布サイトはコチラ</a>。</p>
-<p>簡単になにが出来るのかまとめると、</p>
-<ul>
-<li>小さなキューブ(立方体)を組み合わせて3Dモデルを作ることが出来る</li>
-<li>編集可能なボクセルデータは最大で126x126x126の大きさ</li>
-<li>256色のパレットを使用可能</li>
-<li>作ったボクセルアートを美麗にレンダリングすることが出来る</li>
-<li>レンダリング後はPNG画像として出力可能(背景の透過も可)</li>
-<li>独自形式(voxファイル)で保存</li>
-<li>objなどの一般的なフォーマットで3Dモデルをエクスポート出来る</li>
-<li>動作が軽い</li>
-<li>無料</li>
-<li>WindowsでもMacでも使える</li>
-</ul>
-<p>こんな感じ。</p>
-<p>絵心のない俺のような人間でも<a href="https://twitter.com/daishi_hmr/status/653599083240620032" target="_blank" rel="external">それなりのもの</a>を作ることができるので、ゲーム素材等を作るのに重宝している。</p>
-<p>ただし、けっこう独特のUIを持っているため、最初はとっつきにくいかもしれない。</p>
-<p>そんなわけで、これから何回かに分けてMagicaVoxelの使い方を説明したい。</p>
-<h2 id="マウス操作編"><a href="#マウス操作編" class="headerlink" title="マウス操作編"></a>マウス操作編</h2><h3 id="カメラ移動"><a href="#カメラ移動" class="headerlink" title="カメラ移動"></a>カメラ移動</h3><p>右ドラッグ</p>
-<img src="/b/2015/10/16/magicavoxel/rotate.gif" alt="カメラ移動" title="カメラ移動">
-<h3 id="カメラ注視点移動"><a href="#カメラ注視点移動" class="headerlink" title="カメラ注視点移動"></a>カメラ注視点移動</h3><p>スペースを押しながら右ドラッグ</p>
-<img src="/b/2015/10/16/magicavoxel/move.gif" alt="カメラ注視点移動" title="カメラ注視点移動">
-<h2 id="ファイルの操作編"><a href="#ファイルの操作編" class="headerlink" title="ファイルの操作編"></a>ファイルの操作編</h2><img src="/b/2015/10/16/magicavoxel/ss3.png" alt="ファイル操作に使うボタン" title="ファイル操作に使うボタン">
-<h3 id="読み込み"><a href="#読み込み" class="headerlink" title="読み込み"></a>読み込み</h3><img src="/b/2015/10/16/magicavoxel/load.gif" alt="読み込み" title="読み込み">
-<p>MagicaVoxelをインストールすると、はじめからいくつかのサンプルデータが入ってくる。</p>
-<p>右側のModelタブ内に表示されているのが、サンプルやユーザーが作ったデータだ。</p>
-<p>データを読み込む方法は簡単で、<strong>Modelタブ内のデータ名をクリックする</strong>だけでいい。</p>
-<p>この時、たとえ作成中のデータがあったとしても<span style="color:red"><strong>保存の確認などは一切されないので気をつけよう！</strong></span></p>
-<h3 id="複製"><a href="#複製" class="headerlink" title="複製"></a>複製</h3><img src="/b/2015/10/16/magicavoxel/copy.gif" alt="複製" title="複製">
-<p>読み込んだデータを複製して編集を始めたい時は、左上のcopyボタンを押す。</p>
-<p>中央上にあるファイル名のボックスが空欄になるので、そこに新しいファイル名を入力する。</p>
-<h3 id="新規作成"><a href="#新規作成" class="headerlink" title="新規作成"></a>新規作成</h3><img src="/b/2015/10/16/magicavoxel/new.gif" alt="新規作成" title="新規作成">
-<p>データを新規に作りたい時はnewボタンを押す。デフォルトの状態である立方体が画面に現れる。</p>
-<p>この時も、<span style="color:red"><strong>保存の確認などは一切されない！</strong></span> 気をつけよう。</p>
-<p>ファイル名を入力することで新たなファイルが作られる。</p>
-<h3 id="保存"><a href="#保存" class="headerlink" title="保存"></a>保存</h3><img src="/b/2015/10/16/magicavoxel/save.gif" alt="保存" title="保存">
-<p>編集中のデータを保存（上書き保存）したい時はsaveボタンを押す。</p>
-<h3 id="削除"><a href="#削除" class="headerlink" title="削除"></a>削除</h3><img src="/b/2015/10/16/magicavoxel/delete.gif" alt="削除" title="削除">
-<p>不要なファイルを削除する時は左下のdeleteボタンを押す。</p>
-<p>そろそろわかってきたことかと思うが、<span style="color:red"><strong>削除の確認なども当然されない！</strong></span> 十分気をつけてほしい。</p>
-<h2 id="データはどこに保存されているの"><a href="#データはどこに保存されているの" class="headerlink" title="データはどこに保存されているの?"></a>データはどこに保存されているの?</h2><p>最後に、MagicaVoxelのファイルはどこに保存されているかについて。</p>
-<p>MagicaVoxelのデータファイルはすべて<strong>インストールフォルダの中のvoxフォルダ</strong>に保存される。</p>
-<img src="/b/2015/10/16/magicavoxel/ss4.png" alt="ファイルはここ！" title="ファイルはここ！">
-<p>他所から持ってきたファイルを読み込みたい場合などは、ここに置くことでMagicaVoxelで開くことができるようになる。</p>
-<p><br><br><br></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;img src=&quot;/b/2015/10/16/magicavoxel/ss1.png&quot; alt=&quot;アコちゃん&quot; title=&quot;アコちゃん&quot;&gt;
-&lt;h2 id=&quot;ウワサのボクセルアート作成ツール「MagicaVoxel」-ってなんだ&quot;&gt;&lt;a href=&quot;#ウワサのボクセルアート作成
     
     </summary>
     

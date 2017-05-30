@@ -55,6 +55,102 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-10-16T11:23:57.000Z"><a href="/b/2015/10/16/magicavoxel/">2015-10-16</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2015/10/16/magicavoxel/">MagicaVoxelの使い方(1) - ファイルの操作編</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <img src="/b/2015/10/16/magicavoxel/ss1.png" alt="アコちゃん" title="アコちゃん">
+<h2 id="ウワサのボクセルアート作成ツール「MagicaVoxel」-ってなんだ"><a href="#ウワサのボクセルアート作成ツール「MagicaVoxel」-ってなんだ" class="headerlink" title="ウワサのボクセルアート作成ツール「MagicaVoxel」 ってなんだ!?"></a>ウワサのボクセルアート作成ツール「MagicaVoxel」 ってなんだ!?</h2><p>最近ボクセルがキてる。ような気がする。たぶん。</p>
+<p>というわけで無料で使えるお手軽サクサクボクセルアート作成ツール「MagicaVoxel」について紹介する。</p>
+<p>以前の記事でも簡単に触れたが、<a href="https://twitter.com/ephtracy" target="_blank" rel="external">@ephtracy</a>さんという方が開発されている。</p>
+<p><a href="http://ephtracy.github.io/" target="_blank" rel="external">配布サイトはコチラ</a>。</p>
+<p>簡単になにが出来るのかまとめると、</p>
+<ul>
+<li>小さなキューブ(立方体)を組み合わせて3Dモデルを作ることが出来る</li>
+<li>編集可能なボクセルデータは最大で126x126x126の大きさ</li>
+<li>256色のパレットを使用可能</li>
+<li>作ったボクセルアートを美麗にレンダリングすることが出来る</li>
+<li>レンダリング後はPNG画像として出力可能(背景の透過も可)</li>
+<li>独自形式(voxファイル)で保存</li>
+<li>objなどの一般的なフォーマットで3Dモデルをエクスポート出来る</li>
+<li>動作が軽い</li>
+<li>無料</li>
+<li>WindowsでもMacでも使える</li>
+</ul>
+<p>こんな感じ。</p>
+<p>絵心のない俺のような人間でも<a href="https://twitter.com/daishi_hmr/status/653599083240620032" target="_blank" rel="external">それなりのもの</a>を作ることができるので、ゲーム素材等を作るのに重宝している。</p>
+<p>ただし、けっこう独特のUIを持っているため、最初はとっつきにくいかもしれない。</p>
+<p>そんなわけで、これから何回かに分けてMagicaVoxelの使い方を説明したい。</p>
+<h2 id="マウス操作編"><a href="#マウス操作編" class="headerlink" title="マウス操作編"></a>マウス操作編</h2><h3 id="カメラ移動"><a href="#カメラ移動" class="headerlink" title="カメラ移動"></a>カメラ移動</h3><p>右ドラッグ</p>
+<img src="/b/2015/10/16/magicavoxel/rotate.gif" alt="カメラ移動" title="カメラ移動">
+<h3 id="カメラ注視点移動"><a href="#カメラ注視点移動" class="headerlink" title="カメラ注視点移動"></a>カメラ注視点移動</h3><p>スペースを押しながら右ドラッグ</p>
+<img src="/b/2015/10/16/magicavoxel/move.gif" alt="カメラ注視点移動" title="カメラ注視点移動">
+<h2 id="ファイルの操作編"><a href="#ファイルの操作編" class="headerlink" title="ファイルの操作編"></a>ファイルの操作編</h2><img src="/b/2015/10/16/magicavoxel/ss3.png" alt="ファイル操作に使うボタン" title="ファイル操作に使うボタン">
+<h3 id="読み込み"><a href="#読み込み" class="headerlink" title="読み込み"></a>読み込み</h3><img src="/b/2015/10/16/magicavoxel/load.gif" alt="読み込み" title="読み込み">
+<p>MagicaVoxelをインストールすると、はじめからいくつかのサンプルデータが入ってくる。</p>
+<p>右側のModelタブ内に表示されているのが、サンプルやユーザーが作ったデータだ。</p>
+<p>データを読み込む方法は簡単で、<strong>Modelタブ内のデータ名をクリックする</strong>だけでいい。</p>
+<p>この時、たとえ作成中のデータがあったとしても<span style="color:red"><strong>保存の確認などは一切されないので気をつけよう！</strong></span></p>
+<h3 id="複製"><a href="#複製" class="headerlink" title="複製"></a>複製</h3><img src="/b/2015/10/16/magicavoxel/copy.gif" alt="複製" title="複製">
+<p>読み込んだデータを複製して編集を始めたい時は、左上のcopyボタンを押す。</p>
+<p>中央上にあるファイル名のボックスが空欄になるので、そこに新しいファイル名を入力する。</p>
+<h3 id="新規作成"><a href="#新規作成" class="headerlink" title="新規作成"></a>新規作成</h3><img src="/b/2015/10/16/magicavoxel/new.gif" alt="新規作成" title="新規作成">
+<p>データを新規に作りたい時はnewボタンを押す。デフォルトの状態である立方体が画面に現れる。</p>
+<p>この時も、<span style="color:red"><strong>保存の確認などは一切されない！</strong></span> 気をつけよう。</p>
+<p>ファイル名を入力することで新たなファイルが作られる。</p>
+<h3 id="保存"><a href="#保存" class="headerlink" title="保存"></a>保存</h3><img src="/b/2015/10/16/magicavoxel/save.gif" alt="保存" title="保存">
+<p>編集中のデータを保存（上書き保存）したい時はsaveボタンを押す。</p>
+<h3 id="削除"><a href="#削除" class="headerlink" title="削除"></a>削除</h3><img src="/b/2015/10/16/magicavoxel/delete.gif" alt="削除" title="削除">
+<p>不要なファイルを削除する時は左下のdeleteボタンを押す。</p>
+<p>そろそろわかってきたことかと思うが、<span style="color:red"><strong>削除の確認なども当然されない！</strong></span> 十分気をつけてほしい。</p>
+<h2 id="データはどこに保存されているの"><a href="#データはどこに保存されているの" class="headerlink" title="データはどこに保存されているの?"></a>データはどこに保存されているの?</h2><p>最後に、MagicaVoxelのファイルはどこに保存されているかについて。</p>
+<p>MagicaVoxelのデータファイルはすべて<strong>インストールフォルダの中のvoxフォルダ</strong>に保存される。</p>
+<img src="/b/2015/10/16/magicavoxel/ss4.png" alt="ファイルはここ！" title="ファイルはここ！">
+<p>他所から持ってきたファイルを読み込みたい場合などは、ここに置くことでMagicaVoxelで開くことができるようになる。</p>
+<p><br><br><br></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-10-14T11:01:28.000Z"><a href="/b/2015/10/14/smartphone-stg/">2015-10-14</a></time>
       
       
@@ -697,7 +793,7 @@
   
     <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
   
-    <li><a href="/b/tags/WebGL/">WebGL</a><small>3</small></li>
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>4</small></li>
   
     <li><a href="/b/tags/blender/">blender</a><small>2</small></li>
   
@@ -705,11 +801,11 @@
   
     <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
   
-    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>12</small></li>
   
     <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
   
-    <li><a href="/b/tags/three-js/">three.js</a><small>4</small></li>
+    <li><a href="/b/tags/three-js/">three.js</a><small>5</small></li>
   
     <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
   

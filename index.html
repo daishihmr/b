@@ -55,6 +55,78 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2017-05-30T04:43:09.000Z"><a href="/b/2017/05/30/motioncontroller/">2017-05-30</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2017/05/30/motioncontroller/">phina.js + three.jsでモーションコントローラー作った</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！"><a href="#JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！" class="headerlink" title="JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！"></a>JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！</h2><p>そろそろJSでも3Dゲームの時代ってことで、俺が愛してやまない<a href="http://phinajs.com/" target="_blank" rel="external">phina.js</a>とそれほどでもない<a href="https://threejs.org/" target="_blank" rel="external">three.js</a>でゲームを作ってる。</p>
+<h2 id="モーションを再生したいんだぜ！"><a href="#モーションを再生したいんだぜ！" class="headerlink" title="モーションを再生したいんだぜ！"></a>モーションを再生したいんだぜ！</h2><p>3Dでゲームつったらやっぱボーン入れてモーションつけて動かしたいわけです。</p>
+<p>three.jsには<a href="https://blender.jp/" target="_blank" rel="external">blender</a>からデータを読み込む仕組みがあるので、これを利用してちょっとしたモーションコントローラーを作ってみた。</p>
+<p><a href="https://docs.unity3d.com/jp/540/Manual/AnimatorControllers.html" target="_blank" rel="external">Unityのやつ</a>を参考にしたのでわりと似ている。</p>
+<iframe src="http://github.dev7.jp/blog20170530/index.html" width="480" height="320"></iframe>
+
+<p>上記のサンプルはblenderで作成したモーションを読み込んで動かしてる。</p>
+<p>使い方はこんな感じで。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 敵キャラをロードしてシーンに配置</span></div><div class="line"><span class="keyword">let</span> enemy = SkinnedMesh(<span class="string">"enemy3"</span>).addChildTo(<span class="keyword">this</span>);</div><div class="line"></div><div class="line"><span class="comment">// アイドルモーション</span></div><div class="line"><span class="keyword">let</span> motionIdle = enemy.getMotion(<span class="string">"idle"</span>);</div><div class="line"><span class="comment">// アイドルモーションはループON</span></div><div class="line">motionIdle.setLoop(<span class="literal">true</span>);</div><div class="line"></div><div class="line"><span class="comment">// 攻撃モーション</span></div><div class="line"><span class="keyword">let</span> motionAttack = enemy.getMotion(<span class="string">"attack0"</span>);</div><div class="line"></div><div class="line"><span class="comment">// アイドルモーションにトランジションを追加。</span></div><div class="line"><span class="comment">// タップフラグが立ったら攻撃モーションへ移行する。</span></div><div class="line">motionIdle.addTransition(<span class="function"><span class="params">()</span> =&gt;</span> tapFlag, motionAttack, <span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="comment">// 攻撃モーションにトランジションを追加。</span></div><div class="line"><span class="comment">// モーションが「完了」したらアイドルモーションへ移行する。</span></div><div class="line">motionAttack.addTransition(<span class="string">"finished"</span>, motionIdle, <span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="comment">// 敵キャラのモーションをアイドルモーションにスイッチ。</span></div><div class="line">enemy.motionController.switchMotion(motionIdle);</div></pre></td></tr></table></figure>
+<p>まず、<a href="https://github.com/daishihmr/blog20170530/blob/master/SkinnedMesh.js" target="_blank" rel="external">SkinnedMesh</a>というクラスを用意した。</p>
+<p>これはthree.jsの<a href="https://threejs.org/examples/#webgl_animation_skinning_blending" target="_blank" rel="external">BlendCharacter</a>というクラスを単純にラップしたものだ。<a href="http://phina.js" target="_blank" rel="noopener noreferrer">phina.js</a><a href="http://のシーングラフに追加できるようにphina.app.Elementを継承している" target="_blank" rel="noopener noreferrer">のシーングラフに追加できるようにphina.app.Elementを継承している</a>。</p>
+<p>さらに<a href="https://github.com/daishihmr/blog20170530/blob/master/MotionController.js" target="_blank" rel="external">MotionController</a>というクラスを実装した。こちらはSkinnedMeshに付与できるアクセサリだ。</p>
+<p>BlendCharacterオブジェクトからはgetMotionメソッドでモーションオブジェクトを取り出すことが出来る。</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// アイドルモーション</span></div><div class="line"><span class="keyword">let</span> motionIdle = enemy.getMotion(<span class="string">"idle"</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 攻撃モーション</span></div><div class="line"><span class="keyword">let</span> motionAttack = enemy.getMotion(<span class="string">"attack0"</span>);</div></pre></td></tr></table></figure>
+<p>指定しているモーション名はblender上で名付けたやつだね。</p>
+<img src="/b/2017/05/30/motioncontroller/blender2.png" alt="blenderのAction" title="blenderのAction">
+<p>このモーションオブジェクトにはaddTransitionというメソッドが生えていて、他のモーションへの移行を条件とともに登録することができる。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// アイドルモーションにトランジションを追加。</span></div><div class="line"><span class="comment">// タップフラグが立ったら攻撃モーションへ移行する。</span></div><div class="line">motionIdle.addTransition(<span class="function"><span class="params">()</span> =&gt;</span> tapFlag, motionAttack, <span class="number">10</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 攻撃モーションにトランジションを追加。</span></div><div class="line"><span class="comment">// モーションが「完了」したらアイドルモーションへ移行する。</span></div><div class="line"><span class="selector-tag">motionAttack</span><span class="selector-class">.addTransition</span>(<span class="string">"finished"</span>, motionIdle, <span class="number">10</span>);</div></pre></td></tr></table></figure>
+<p>この条件の監視やモーションの移行を司っているのがMotionControllerというわけ。</p>
+<p>目玉としてはこのモーションのトランジションにはdurationを指定できて、モーションとモーションの間をなめらかにつなぐことが出来る。この機能には当然、みんな大好きphina.jsのTweenerを使っている。</p>
+<h2 id="今後どうすんだよ！"><a href="#今後どうすんだよ！" class="headerlink" title="今後どうすんだよ！"></a>今後どうすんだよ！</h2><p>とりあえず10月くらいまでにゲームを完成させたい。</p>
+<p>んで、出来た機能はまとめてphina.js用のプラグインとしてリリースしたいと思っている。</p>
+<h2 id="ソースとか"><a href="#ソースとか" class="headerlink" title="ソースとか"></a>ソースとか</h2><p>サンプルのソースは<a href="https://github.com/daishihmr/blog20170530" target="_blank" rel="external">こちら</a></p>
+
+      
+
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  </div>
+</article>
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2017-05-22T11:56:38.000Z"><a href="/b/2017/05/22/threejs-blender-skinned/">2017-05-22</a></time>
       
       
@@ -657,70 +729,6 @@
 
 
 
-  
-
-<article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-06-13T06:37:47.000Z"><a href="/b/2016/06/13/magicavoxelexport/">2016-06-13</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/b/2016/06/13/magicavoxelexport/">MagicaVoxel OBJエクスポート時の設定について</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="OBJエクスポート時の設定について"><a href="#OBJエクスポート時の設定について" class="headerlink" title="OBJエクスポート時の設定について"></a>OBJエクスポート時の設定について</h1><p>設定をアレコレいじるには、MagicaVoxelのインストールフォルダにある config/config.txt ファイルを編集します。</p>
-<h2 id="最適化をやめる"><a href="#最適化をやめる" class="headerlink" title="最適化をやめる"></a>最適化をやめる</h2><p>同じ色毎に面をマージする設定のオン／オフを切り替えます。</p>
-<h4 id="最適化オン"><a href="#最適化オン" class="headerlink" title="最適化オン"></a>最適化オン</h4><img src="/b/2016/06/13/magicavoxelexport/ss2.png" alt="最適化オン" title="最適化オン">
-<h4 id="最適化オフ"><a href="#最適化オフ" class="headerlink" title="最適化オフ"></a>最適化オフ</h4><img src="/b/2016/06/13/magicavoxelexport/ss3.png" alt="最適化オフ" title="最適化オフ">
-<h4 id="やりかた"><a href="#やりかた" class="headerlink" title="やりかた"></a>やりかた</h4><p>ファイル config/config.txt の file_obj -&gt; optimize を’1’に設定するとオン、’0’にするとオフになります。</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">file_obj</div><div class="line">(</div><div class="line">  (省略)</div><div class="line"></div><div class="line">  optimize    = <span class="string">'1'</span>     <span class="regexp">//</span> ←ここ</div><div class="line"><span class="regexp">//</span>optimize    = <span class="string">'0'</span>     <span class="regexp">//</span> こうするとオフ</div><div class="line">)</div></pre></td></tr></table></figure>
-<h2 id="中心点を決める"><a href="#中心点を決める" class="headerlink" title="中心点を決める"></a>中心点を決める</h2><p>objデータの空間上の中心座標を決めます。</p>
-<h4 id="接地面を中心に"><a href="#接地面を中心に" class="headerlink" title="接地面を中心に"></a>接地面を中心に</h4><img src="/b/2016/06/13/magicavoxelexport/ss5.png" alt="(0.5, 0.5, 0.0)" title="(0.5, 0.5, 0.0)">
-<h4 id="モデルの真ん中を中心に"><a href="#モデルの真ん中を中心に" class="headerlink" title="モデルの真ん中を中心に"></a>モデルの真ん中を中心に</h4><img src="/b/2016/06/13/magicavoxelexport/ss4.png" alt="(0.5, 0.5, 0.5)" title="(0.5, 0.5, 0.5)">
-<h4 id="やりかた-1"><a href="#やりかた-1" class="headerlink" title="やりかた"></a>やりかた</h4><figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">file_obj</div><div class="line"><span class="comment">(</span></div><div class="line">  (省略)</div><div class="line">  </div><div class="line">  pivot     = <span class="string">'0.5 0.5 0'</span> <span class="comment">// ←ここ</span></div><div class="line"></div><div class="line">  <span class="comment">(省略)</span></div><div class="line">)</div></pre></td></tr></table></figure>
-<h2 id="その他"><a href="#その他" class="headerlink" title="その他"></a>その他</h2><ul>
-<li>出力時スケール</li>
-<li>UV座標のオフセット</li>
-<li>面方向（頂点指定の周回方向）</li>
-<li>座標軸</li>
-</ul>
-<p>などを設定することができます。</p>
-
-      
-
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- daishiblog-post2 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-3487863134090836"
-     data-ad-slot="4822197721"
-     data-ad-format="auto"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-  </div>
-</article>
-
-
-
-
 
 <nav id="pagination">
   
@@ -771,7 +779,7 @@
   
     <li><a href="/b/tags/Unity/">Unity</a><small>1</small></li>
   
-    <li><a href="/b/tags/WebGL/">WebGL</a><small>3</small></li>
+    <li><a href="/b/tags/WebGL/">WebGL</a><small>4</small></li>
   
     <li><a href="/b/tags/blender/">blender</a><small>2</small></li>
   
@@ -779,11 +787,11 @@
   
     <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
   
-    <li><a href="/b/tags/phina-js/">phina.js</a><small>11</small></li>
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>12</small></li>
   
     <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
   
-    <li><a href="/b/tags/three-js/">three.js</a><small>4</small></li>
+    <li><a href="/b/tags/three-js/">three.js</a><small>5</small></li>
   
     <li><a href="/b/tags/プリキュア/">プリキュア</a><small>1</small></li>
   
