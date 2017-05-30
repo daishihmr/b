@@ -31,7 +31,7 @@ vox.jsというわけで、MagicaV">
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','<a href="//www.google-analytics.com/analytics.js','ga'" target="_blank" rel="noopener noreferrer">www.google-analytics.com/analytics.js','ga'</a>);
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 	ga('create', 'UA-968682-24', 'auto');
 	ga('send', 'pageview');
@@ -80,13 +80,13 @@ vox.jsというわけで、MagicaV">
       
         <h2 id="時代はボクセル！"><a href="#時代はボクセル！" class="headerlink" title="時代はボクセル！"></a>時代はボクセル！</h2><p>ゲーム「<a href="http://www.crossyroad.com/ja/" target="_blank" rel="external">Crossy Road</a>」とか映画「<a href="http://www.pixel-movie.jp/" target="_blank" rel="external">ピクセル</a>」とかあるしね。</p>
 <h2 id="MagicaVoxelってなんだ"><a href="#MagicaVoxelってなんだ" class="headerlink" title="MagicaVoxelってなんだ"></a>MagicaVoxelってなんだ</h2><p><a href="https://ephtracy.github.io/" target="_blank" rel="external">MagicaVoxel</a><br><img src="https://ephtracy.github.io/image/snap0105.png" alt=""></p>
-<p><a href="https://twitter.com/ephtracy" target="_blank" rel="noopener noreferrer">@ephtracy</a> さんが開発された、ボクセルアート作成ツールです。</p>
+<p>@ephtracy さんが開発された、ボクセルアート作成ツールです。</p>
 <p>シンプルな操作系とサクサクした動作の軽さが魅力！</p>
 <h2 id="vox-js"><a href="#vox-js" class="headerlink" title="vox.js"></a>vox.js</h2><p>というわけで、MagicaVoxelで作ったデータをJSで読み込むライブラリを作りました。</p>
 <p><a href="http://daishihmr.github.io/vox.js/" target="_blank" rel="external">vox.js</a></p>
 <p>使い方は簡単。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"<a href="https://cdn.rawgit.com/daishihmr/vox.js/1.0.1/build/vox.min.js" target="_blank" rel="noopener noreferrer">https://cdn.rawgit.com/daishihmr/vox.js/1.0.1/build/vox.min.js</a>"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// パーサーを作ります</span></div><div class="line"><span class="keyword">var</span> parser = <span class="keyword">new</span> vox.Parser();</div><div class="line"></div><div class="line"><span class="comment">// *.voxファイルを読み込みます</span></div><div class="line">parser.parse(<span class="string">"hoge.vox"</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params">voxelData</span>) </span>&<a href="https://twitter.com/hashtag/123" target="_blank" rel="noopener noreferrer">#123</a>; <span class="comment">// ←ボクセルデータが取れます</span></div><div class="line"></div><div class="line">  <span class="comment">// データ全体の大きさ</span></div><div class="line">  voxelData.size; <span class="comment">// =&gt; &<a href="https://twitter.com/hashtag/123" target="_blank" rel="noopener noreferrer">#123</a>; x: number, y: number, z: number &<a href="https://twitter.com/hashtag/125" target="_blank" rel="noopener noreferrer">#125</a>;</span></div><div class="line"></div><div class="line">  <span class="comment">// ボクセルの配列</span></div><div class="line">  voxelData.voxels; <span class="comment">// =&gt; [Voxel, Voxel, Voxel, ...]</span></div><div class="line"></div><div class="line">  <span class="comment">// ボクセル一個のデータ</span></div><div class="line">  voxelData.voxels[<span class="number">0</span>]; <span class="comment">// =&gt; &<a href="https://twitter.com/hashtag/123" target="_blank" rel="noopener noreferrer">#123</a>; x: number, y: number, z: number, colorIndex: number &<a href="https://twitter.com/hashtag/125" target="_blank" rel="noopener noreferrer">#125</a>;</span></div><div class="line"></div><div class="line">  <span class="comment">// カラーパレット</span></div><div class="line">  voxelData.palette; <span class="comment">// =&gt; [Color, Color, Color, ...]</span></div><div class="line">  voxelData.palette[<span class="number">0</span>]; <span class="comment">// =&gt; &<a href="https://twitter.com/hashtag/123" target="_blank" rel="noopener noreferrer">#123</a>; r: number, g: number, b: number, a: number &<a href="https://twitter.com/hashtag/125" target="_blank" rel="noopener noreferrer">#125</a>;</span></div><div class="line"></div><div class="line">&<a href="https://twitter.com/hashtag/125" target="_blank" rel="noopener noreferrer">#125</a>;);</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.rawgit.com/daishihmr/vox.js/1.0.1/build/vox.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// パーサーを作ります</span></div><div class="line"><span class="keyword">var</span> parser = <span class="keyword">new</span> vox.Parser();</div><div class="line"></div><div class="line"><span class="comment">// *.voxファイルを読み込みます</span></div><div class="line">parser.parse(<span class="string">"hoge.vox"</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params">voxelData</span>) </span>&#123; <span class="comment">// ←ボクセルデータが取れます</span></div><div class="line"></div><div class="line">  <span class="comment">// データ全体の大きさ</span></div><div class="line">  voxelData.size; <span class="comment">// =&gt; &#123; x: number, y: number, z: number &#125;</span></div><div class="line"></div><div class="line">  <span class="comment">// ボクセルの配列</span></div><div class="line">  voxelData.voxels; <span class="comment">// =&gt; [Voxel, Voxel, Voxel, ...]</span></div><div class="line"></div><div class="line">  <span class="comment">// ボクセル一個のデータ</span></div><div class="line">  voxelData.voxels[<span class="number">0</span>]; <span class="comment">// =&gt; &#123; x: number, y: number, z: number, colorIndex: number &#125;</span></div><div class="line"></div><div class="line">  <span class="comment">// カラーパレット</span></div><div class="line">  voxelData.palette; <span class="comment">// =&gt; [Color, Color, Color, ...]</span></div><div class="line">  voxelData.palette[<span class="number">0</span>]; <span class="comment">// =&gt; &#123; r: number, g: number, b: number, a: number &#125;</span></div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <h2 id="Three-jsで表示"><a href="#Three-jsで表示" class="headerlink" title="Three.jsで表示"></a>Three.jsで表示</h2><p>読み込んだボクセルデータをTHREE.Meshに変換する機能も持っています。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ビルダーを作ります。引数にボクセルデータをわたします</span></div><div class="line"><span class="keyword">var</span> builder = <span class="keyword">new</span> vox.MeshBuilder(voxelData);</div><div class="line"><span class="comment">// THREE.Meshを作ります</span></div><div class="line"><span class="keyword">var</span> mesh = builder.createMesh();</div><div class="line"></div><div class="line"><span class="comment">// THREE.Sceneに追加するなどして使ってください</span></div><div class="line">scene.add(mesh);</div></pre></td></tr></table></figure>
 <p>できたー！<br><img src="/b/2015/09/30/voxjs/ranun.png" alt="ラナン" title="ラナン"></p>
@@ -133,15 +133,11 @@ vox.jsというわけで、MagicaV">
   <h1 class="title">Comments</h1>
 
   
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
-  
 </section>
 
 </div></div>
     <aside id="sidebar" class="alignright">
-  <div class="github-card" data-user="daishihmr" data-theme="medium"></div>
+  <div class="github-card" data-user="daishihmr" data-theme="medium" width="270px"></div>
 <script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
 
 <div class="widget">
@@ -212,18 +208,6 @@ vox.jsというわけで、MagicaV">
 <script src="/b/js/jquery.imagesloaded.min.js"></script>
 <script src="/b/js/gallery.js"></script>
 
-
-<script type="text/javascript">
-var disqus_shortname = 'daishiblog';
-
-(function(){
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '<a href="http://.disqus.com/embed.js'" target="_blank" rel="noopener noreferrer">.disqus.com/embed.js'</a>;
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-}());
-</script>
 
 
 

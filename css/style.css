@@ -5,6 +5,10 @@
   font-weight: normal;
   src: url("font/fontawesome-webfont.eot?#iefix") format('embedded-opentype'), url("font/fontawesome-webfont.woff") format('woff'), url("font/fontawesome-webfont.ttf") format('truetype'), url("font/fontawesome-webfont.svg#FontAwesomeRegular") format('svg');
 }
+@font-face {
+  font-family: uni;
+  src: url("font/uni.ttf") format('truetype');
+}
 * {
   margin: 0;
   padding: 0;
@@ -333,7 +337,7 @@ article .entry blockquote footer cite:before {
 }
 article .entry code,
 article .entry pre {
-  font-family: Monaco, Menlo, Consolas, Courier New, monospace;
+  font-family: uni, Monaco, Menlo, Consolas, Courier New, monospace;
 }
 article .entry code {
   background: #eee;
@@ -683,7 +687,7 @@ article footer .addthis iframe {
 }
 .entry .gist .gist-file .gist-data pre {
   padding: 0 !important;
-  font-family: Monaco, Menlo, Consolas, Courier New, monospace;
+  font-family: uni, Monaco, Menlo, Consolas, Courier New, monospace;
 }
 .entry .gist .gist-file .gist-meta {
   background: none;
@@ -701,15 +705,15 @@ article footer .addthis iframe {
 }
 figure.highlight {
   background: #eee;
-  border: 1px solid #ddd;
+  border: 0;
   margin-top: 15px;
-  padding: 7px 15px;
-  border-radius: 2px;
+  padding: 0;
   text-shadow: 0 0 1px #fff;
   line-height: 1.6;
   overflow: auto;
   position: relative;
-  font-size: 0.9em;
+  font-family: 'uni';
+  font-size: 1.1em;
 }
 figure.highlight figcaption {
   color: #999;
@@ -738,7 +742,8 @@ figure.highlight .gutter {
 figure.highlight .code {
   padding-left: 15px;
   border-left: 1px solid #fff;
-  color: #666;
+  color: #111;
+  font-weight: bold;
 }
 figure.highlight .line {
   height: 20px;
