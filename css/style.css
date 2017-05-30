@@ -5,18 +5,6 @@
   font-weight: normal;
   src: url("font/fontawesome-webfont.eot?#iefix") format('embedded-opentype'), url("font/fontawesome-webfont.woff") format('woff'), url("font/fontawesome-webfont.ttf") format('truetype'), url("font/fontawesome-webfont.svg#FontAwesomeRegular") format('svg');
 }
-@font-face {
-  font-family: 'uni';
-  src: url("font/uni.ttf");
-}
-@font-face {
-  font-family: 'Yasashisa';
-  src: url("font/yasashisa_gothic.ttf");
-}
-@font-face {
-  font-family: 'ipag';
-  src: url("font/ipag.ttf");
-}
 * {
   margin: 0;
   padding: 0;
@@ -24,7 +12,7 @@
 body {
   background: #eee;
   color: #444;
-  font-family: "Yasashisa", sans-serif;
+  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
   font-size: 14px;
   text-shadow: 0 0 1px transparent;
 }
@@ -44,7 +32,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Yasashisa", sans-serif;
+  font-family: "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 h1 {
   font-size: 1.8em;
@@ -118,7 +106,7 @@ a:hover {
   margin: 50px auto;
 }
 #header a {
-  color: #4563a1;
+  color: #999;
 }
 #header a:hover {
   color: #258fb8;
@@ -136,7 +124,7 @@ a:hover {
   margin-top: 10px;
 }
 #header #main-nav {
-  font-family: "Yasashisa", sans-serif;
+  font-family: "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
   line-height: 2.5em;
 }
 #header #main-nav ul {
@@ -168,7 +156,7 @@ article.link .icon:before {
 }
 article.link .title a:after {
   content: '\f08e';
-  color: #558bf6;
+  color: #999;
   font: 12px FontAwesome;
   padding-left: 10px;
   vertical-align: super;
@@ -269,8 +257,8 @@ article header .icon:before {
   text-align: center;
 }
 article header time {
-  color: #558bf6;
-  font: 0.9em "Yasashisa", sans-serif;
+  color: #999;
+  font: 0.9em "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
   margin-bottom: 5px;
   display: block;
   line-height: 1;
@@ -303,11 +291,30 @@ article .entry h6,
 article .entry .video-container {
   margin-top: 15px;
 }
+article .entry table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+  border: 1px solid #e2e2e2;
+  width: 100%;
+}
+article .entry table th {
+  white-space: nowrap;
+  color: #444;
+  font-weight: 600;
+  background: #eee;
+}
+article .entry table td,
+article .entry table th {
+  border: 1px solid #e2e2e2;
+  padding: 8px 16px;
+  text-align: left;
+}
 article .entry blockquote {
-  border-top: 1px solid #e7eefe;
-  border-bottom: 1px solid #e7eefe;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   font-style: italic;
-  font-family: "Yasashisa", serif;
+  font-family: "Georgia", serif;
   font-size: 1.2em;
   padding: 0 30px 15px;
   text-align: center;
@@ -326,7 +333,7 @@ article .entry blockquote footer cite:before {
 }
 article .entry code,
 article .entry pre {
-  font-family: "uni", monospace;
+  font-family: Monaco, Menlo, Consolas, Courier New, monospace;
 }
 article .entry code {
   background: #eee;
@@ -334,12 +341,12 @@ article .entry code {
   padding: 0 5px;
   margin: 0 2px;
   font-size: 0.9em;
-  border: 1px solid #e7eefe;
+  border: 1px solid #ddd;
   border-radius: 3px;
 }
 article .entry pre {
   background: #eee;
-  border: 1px solid #e7eefe;
+  border: 1px solid #ddd;
   margin-top: 15px;
   overflow: auto;
   padding: 7px 15px;
@@ -371,18 +378,15 @@ article .entry dl dl {
 article .entry h1,
 article .entry h2 {
   font-weight: normal;
-  border-bottom: 4px dotted #e7eefe;
+  border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
-  margin-top: 80px;
-  margin-bottom: 10px;
+  margin-top: 20px;
 }
 article .entry h3,
 article .entry h4,
 article .entry h5,
 article .entry h6 {
-  font-weight: bold;
-  margin-top: 60px;
-  margin-bottom: 10px;
+  font-weight: normal;
 }
 article .entry img,
 article .entry video {
@@ -396,7 +400,7 @@ article .entry iframe {
 article .entry .caption {
   display: block;
   margin-top: 5px;
-  color: #558bf6;
+  color: #999;
   position: relative;
   font-size: 0.9em;
   padding-left: 25px;
@@ -438,15 +442,15 @@ article .entry .pullquote {
 article footer {
   margin-top: 15px;
   padding-top: 10px;
-  border-top: 1px solid #e7eefe;
-  color: #558bf6;
+  border-top: 1px solid #ddd;
+  color: #999;
   font-size: 0.9em;
   line-height: 16px;
   position: relative;
   min-height: 16px;
 }
 article footer a {
-  color: #558bf6;
+  color: #999;
 }
 article footer a:hover {
   color: #258fb8;
@@ -504,9 +508,9 @@ article footer .addthis iframe {
 #pagination a {
   display: block;
   padding: 5px 10px;
-  background: #e7eefe;
-  color: #558bf6;
-  font-family: "Yasashisa", sans-serif;
+  background: #ddd;
+  color: #999;
+  font-family: "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
   text-shadow: 0 0 1px #fff;
   margin-bottom: 50px;
 }
@@ -527,7 +531,7 @@ article footer .addthis iframe {
   font-family: FontAwesome;
 }
 .archive-title {
-  color: #558bf6;
+  color: #999;
   font-weight: normal;
   margin-bottom: 30px;
   text-shadow: 0 0 1px #fff;
@@ -544,9 +548,9 @@ article footer .addthis iframe {
   content: '\f07b';
 }
 .archive {
-  -webkit-box-shadow: 1px 2px 3px #e7eefe;
-  box-shadow: 1px 2px 3px #e7eefe;
-  border-bottom: 1px solid #e7eefe;
+  -webkit-box-shadow: 1px 2px 3px #ddd;
+  box-shadow: 1px 2px 3px #ddd;
+  border-bottom: 1px solid #ddd;
   margin-bottom: 50px;
 }
 .archive article {
@@ -576,7 +580,7 @@ article footer .addthis iframe {
 #sidebar .widget .title {
   padding: 15px 20px;
   font-size: 1em;
-  border-bottom: 1px solid #e7eefe;
+  border-bottom: 1px solid #ddd;
   font-weight: normal;
 }
 #sidebar .widget .entry {
@@ -605,23 +609,23 @@ article footer .addthis iframe {
 }
 #sidebar .search input {
   background: #fff;
-  font-family: "Yasashisa", sans-serif;
+  font-family: "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
   font-style: italic;
   font-size: 1em;
   padding: 10px 15px;
-  border: 1px solid #e7eefe;
+  border: 1px solid #ddd;
   width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  color: #558bf6;
+  color: #999;
 }
 #sidebar .search input:focus {
   color: #444;
 }
 #sidebar .tag small {
   margin-left: 15px;
-  color: #558bf6;
+  color: #999;
 }
 #sidebar .tag small:before {
   content: '(';
@@ -630,7 +634,7 @@ article footer .addthis iframe {
   content: ')';
 }
 #sidebar .twitter li {
-  border-bottom: 1px solid #e7eefe;
+  border-bottom: 1px solid #ddd;
   padding: 15px 20px;
   font-size: 0.9em;
 }
@@ -640,7 +644,7 @@ article footer .addthis iframe {
 #sidebar .twitter small {
   display: block;
   margin-top: 10px;
-  color: #558bf6;
+  color: #999;
   line-height: 1;
 }
 #sidebar .tagcloud .entry {
@@ -651,14 +655,14 @@ article footer .addthis iframe {
   display: inline-block;
 }
 #footer {
-  color: #558bf6;
+  color: #999;
   margin-bottom: 50px;
-  font: 0.9em/1.6 "Yasashisa", sans-serif;
+  font: 0.9em/1.6 "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
   text-shadow: 0 0 1px #fff;
 }
 .entry .gist {
   background: #eee;
-  border: 1px solid #e7eefe;
+  border: 1px solid #ddd;
   margin-top: 15px;
   padding: 7px 15px;
   border-radius: 2px;
@@ -679,11 +683,11 @@ article footer .addthis iframe {
 }
 .entry .gist .gist-file .gist-data pre {
   padding: 0 !important;
-  font-family: "uni", monospace;
+  font-family: Monaco, Menlo, Consolas, Courier New, monospace;
 }
 .entry .gist .gist-file .gist-meta {
   background: none;
-  color: #558bf6;
+  color: #999;
   margin-top: 5px;
   padding: 0;
   text-shadow: 0 0 1px #fff;
@@ -697,7 +701,7 @@ article footer .addthis iframe {
 }
 figure.highlight {
   background: #eee;
-  border: 1px solid #e7eefe;
+  border: 1px solid #ddd;
   margin-top: 15px;
   padding: 7px 15px;
   border-radius: 2px;
@@ -706,10 +710,9 @@ figure.highlight {
   overflow: auto;
   position: relative;
   font-size: 0.9em;
-  font-weight: bold;
 }
 figure.highlight figcaption {
-  color: #558bf6;
+  color: #999;
   margin-bottom: 5px;
   text-shadow: 0 0 1px #fff;
 }
@@ -727,9 +730,9 @@ figure.highlight table {
   border-spacing: 0;
 }
 figure.highlight .gutter {
-  color: #558bf6;
+  color: #999;
   padding-right: 15px;
-  border-right: 1px solid #e7eefe;
+  border-right: 1px solid #ddd;
   text-align: right;
 }
 figure.highlight .code {
@@ -739,6 +742,9 @@ figure.highlight .code {
 }
 figure.highlight .line {
   height: 20px;
+}
+figure.highlight .line.marked {
+  background: #d6d6d6;
 }
 pre .comment,
 pre .template_comment,

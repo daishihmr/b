@@ -35,8 +35,8 @@
 <p>これはthree.jsの<a href="https://threejs.org/examples/#webgl_animation_skinning_blending" target="_blank" rel="external">BlendCharacter</a>というクラスを単純にラップしたものだ。phina.js のシーングラフに追加できるように<a href="https://github.com/phinajs/phina.js/blob/develop/src/app/element.js" target="_blank" rel="external">phina.app.Element</a>を継承している。</p>
 <p>さらに<a href="https://github.com/daishihmr/blog20170530/blob/master/MotionController.js" target="_blank" rel="external">MotionController</a>というクラスを実装した。こちらはSkinnedMeshに付与できる<a href="http://qiita.com/minimo/items/25304f0834ecff853077" target="_blank" rel="external">アクセサリ</a>だ。</p>
 <p>SkinnedMeshオブジェクトからはgetMotionメソッドでモーションオブジェクトを取り出すことが出来る。</p>
-<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// アイドルモーション</span></div><div class="line"><span class="keyword">let</span> motionIdle = enemy.getMotion(<span class="string">"idle"</span>);</div></pre></td></tr></table></figure>
-<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 攻撃モーション</span></div><div class="line"><span class="keyword">let</span> motionAttack = enemy.getMotion(<span class="string">"attack0"</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// アイドルモーション</span></div><div class="line"><span class="keyword">let</span> motionIdle = enemy.getMotion(<span class="string">"idle"</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 攻撃モーション</span></div><div class="line"><span class="keyword">let</span> motionAttack = enemy.getMotion(<span class="string">"attack0"</span>);</div></pre></td></tr></table></figure>
 <p>指定しているモーション名はblender上で名付けたやつだね。</p>
 <img src="/b/2017/05/30/motioncontroller/blender2.png" alt="blenderのAction" title="blenderのAction">
 <p>このモーションオブジェクトにはaddTransitionというメソッドが生えていて、他のモーションへの移行を条件とともに登録することができる。</p>
@@ -88,9 +88,9 @@
     
       <category term="three.js" scheme="http://github.dev7.jp/tags/three-js/"/>
     
-      <category term="WebGL" scheme="http://github.dev7.jp/tags/WebGL/"/>
-    
       <category term="blender" scheme="http://github.dev7.jp/tags/blender/"/>
+    
+      <category term="WebGL" scheme="http://github.dev7.jp/tags/WebGL/"/>
     
   </entry>
   
