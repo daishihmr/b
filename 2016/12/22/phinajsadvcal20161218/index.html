@@ -80,22 +80,22 @@
     </header>
     <div class="entry">
       
-        <p><a href="http://qiita.com/advent-calendar/2016/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2016</a>の18日目です。<strong>大遅刻！</strong></p>
+        <p><a href="http://qiita.com/advent-calendar/2016/phinajs" target="_blank" rel="noopener">phina.js Advent Calendar 2016</a>の18日目です。<strong>大遅刻！</strong></p>
 <ul>
-<li>昨日 <a href="http://qiita.com/minimo/items/b55b792c2fa19964acb4" target="_blank" rel="external">phina.jsでTiledMapEditorを利用する by minimoさん</a></li>
-<li>明日 <a href="http://qiita.com/minimo/items/a0aa17d05172b5bfca70" target="_blank" rel="external">phina.jsでスプライトをpixi.jsを利用して描画する by minimoさん</a></li>
+<li>昨日 <a href="http://qiita.com/minimo/items/b55b792c2fa19964acb4" target="_blank" rel="noopener">phina.jsでTiledMapEditorを利用する by minimoさん</a></li>
+<li>明日 <a href="http://qiita.com/minimo/items/a0aa17d05172b5bfca70" target="_blank" rel="noopener">phina.jsでスプライトをpixi.jsを利用して描画する by minimoさん</a></li>
 </ul>
-<h2 id="今回のアレ"><a href="#今回のアレ" class="headerlink" title="今回のアレ"></a>今回のアレ</h2><img src="/b/2016/12/22/phinajsadvcal20161218/top.png" alt="ズァッ！！" title="ズァッ！！">
+<h2 id="今回のアレ"><a href="#今回のアレ" class="headerlink" title="今回のアレ"></a>今回のアレ</h2><img src="/b/2016/12/22/phinajsadvcal20161218/top.png" title="ズァッ！！">
 <p>うごくやつはこちら→<a href="http://github.dev7.jp/phinajsadvcal20161218/">http://github.dev7.jp/phinajsadvcal20161218/</a></p>
 <h2 id="WebGLでいろいろしたいぜ！"><a href="#WebGLでいろいろしたいぜ！" class="headerlink" title="WebGLでいろいろしたいぜ！"></a>WebGLでいろいろしたいぜ！</h2><p><a href="http://github.dev7.jp/b/2015/12/10/phinaadvcal20151210/">去年の記事</a>で紹介したように、phina.jsはレイヤーを使ってWebGLの描画結果を自分のシーングラフに追加することが出来る。</p>
 <p>このしくみを使っていろいろうまいことをやってしまおうというのが今回の趣旨。</p>
 <p>WebGLといえば3DCGなわけだが、それだけではない。GPUあまりある計算能力を2Dゲームへ応用すれば色々と面白いことを実現することが出来る。</p>
 <h2 id="インスタンシングを使って大量に表示するぜ！"><a href="#インスタンシングを使って大量に表示するぜ！" class="headerlink" title="インスタンシングを使って大量に表示するぜ！"></a>インスタンシングを使って大量に表示するぜ！</h2><p>WebGLにはインスタンシングという拡張機能があって、それを使えば同じ種類のオブジェクトを大量かつ高速に描画することが出来る。</p>
 <p>そんなわけなので、四角いポリゴン板に画像を貼ったメッシュをたくさん描けば<strong>超弾幕</strong>が可能なのだ。</p>
-<img src="/b/2016/12/22/phinajsadvcal20161218/kimomo.jpg" alt="超弾幕" title="超弾幕">
+<img src="/b/2016/12/22/phinajsadvcal20161218/kimomo.jpg" title="超弾幕">
 <h2 id="ポストプロセッシングでいろいろフィルターをかけるぜ！"><a href="#ポストプロセッシングでいろいろフィルターをかけるぜ！" class="headerlink" title="ポストプロセッシングでいろいろフィルターをかけるぜ！"></a>ポストプロセッシングでいろいろフィルターをかけるぜ！</h2><p>一旦描画した結果をテクスチャとして取り込み、シェーダーを使ってさらにいろいろと効果をかけることもできる。</p>
-<img src="/b/2016/12/22/phinajsadvcal20161218/reverse.png" alt="ネガポジ反転したり" title="ネガポジ反転したり">
-<img src="/b/2016/12/22/phinajsadvcal20161218/mosaic.png" alt="モザイク処理したり" title="モザイク処理したり">
+<img src="/b/2016/12/22/phinajsadvcal20161218/reverse.png" title="ネガポジ反転したり">
+<img src="/b/2016/12/22/phinajsadvcal20161218/mosaic.png" title="モザイク処理したり">
 <h2 id="どうやってやるんだよ？"><a href="#どうやってやるんだよ？" class="headerlink" title="どうやってやるんだよ？"></a>どうやってやるんだよ？</h2><p>以前からちょっとずつ作っている俺専用WebGLライブラリである<strong>phigl.js</strong>というのがあって、今回はそれを使ってみた。</p>
 <p>phigl.jsはphina.jsと一緒に使うことを前提とした薄～いWebGLライブラリ。</p>
 <p>高度な機能はないけど、ちょっとしたことをやりたい時は便利かもしれない。</p>
@@ -109,8 +109,8 @@
 <li>テクスチャを扱う機能</li>
 </ul>
 <h2 id="今回作ったもの"><a href="#今回作ったもの" class="headerlink" title="今回作ったもの"></a>今回作ったもの</h2><p><a href="http://github.dev7.jp/phinajsadvcal20161218/">うごくやつ</a></p>
-<p><a href="https://github.com/daishihmr/phinajsadvcal20161218" target="_blank" rel="external">github</a> (<a href="https://github.com/daishihmr/phinajsadvcal20161218/archive/gh-pages.zip" target="_blank" rel="external">download-zip</a>)</p>
-<p><a href="https://github.com/daishihmr/phigl.js" target="_blank" rel="external">phigl.js - phina.jsでWebGLを使うための俺専用スーパー最強ライブラリ</a></p>
+<p><a href="https://github.com/daishihmr/phinajsadvcal20161218" target="_blank" rel="noopener">github</a> (<a href="https://github.com/daishihmr/phinajsadvcal20161218/archive/gh-pages.zip" target="_blank" rel="noopener">download-zip</a>)</p>
+<p><a href="https://github.com/daishihmr/phigl.js" target="_blank" rel="noopener">phigl.js - phina.jsでWebGLを使うための俺専用スーパー最強ライブラリ</a></p>
 
       
     </div>
@@ -200,6 +200,8 @@
   
     <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
   
+    <li><a href="/b/tags/Live2D/">Live2D</a><small>1</small></li>
+  
     <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
   
     <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
@@ -216,7 +218,7 @@
   
     <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
   
-    <li><a href="/b/tags/phina-js/">phina.js</a><small>12</small></li>
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>13</small></li>
   
     <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
   

@@ -76,14 +76,14 @@
     </header>
     <div class="entry">
       
-        <p><a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2015</a>の20日目です。</p>
-<p>前 <a href="http://qiita.com/emadurandal/items/93223877936b5dc767f5" target="_blank" rel="external">emadurandalさん</a><br>次 <a href="http://qiita.com/minimo/items/1e28c2e892d75d08e93a" target="_blank" rel="external">minimoさん</a></p>
-<h1 id="3Dのゲームを作るよ！"><a href="#3Dのゲームを作るよ！" class="headerlink" title="3Dのゲームを作るよ！"></a>3Dのゲームを作るよ！</h1><p>@emadurandal さんが<a href="http://qiita.com/emadurandal/items/93223877936b5dc767f5" target="_blank" rel="external">昨日の記事</a>でご紹介されていたとおりphina.jsにはThreeLayerというものがあり、three.jsと連携して3Dゲームを作ることが出来ます。</p>
+        <p><a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="noopener">phina.js Advent Calendar 2015</a>の20日目です。</p>
+<p>前 <a href="http://qiita.com/emadurandal/items/93223877936b5dc767f5" target="_blank" rel="noopener">emadurandalさん</a><br>次 <a href="http://qiita.com/minimo/items/1e28c2e892d75d08e93a" target="_blank" rel="noopener">minimoさん</a></p>
+<h1 id="3Dのゲームを作るよ！"><a href="#3Dのゲームを作るよ！" class="headerlink" title="3Dのゲームを作るよ！"></a>3Dのゲームを作るよ！</h1><p>@emadurandal さんが<a href="http://qiita.com/emadurandal/items/93223877936b5dc767f5" target="_blank" rel="noopener">昨日の記事</a>でご紹介されていたとおりphina.jsにはThreeLayerというものがあり、three.jsと連携して3Dゲームを作ることが出来ます。</p>
 <p>というわけでさっそくやってみました。</p>
-<h2 id="バトルシップ！"><a href="#バトルシップ！" class="headerlink" title="バトルシップ！"></a>バトルシップ！</h2><img src="/b/2015/12/20/phinaadvcal20151220/ss.png" alt="おふね～" title="おふね～">
-<p>私が過去に作った<a href="http://9leap.net/games/3592" target="_blank" rel="external">大海戦！ヤマトさん</a>というゲームを3D化したものを開発しています。</p>
-<p>まだ作成途中ですが、three.jsのExampleフォルダに入っている<a href="http://threejs.org/examples/webgl_shaders_ocean.html" target="_blank" rel="external">WaterShader</a>を<del>丸パクリ</del>利用してみました。</p>
-<p>また、<a href="https://ephtracy.github.io/" target="_blank" rel="external">MagicaVoxel</a>のvoxファイルをjsで使うためのライブラリ<a href="http://github.dev7.jp/vox.js/">vox.js</a>を使い、20分でモデリングした大和型戦艦を登場させています。</p>
+<h2 id="バトルシップ！"><a href="#バトルシップ！" class="headerlink" title="バトルシップ！"></a>バトルシップ！</h2><img src="/b/2015/12/20/phinaadvcal20151220/ss.png" title="おふね～">
+<p>私が過去に作った<a href="http://9leap.net/games/3592" target="_blank" rel="noopener">大海戦！ヤマトさん</a>というゲームを3D化したものを開発しています。</p>
+<p>まだ作成途中ですが、three.jsのExampleフォルダに入っている<a href="http://threejs.org/examples/webgl_shaders_ocean.html" target="_blank" rel="noopener">WaterShader</a>を<del>丸パクリ</del>利用してみました。</p>
+<p>また、<a href="https://ephtracy.github.io/" target="_blank" rel="noopener">MagicaVoxel</a>のvoxファイルをjsで使うためのライブラリ<a href="http://github.dev7.jp/vox.js/">vox.js</a>を使い、20分でモデリングした大和型戦艦を登場させています。</p>
 <p>今回の記事ではphina.jsとthree.jsを連携する上でいくつか気づいたことをまとめてみます。</p>
 <h3 id="phina-asset-AssetManagerでテクスチャをロード"><a href="#phina-asset-AssetManagerでテクスチャをロード" class="headerlink" title="phina.asset.AssetManagerでテクスチャをロード"></a>phina.asset.AssetManagerでテクスチャをロード</h3><p>three.jsではテクスチャに画像ファイルを使う際、ImageUtils.loadTexture()メソッドなどを使い画像をロードします。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> texture = THREE.ImageUtils.loadTexture( <span class="string">"textures/water.jpg"</span> );</div><div class="line"><span class="keyword">var</span> material = <span class="keyword">new</span> THREE.MeshPhongMaterial(&#123;</div><div class="line">  <span class="attr">map</span>: texture</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
@@ -101,7 +101,7 @@
 <p>利用時は画像アセット（phina.asset.Texture）のdomElementプロパティからimg要素を取得できるので、それをTHREE.Textureのコンストラクタに渡してあげればテクスチャオブジェクトを作ることが出来ます。</p>
 <h3 id="Tweenerでアニメーション"><a href="#Tweenerでアニメーション" class="headerlink" title="Tweenerでアニメーション"></a>Tweenerでアニメーション</h3><p>phina.accessory.Tweenerを使ったアニメーションは簡単かつ見栄えのする演出方法です。ゲームを作る上ではぜひ利用していきたいしくみですね。</p>
 <p>phina.js Advent Calendar 2015でも @simiraaaa さんが記事を書いていらっしゃいます。</p>
-<p><a href="http://qiita.com/simiraaaa/items/b80fec588fa2db272f67" target="_blank" rel="external">Tweenerを使いこなそう!</a></p>
+<p><a href="http://qiita.com/simiraaaa/items/b80fec588fa2db272f67" target="_blank" rel="noopener">Tweenerを使いこなそう!</a></p>
 <p>THREE.Mesh等の3Dオブジェクトでトゥイーンアニメーションを実現するには、phinaのエレメントでラップしてしまうと手っ取り早いです。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">phina.define(<span class="string">"ThreeElement"</span>, &#123;</div><div class="line">  <span class="attr">superClass</span>: <span class="string">"phina.app.Element"</span>,</div><div class="line">  </div><div class="line">  <span class="comment">// THREE.Object3Dオブジェクトを受け取る</span></div><div class="line">  init: <span class="function"><span class="keyword">function</span>(<span class="params">threeObject</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.superInit();</div><div class="line">    <span class="keyword">this</span>.$t = threeObject;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="comment">// _accessorで座標のgetter/setterを定義する</span></div><div class="line">  _accessor: &#123;</div><div class="line">    <span class="attr">x</span>: &#123;</div><div class="line">      <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.$t.position.x &#125;,</div><div class="line">      <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123; <span class="keyword">this</span>.$t.position.x = v &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">y</span>: &#123;</div><div class="line">      <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.$t.position.y &#125;,</div><div class="line">      <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123; <span class="keyword">this</span>.$t.position.y = v &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">z</span>: &#123;</div><div class="line">      <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.$t.position.z &#125;,</div><div class="line">      <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123; <span class="keyword">this</span>.$t.position.z = v &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line"><span class="comment">// three.jsのメッシュ</span></div><div class="line"><span class="keyword">var</span> shipThree = <span class="keyword">new</span> THREE.Mesh(geometory, material);</div><div class="line"></div><div class="line"><span class="comment">// phina.jsのエレメントでラップ</span></div><div class="line"><span class="keyword">var</span> shipPhina = ThreeElement(_ship);</div><div class="line"></div><div class="line"><span class="comment">// アニメーション</span></div><div class="line">shipPhina.tweener.to(&#123;</div><div class="line">  <span class="attr">x</span>: <span class="number">1000</span>,</div><div class="line">  <span class="attr">y</span>: <span class="number">200</span></div><div class="line">&#125;, <span class="number">3000</span>, <span class="string">"easeOutBack"</span>);</div></pre></td></tr></table></figure>
 <p>カメラなどをスムーズに移動させたい場合に便利ですね。</p>
@@ -128,7 +128,7 @@
         
   
   <div class="tags">
-    <a href="/b/tags/three-js/">three.js</a>, <a href="/b/tags/phina-js/">phina.js</a>
+    <a href="/b/tags/phina-js/">phina.js</a>, <a href="/b/tags/three-js/">three.js</a>
   </div>
 
         
@@ -195,6 +195,8 @@
   
     <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
   
+    <li><a href="/b/tags/Live2D/">Live2D</a><small>1</small></li>
+  
     <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
   
     <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
@@ -211,7 +213,7 @@
   
     <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
   
-    <li><a href="/b/tags/phina-js/">phina.js</a><small>12</small></li>
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>13</small></li>
   
     <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
   

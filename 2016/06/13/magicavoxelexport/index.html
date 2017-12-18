@@ -80,13 +80,13 @@
       
         <h1 id="OBJエクスポート時の設定について"><a href="#OBJエクスポート時の設定について" class="headerlink" title="OBJエクスポート時の設定について"></a>OBJエクスポート時の設定について</h1><p>設定をアレコレいじるには、MagicaVoxelのインストールフォルダにある config/config.txt ファイルを編集します。</p>
 <h2 id="最適化をやめる"><a href="#最適化をやめる" class="headerlink" title="最適化をやめる"></a>最適化をやめる</h2><p>同じ色毎に面をマージする設定のオン／オフを切り替えます。</p>
-<h4 id="最適化オン"><a href="#最適化オン" class="headerlink" title="最適化オン"></a>最適化オン</h4><img src="/b/2016/06/13/magicavoxelexport/ss2.png" alt="最適化オン" title="最適化オン">
-<h4 id="最適化オフ"><a href="#最適化オフ" class="headerlink" title="最適化オフ"></a>最適化オフ</h4><img src="/b/2016/06/13/magicavoxelexport/ss3.png" alt="最適化オフ" title="最適化オフ">
+<h4 id="最適化オン"><a href="#最適化オン" class="headerlink" title="最適化オン"></a>最適化オン</h4><img src="/b/2016/06/13/magicavoxelexport/ss2.png" title="最適化オン">
+<h4 id="最適化オフ"><a href="#最適化オフ" class="headerlink" title="最適化オフ"></a>最適化オフ</h4><img src="/b/2016/06/13/magicavoxelexport/ss3.png" title="最適化オフ">
 <h4 id="やりかた"><a href="#やりかた" class="headerlink" title="やりかた"></a>やりかた</h4><p>ファイル config/config.txt の file_obj -&gt; optimize を’1’に設定するとオン、’0’にするとオフになります。</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">file_obj</div><div class="line">(</div><div class="line">  (省略)</div><div class="line"></div><div class="line">  optimize    = <span class="string">'1'</span>     <span class="regexp">//</span> ←ここ</div><div class="line"><span class="regexp">//</span>optimize    = <span class="string">'0'</span>     <span class="regexp">//</span> こうするとオフ</div><div class="line">)</div></pre></td></tr></table></figure>
 <h2 id="中心点を決める"><a href="#中心点を決める" class="headerlink" title="中心点を決める"></a>中心点を決める</h2><p>objデータの空間上の中心座標を決めます。</p>
-<h4 id="接地面を中心に"><a href="#接地面を中心に" class="headerlink" title="接地面を中心に"></a>接地面を中心に</h4><img src="/b/2016/06/13/magicavoxelexport/ss5.png" alt="(0.5, 0.5, 0.0)" title="(0.5, 0.5, 0.0)">
-<h4 id="モデルの真ん中を中心に"><a href="#モデルの真ん中を中心に" class="headerlink" title="モデルの真ん中を中心に"></a>モデルの真ん中を中心に</h4><img src="/b/2016/06/13/magicavoxelexport/ss4.png" alt="(0.5, 0.5, 0.5)" title="(0.5, 0.5, 0.5)">
+<h4 id="接地面を中心に"><a href="#接地面を中心に" class="headerlink" title="接地面を中心に"></a>接地面を中心に</h4><img src="/b/2016/06/13/magicavoxelexport/ss5.png" title="(0.5, 0.5, 0.0)">
+<h4 id="モデルの真ん中を中心に"><a href="#モデルの真ん中を中心に" class="headerlink" title="モデルの真ん中を中心に"></a>モデルの真ん中を中心に</h4><img src="/b/2016/06/13/magicavoxelexport/ss4.png" title="(0.5, 0.5, 0.5)">
 <h4 id="やりかた-1"><a href="#やりかた-1" class="headerlink" title="やりかた"></a>やりかた</h4><figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">file_obj</div><div class="line"><span class="comment">(</span></div><div class="line">  (省略)</div><div class="line">  </div><div class="line">  pivot     = <span class="string">'0.5 0.5 0'</span> <span class="comment">// ←ここ</span></div><div class="line"></div><div class="line">  <span class="comment">(省略)</span></div><div class="line">)</div></pre></td></tr></table></figure>
 <h2 id="その他"><a href="#その他" class="headerlink" title="その他"></a>その他</h2><ul>
 <li>出力時スケール</li>
@@ -184,6 +184,8 @@
   
     <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
   
+    <li><a href="/b/tags/Live2D/">Live2D</a><small>1</small></li>
+  
     <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
   
     <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
@@ -200,7 +202,7 @@
   
     <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
   
-    <li><a href="/b/tags/phina-js/">phina.js</a><small>12</small></li>
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>13</small></li>
   
     <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
   

@@ -76,26 +76,26 @@
     </header>
     <div class="entry">
       
-        <p><a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2015</a>の10日目です。</p>
-<p><a href="http://qiita.com/alkn203/items/8ad0b80175d23d03bd49" target="_blank" rel="external">グループ管理の基本テクニック by alkn203さん</a>←前 次→<a href="http://qiita.com/alkn203/items/76f4a80819c011cbaf38" target="_blank" rel="external">physicalクラスを使ってみよう by alkn203さん</a></p>
+        <p><a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="noopener">phina.js Advent Calendar 2015</a>の10日目です。</p>
+<p><a href="http://qiita.com/alkn203/items/8ad0b80175d23d03bd49" target="_blank" rel="noopener">グループ管理の基本テクニック by alkn203さん</a>←前 次→<a href="http://qiita.com/alkn203/items/76f4a80819c011cbaf38" target="_blank" rel="noopener">physicalクラスを使ってみよう by alkn203さん</a></p>
 <h1 id="レイヤー！"><a href="#レイヤー！" class="headerlink" title="レイヤー！"></a>レイヤー！</h1><p>プログラマーたるものたくさんのレイヤーと仲良くしていきたいものです。複数のレイヤーをとっかえひっかえというのも夢のある話です。</p>
 <h1 id="シーンは自分用のCanvas要素を持つ"><a href="#シーンは自分用のCanvas要素を持つ" class="headerlink" title="シーンは自分用のCanvas要素を持つ"></a>シーンは自分用のCanvas要素を持つ</h1><p>ご存知の通り、phina.jsの前身にあたるライブラリにtmlib.jsというものがあります。</p>
-<p><a href="https://github.com/phi-jp/tmlib.js/" target="_blank" rel="external">tmlib.js</a></p>
+<p><a href="https://github.com/phi-jp/tmlib.js/" target="_blank" rel="noopener">tmlib.js</a></p>
 <p>tmlib.jsと比べてphina.jsでは、SceneクラスがCanvasSceneクラスという名前に変わり、Canvas APIを利用するアプリケーションへ特化した形に再構成されています。</p>
 <p>このCanvasSceneは内部にCanvas要素を持っています。</p>
 <p>以前(tmlib.js時代)はカレントのシーンがアプリケーション固有のCanvasへ直接描き込んでいたのに対し、phina.jsではシーンが自前のCanvasに描画した後、その結果をアプリケーションのCanvasへ転写します。</p>
 <ul>
 <li>tmlib.jsの描画方式</li>
 </ul>
-<img src="/b/2015/12/10/phinaadvcal20151210/tmlib.js.png" alt="tmlib.js" title="tmlib.js">
+<img src="/b/2015/12/10/phinaadvcal20151210/tmlib.js.png" title="tmlib.js">
 <ul>
 <li>phina.jsの描画方式</li>
 </ul>
-<img src="/b/2015/12/10/phinaadvcal20151210/phina.js.png" alt="phina.js" title="phina.js">
+<img src="/b/2015/12/10/phinaadvcal20151210/phina.js.png" title="phina.js">
 <h1 id="phina-display-ThreeLayer"><a href="#phina-display-ThreeLayer" class="headerlink" title="phina.display.ThreeLayer"></a>phina.display.ThreeLayer</h1><p>この「自分固有のCanvas要素を持ち、それへの描画をしたのち、本命のCanvas要素へ転写する」という方式。実はCanvasScene特有のものではなく、どんな要素でも実現することが出来ます。</p>
 <p>このしくみをうまく応用しているのが<strong>phina.display.ThreeLayer</strong>です。</p>
-<p><a href="http://phi-jp.github.io/phina.js/test/game/index.html#display.ThreeLayer/sample" target="_blank" rel="external">ThreeLayerサンプル</a></p>
-<img src="/b/2015/12/10/phinaadvcal20151210/threelayer.png" alt="ThreeLayer" title="ThreeLayer">
+<p><a href="http://phi-jp.github.io/phina.js/test/game/index.html#display.ThreeLayer/sample" target="_blank" rel="noopener">ThreeLayerサンプル</a></p>
+<img src="/b/2015/12/10/phinaadvcal20151210/threelayer.png" title="ThreeLayer">
 <p>ThreeLayerはThree.jsとphina.jsをゆるく連携する機能です。Three.jsを使って固有のCanvasへの描画を行い、その描画結果を親要素のCanvasに転写しています。</p>
 <ul>
 <li>phina.display.ThreeLayerのソース(抜粋)</li>
@@ -112,15 +112,15 @@
 <h2 id="描画スキップレイヤー-描画スキップによる高速化"><a href="#描画スキップレイヤー-描画スキップによる高速化" class="headerlink" title="描画スキップレイヤー - 描画スキップによる高速化"></a>描画スキップレイヤー - 描画スキップによる高速化</h2><p>大量の子孫要素を持つ要素の場合、描画処理を数フレームに1回だけ行うなどしてアプリケーション全体のフレームレートを改善できる場合があります。</p>
 <p>自前の非表示Canvasへの描画結果をキャッシュしておき、描画処理を行わないフレームではキャッシュを使用します。</p>
 <ul>
-<li><p><a href="http://goo.gl/vPDGr0" target="_blank" rel="external">スキップレイヤーなし</a></p>
+<li><p><a href="http://goo.gl/vPDGr0" target="_blank" rel="noopener">スキップレイヤーなし</a></p>
 </li>
-<li><p><a href="http://goo.gl/nynopM" target="_blank" rel="external">スキップレイヤーあり</a></p>
+<li><p><a href="http://goo.gl/nynopM" target="_blank" rel="noopener">スキップレイヤーあり</a></p>
 </li>
 </ul>
 <p>手元の環境では上記「スキップなし」で20FPSほどであるのに対し、「スキップあり」版では30FPSほどに向上させることが出来ました。</p>
 <p>もちろん、描画を省略するぶん見た目がカクカクしてしまうわけですが、弾幕系シューティングゲームの背景など特にプレイヤーが注意を払う必要のないものについては検討する価値があるかもしれません。</p>
 <h2 id="画像フィルタ処理レイヤー-WebGLを使った画像処理"><a href="#画像フィルタ処理レイヤー-WebGLを使った画像処理" class="headerlink" title="画像フィルタ処理レイヤー - WebGLを使った画像処理"></a>画像フィルタ処理レイヤー - WebGLを使った画像処理</h2><p><a href="http://github.dev7.jp/phina.display.GLFilterLayer/">phina.display.GLFilterLayer</a></p>
-<img src="/b/2015/12/10/phinaadvcal20151210/glfilter.png" alt="セピアとズームブラー" title="セピアとズームブラー">
+<img src="/b/2015/12/10/phinaadvcal20151210/glfilter.png" title="セピアとズームブラー">
 <p>子孫要素を非表示Canvasに描画した後、WebGLのテクスチャとして使用して画像にフィルタをかけ、その結果をシーンのCanvasに転写する実装です。</p>
 <h1 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h1><p>特殊な描画処理をレイヤーとして切り出すことで、汎用的なエフェクト機能として実装することが出来ます。</p>
 
@@ -212,6 +212,8 @@
   
     <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
   
+    <li><a href="/b/tags/Live2D/">Live2D</a><small>1</small></li>
+  
     <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
   
     <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
@@ -228,7 +230,7 @@
   
     <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
   
-    <li><a href="/b/tags/phina-js/">phina.js</a><small>12</small></li>
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>13</small></li>
   
     <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
   

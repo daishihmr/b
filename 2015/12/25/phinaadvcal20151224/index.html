@@ -76,16 +76,16 @@
     </header>
     <div class="entry">
       
-        <p>本記事は<a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2015</a>の24日目です。<br>クリスマス当日になってしまいました。遅れて申し訳ないです。</p>
-<p>前 <a href="http://qiita.com/omatoro/items/d594c4c3c8945856f5ef" target="_blank" rel="external">omatoroさん</a><br>次 <a href="http://phiary.me/phina-js-cordova-game-flick-arrow/" target="_blank" rel="external">phiさん</a></p>
+        <p>本記事は<a href="http://qiita.com/advent-calendar/2015/phinajs" target="_blank" rel="noopener">phina.js Advent Calendar 2015</a>の24日目です。<br>クリスマス当日になってしまいました。遅れて申し訳ないです。</p>
+<p>前 <a href="http://qiita.com/omatoro/items/d594c4c3c8945856f5ef" target="_blank" rel="noopener">omatoroさん</a><br>次 <a href="http://phiary.me/phina-js-cordova-game-flick-arrow/" target="_blank" rel="noopener">phiさん</a></p>
 <h1 id="俺とphina-js"><a href="#俺とphina-js" class="headerlink" title="俺とphina.js"></a>俺とphina.js</h1><p>思えばphina.js（の前身であるtmlib.js）との付き合いも4年目を迎えようとしています。<br>ずいぶん長いことJavaScriptブラウザゲーム作りを楽しませて頂きました。<br>改めてphiさんをはじめとしたJSゲーム界隈の皆様に感謝を捧げさせていただきます。</p>
 <h1 id="この記事は…"><a href="#この記事は…" class="headerlink" title="この記事は…?"></a>この記事は…?</h1><p>さてさて、本記事は去る2015年の5月に行われた「tmlib.jsゆるふわ勉強会」にて私が発表したLTの資料をリライトしたものになります。</p>
 <p><a href="http://github.dev7.jp/slide20150530/#/">スライドはこちら</a></p>
 <h1 id="ゲーム開発を通じてphina-jsに貢献する方法"><a href="#ゲーム開発を通じてphina-jsに貢献する方法" class="headerlink" title="ゲーム開発を通じてphina.jsに貢献する方法"></a>ゲーム開発を通じてphina.jsに貢献する方法</h1><p>今回はゲーム開発を通じ、Github上のphina.jsプロジェクトにPullRequest貢献する方法を紹介します。</p>
 <h2 id="1-phina-jsを使ったゲームを作ることを決意する"><a href="#1-phina-jsを使ったゲームを作ることを決意する" class="headerlink" title="1. phina.jsを使ったゲームを作ることを決意する"></a>1. phina.jsを使ったゲームを作ることを決意する</h2><p>まずは何はなくとも自分のゲームを作り始めます。</p>
 <p>どんなゲームを作りたいかを考え、気合を入れて作業に入りましょう。</p>
-<h2 id="2-phina-jsをForkする"><a href="#2-phina-jsをForkする" class="headerlink" title="2. phina.jsをForkする"></a>2. phina.jsをForkする</h2><img src="/b/2015/12/25/phinaadvcal20151224/fork.png" alt="Forkボタン" title="Forkボタン">
-<p>phiさんがGithub上に公開されている<a href="https://github.com/phi-jp/phina.js" target="_blank" rel="external">phina.jsのプロジェクト</a>をForkします。</p>
+<h2 id="2-phina-jsをForkする"><a href="#2-phina-jsをForkする" class="headerlink" title="2. phina.jsをForkする"></a>2. phina.jsをForkする</h2><img src="/b/2015/12/25/phinaadvcal20151224/fork.png" title="Forkボタン">
+<p>phiさんがGithub上に公開されている<a href="https://github.com/phi-jp/phina.js" target="_blank" rel="noopener">phina.jsのプロジェクト</a>をForkします。</p>
 <h2 id="3-プロジェクトの雛形を作る"><a href="#3-プロジェクトの雛形を作る" class="headerlink" title="3. プロジェクトの雛形を作る"></a>3. プロジェクトの雛形を作る</h2><p>開発マシン上に自分のゲームを作る準備をします。</p>
 <p>git initでgitリポジトリ化します。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git init</div></pre></td></tr></table></figure>
@@ -113,8 +113,8 @@
 <p>追加した機能にバグがあったり修正自体が間違っていた場合は、もう一度featureブランチに戻って再度修正→ゲームブランチにマージ→ビルドします。</p>
 <h2 id="6-ゲーム完成！"><a href="#6-ゲーム完成！" class="headerlink" title="6. ゲーム完成！"></a>6. ゲーム完成！</h2><p>ついにあなたのゲームが完成しました！<br>公開したり友達に自慢したりストアで販売したりして大いに楽しんでください。</p>
 <p>さて、リポジトリをみるとfeatureブランチがたくさん出来ているはずです。<br>もしその中に「この機能はみんなに使ってもらいたい！」「他にもこの機能を欲しがっている人がいるはず！」と思えるようなfeatureブランチがあったなら、ぜひ<strong>プルリクエスト</strong>しましょう！</p>
-<img src="/b/2015/12/25/phinaadvcal20151224/pullreq1.png" alt="Github上でfeatureブランチからpull request作成！" title="Github上でfeatureブランチからpull request作成！">
-<img src="/b/2015/12/25/phinaadvcal20151224/pullreq2.png" alt="追加した機能についてわかりやすくコメントを書こう！" title="追加した機能についてわかりやすくコメントを書こう！">
+<img src="/b/2015/12/25/phinaadvcal20151224/pullreq1.png" title="Github上でfeatureブランチからpull request作成！">
+<img src="/b/2015/12/25/phinaadvcal20151224/pullreq2.png" title="追加した機能についてわかりやすくコメントを書こう！">
 <h2 id="7-まとめ"><a href="#7-まとめ" class="headerlink" title="7. まとめ"></a>7. まとめ</h2><p>今回紹介した流れをまとめると以下のようになります。</p>
 <ol>
 <li>自分のゲームのために欲しい機能を作る</li>
@@ -218,6 +218,8 @@
   
     <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
   
+    <li><a href="/b/tags/Live2D/">Live2D</a><small>1</small></li>
+  
     <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
   
     <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
@@ -234,7 +236,7 @@
   
     <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
   
-    <li><a href="/b/tags/phina-js/">phina.js</a><small>12</small></li>
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>13</small></li>
   
     <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
   

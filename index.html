@@ -63,6 +63,118 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2017-12-18T13:37:08.000Z"><a href="/b/2017/12/18/advcal200171217/">2017-12-18</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/b/2017/12/18/advcal200171217/">phina.jsでLive2Dぬるぬるふわっふわーする</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="https://qiita.com/advent-calendar/2017/phinajs" target="_blank" rel="noopener">phina.js Advent Calendar 2017</a>の17日目です。</p>
+<ul>
+<li>昨日 <a href="">なし</a></li>
+<li>明日 <a href="https://qiita.com/shioleap/items/2fe0335beb39de217660" target="_blank" rel="noopener">グラデーションやblendModeで表現</a></li>
+</ul>
+<h1 id="Live2DをWebゲームで使いたいんだよ！-アニキ！"><a href="#Live2DをWebゲームで使いたいんだよ！-アニキ！" class="headerlink" title="Live2DをWebゲームで使いたいんだよ！ アニキ！"></a>Live2DをWebゲームで使いたいんだよ！ アニキ！</h1><p>時代はLive2Dだ。そうだろ？</p>
+<p>なので時代の最先端たるphina.jsでもLive2Dをサポートしていくぜ。</p>
+<h1 id="表示したぜ！"><a href="#表示したぜ！" class="headerlink" title="表示したぜ！"></a>表示したぜ！</h1><p>というわけで作ったよ。</p>
+<h1 id="どうやって使うんだよ！？"><a href="#どうやって使うんだよ！？" class="headerlink" title="どうやって使うんだよ！？"></a>どうやって使うんだよ！？</h1><p>材料はこちら。</p>
+<ul>
+<li><a href="https://s3-ap-northeast-1.amazonaws.com/cubism3.live2d.com/sdk/js_eap/live2dcubismcore.min.js" target="_blank" rel="noopener">live2dcubismcore.min.js</a>。こいつはソースが配布されていない。URLを直接参照する。</li>
+<li><a href="https://github.com/Live2D/CubismJsComponents/blob/master/example/wwwroot/js/live2dcubismframework.js" target="_blank" rel="noopener">live2dcubismframework.js</a>。<a href="https://github.com/Live2D/CubismJsComponents" target="_blank" rel="noopener">Cubism SDK for JavaScriptのオフィシャルリポジトリ</a>から持ってくる</li>
+<li><a href="https://github.com/daishihmr/phigl.js/blob/develop/build/phigl.js" target="_blank" rel="noopener">phigl.js</a>。phina.jsでWebGLを使うための俺専用スーパー最強ライブラリだ。</li>
+<li>もちろん<a href="http://phinajs.com/" target="_blank" rel="noopener">phina.js</a>も忘れずに。</li>
+</ul>
+<p>上記スクリプトはscriptタグで読み込んでおく。</p>
+<h2 id="シンプルに表示する"><a href="#シンプルに表示する" class="headerlink" title="シンプルに表示する"></a>シンプルに表示する</h2><p>Live2D Cubism3のデータは、「モデルデータ」「テクスチャ」「モーションデータ」等で構成される。</p>
+<p>まずはモデルデータ（*.moc3）とテクスチャ（*.png）読み込もう。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">GameApp(&#123;</div><div class="line">  <span class="comment">// 中略</span></div><div class="line"><span class="symbol">  assets:</span> &#123;</div><div class="line">    <span class="string">"live2d.moc"</span>: &#123; <span class="comment">// モデルデータの読み込み</span></div><div class="line">      <span class="string">"MarkModel"</span>: <span class="string">"assets/Mark/Mark.moc3"</span>,</div><div class="line">    &#125;,</div><div class="line">    <span class="string">"image"</span>: &#123; <span class="comment">// テクスチャの読み込み</span></div><div class="line">      <span class="string">"MarkTexture"</span>: <span class="string">"assets/Mark/Mark.png"</span>,</div><div class="line">    &#125;,</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 中略</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>続いてLive2Dの表示するための専用レイヤ「phina.live2d.Live2DLayer」をシーンに追加する。</p>
+<p>このLive2DLayerは、Live2Dデータを描画するためにWebGLをセットアップしたりしなかったりいろいろしてる。</p>
+<p>Live2Dデータはこのレイヤ以外では表示できないので注意。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var live2dLayer = phina.live2d.Live2DLayer(&#123;</div><div class="line"><span class="symbol">  width:</span> <span class="number">480</span>,</div><div class="line"><span class="symbol">  height:</span> <span class="number">640</span>,</div><div class="line"><span class="symbol">  originX:</span> <span class="number">0</span>,</div><div class="line"><span class="symbol">  originY:</span> <span class="number">0</span>,</div><div class="line">&#125;);</div><div class="line">live2dLayer.addChildTo(this);</div></pre></td></tr></table></figure>
+<p>最後に「phina.live2d.Live2DSprite」を次のように作成してレイヤに追加する。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> <span class="keyword">mark</span> = phina.live2d.Live2dSprite(&#123;</div><div class="line">  moc: <span class="string">"MarkModel"</span>,</div><div class="line">  textures: [<span class="string">"MarkTexture"</span>],</div><div class="line">&#125;);</div><div class="line"><span class="keyword">mark</span>.setPosition(240, 320);</div><div class="line"><span class="keyword">mark</span>.addChildTo(live2dLayer);</div></pre></td></tr></table></figure>
+<p>これで一応表示できる。</p>
+<iframe width="480" height="640" src="http://github.dev7.jp/phinajsadvcal20171217/example1.html"></iframe>
+
+<h2 id="パラメータを操作"><a href="#パラメータを操作" class="headerlink" title="パラメータを操作"></a>パラメータを操作</h2><p>Cubism Editor上で作成する「パラメータ」をスクリプトから操作してみる。</p>
+<p>&nbsp;</p>
+<img src="/b/2017/12/18/advcal200171217/ss1.png" title="パラメータ">
+<p>まずは操作したいパラメータのIDを調べておく。</p>
+<p>今回は顔の向き（角度 X）と目の向き（目玉 X）を操作してみたい。</p>
+<p>IDはパラメータを右クリックして「パラメータ編集」を開くと参照可能。</p>
+<p>&nbsp;</p>
+<img src="/b/2017/12/18/advcal200171217/ss2.png" title="パラメータ編集">
+<p>&nbsp;</p>
+<img src="/b/2017/12/18/advcal200171217/ss3.png" title="ID">
+<p>スクリプト側では次のように、Live2DSpriteのparametersというプロパティを介して値を制御出来る。</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mark.parameters[<span class="string">"ParamAngleX"</span>] = <span class="number">30.0</span><span class="comment">;</span></div><div class="line">mark.parameters[<span class="string">"ParamEyeBallX"</span>] = <span class="number">1.0</span><span class="comment">;</span></div></pre></td></tr></table></figure>
+<p>また、parametersはphina.app.Elementを継承しているので、Tweenerを使ったイージング処理も可能だ。</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mark.parameters.tweener</div><div class="line">  .<span class="keyword">to</span>(&#123;</div><div class="line">    <span class="string">"ParamAngleX"</span>: -<span class="number">30.0</span>,</div><div class="line">    <span class="string">"ParamEyeBallX"</span>: -<span class="number">1</span>,</div><div class="line">  &#125;, <span class="number">1000</span>, <span class="string">"easeInOutQuad"</span>)</div><div class="line">  .<span class="keyword">to</span>(&#123;</div><div class="line">    <span class="string">"ParamAngleX"</span>: <span class="number">30.0</span>,</div><div class="line">    <span class="string">"ParamEyeBallX"</span>: <span class="number">1</span>,</div><div class="line">  &#125;, <span class="number">1000</span>, <span class="string">"easeInOutQuad"</span>)</div><div class="line">  .setLoop(<span class="literal">true</span>);</div></pre></td></tr></table></figure>
+<iframe width="480" height="640" src="http://github.dev7.jp/phinajsadvcal20171217/example2.html"></iframe>
+
+<h2 id="モーションの再生"><a href="#モーションの再生" class="headerlink" title="モーションの再生"></a>モーションの再生</h2><p>モーションデータ（*.motion3.json）を扱う場合は、まず次のようにデータを読み込む。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">GameApp</span>(&#123;</div><div class="line">  <span class="comment">// 中略</span></div><div class="line">  <span class="attribute">assets</span>: &#123;</div><div class="line">    <span class="string">"live2d.motion"</span>: &#123; <span class="comment">// モーションデータの読み込み</span></div><div class="line">      <span class="string">"MarkMotion"</span>: <span class="string">"assets/Mark/Mark.motion3.json"</span>,</div><div class="line">    &#125;,</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 中略</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>あとはLive2DSpriteのplayメソッドで簡単に再生可能。</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mark.play(<span class="string">"MarkMotion"</span>)<span class="comment">;</span></div></pre></td></tr></table></figure>
+<p>stopとかpauseとかresumeといったメソッドも一通り揃えたヨ。</p>
+<iframe width="480" height="640" src="http://github.dev7.jp/phinajsadvcal20171217/example3.html"></iframe>
+
+<h1 id="苦労した点"><a href="#苦労した点" class="headerlink" title="苦労した点"></a>苦労した点</h1><p>Live2Dではスプライトの形を自由に変形させる必要があるので、WebGLを使って実装した。</p>
+<p>わりとサクッとうまくいったのだけど、ちょっと苦労したところもあった。</p>
+<h3 id="クリッピング"><a href="#クリッピング" class="headerlink" title="クリッピング"></a>クリッピング</h3><p>&nbsp;</p>
+<img src="/b/2017/12/18/advcal200171217/ss4.png" title="クリッピング">
+<p>Cubism Editor上で設定できる「クリッピング」を、今回はステンシル処理を使って再現した。</p>
+<p>ステンシル処理ってやったことなかったのよね。なのでちょっと迷ったけどまあ最終的には出来てよかったよかった。</p>
+<h1 id="楽勝だった点"><a href="#楽勝だった点" class="headerlink" title="楽勝だった点"></a>楽勝だった点</h1><p>ぶっちゃけ公式から配布されているpixi.js用のライブラリがあったので、そいつを参考にしたから全体的に楽勝だった。</p>
+<p>バイナリデータであるmoc3の読み込みは公式のライブラリに頼っているので苦労はなかった。</p>
+<p>パーツの描画処理自体も単純に頂点の位置とUVを変換無しで処理するだけなのでカンタン。</p>
+<h1 id="今後どうするんだよ！"><a href="#今後どうするんだよ！" class="headerlink" title="今後どうするんだよ！"></a>今後どうするんだよ！</h1><p>今回作ったのはあくまで仮実装って感じなので、紹介したインタフェースはコロコロ変わるかもしれない。</p>
+<p>その辺注意して使って欲しい。</p>
+<h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><ul>
+<li>物理</li>
+<li>ユーザーデータ</li>
+<li>クリッピングの完全再現</li>
+</ul>
+
+      
+    </div>
+
+    <footer>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- daishiblog-post2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3487863134090836"
+     data-ad-slot="4822197721"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2017-05-30T04:43:09.000Z"><a href="/b/2017/05/30/motioncontroller/">2017-05-30</a></time>
       
       
@@ -73,23 +185,23 @@
     </header>
     <div class="entry">
       
-        <h2 id="JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！"><a href="#JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！" class="headerlink" title="JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！"></a>JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！</h2><p>そろそろJSでも3Dゲームの時代ってことで、俺が愛してやまない<a href="http://phinajs.com/" target="_blank" rel="external">phina.js</a>とそれほどでもない<a href="https://threejs.org/" target="_blank" rel="external">three.js</a>でゲームを作ってる。</p>
+        <h2 id="JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！"><a href="#JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！" class="headerlink" title="JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！"></a>JavaScriptで本格的な3Dゲームが作りたいんだ！アニキ！</h2><p>そろそろJSでも3Dゲームの時代ってことで、俺が愛してやまない<a href="http://phinajs.com/" target="_blank" rel="noopener">phina.js</a>とそれほどでもない<a href="https://threejs.org/" target="_blank" rel="noopener">three.js</a>でゲームを作ってる。</p>
 <h2 id="モーションを再生したいんだぜ！"><a href="#モーションを再生したいんだぜ！" class="headerlink" title="モーションを再生したいんだぜ！"></a>モーションを再生したいんだぜ！</h2><p>3Dでゲームつったらやっぱボーン入れてモーションつけて動かしたいわけです。</p>
-<p>three.jsには<a href="https://blender.jp/" target="_blank" rel="external">blender</a>からデータを読み込む仕組みがあるので、これを利用してちょっとしたモーションコントローラーを作ってみた。</p>
-<p><a href="https://docs.unity3d.com/jp/540/Manual/AnimatorControllers.html" target="_blank" rel="external">Unityのやつ</a>を参考にしたのでわりと似ている。</p>
+<p>three.jsには<a href="https://blender.jp/" target="_blank" rel="noopener">blender</a>からデータを読み込む仕組みがあるので、これを利用してちょっとしたモーションコントローラーを作ってみた。</p>
+<p><a href="https://docs.unity3d.com/jp/540/Manual/AnimatorControllers.html" target="_blank" rel="noopener">Unityのやつ</a>を参考にしたのでわりと似ている。</p>
 <iframe src="http://github.dev7.jp/blog20170530/index.html" width="480" height="320"></iframe>
 
 <p>上記のサンプルはblenderで作成したモーションを読み込んで動かしてる。</p>
 <p>使い方はこんな感じで。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 敵キャラをロードしてシーンに配置</span></div><div class="line"><span class="keyword">let</span> enemy = SkinnedMesh(<span class="string">"enemy3"</span>).addChildTo(<span class="keyword">this</span>);</div><div class="line"></div><div class="line"><span class="comment">// アイドルモーション</span></div><div class="line"><span class="keyword">let</span> motionIdle = enemy.getMotion(<span class="string">"idle"</span>);</div><div class="line"><span class="comment">// アイドルモーションはループON</span></div><div class="line">motionIdle.setLoop(<span class="literal">true</span>);</div><div class="line"></div><div class="line"><span class="comment">// 攻撃モーション</span></div><div class="line"><span class="keyword">let</span> motionAttack = enemy.getMotion(<span class="string">"attack0"</span>);</div><div class="line"></div><div class="line"><span class="comment">// アイドルモーションにトランジションを追加。</span></div><div class="line"><span class="comment">// タップフラグが立ったら攻撃モーションへ移行する。</span></div><div class="line">motionIdle.addTransition(<span class="function"><span class="params">()</span> =&gt;</span> tapFlag, motionAttack, <span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="comment">// 攻撃モーションにトランジションを追加。</span></div><div class="line"><span class="comment">// モーションが「完了」したらアイドルモーションへ移行する。</span></div><div class="line">motionAttack.addTransition(<span class="string">"finished"</span>, motionIdle, <span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="comment">// 敵キャラのモーションをアイドルモーションにスイッチ。</span></div><div class="line">enemy.motionController.switchMotion(motionIdle);</div></pre></td></tr></table></figure>
-<p>まず、<a href="https://github.com/daishihmr/blog20170530/blob/master/SkinnedMesh.js" target="_blank" rel="external">SkinnedMesh</a>というクラスを用意した。</p>
-<p>これはthree.jsの<a href="https://threejs.org/examples/#webgl_animation_skinning_blending" target="_blank" rel="external">BlendCharacter</a>というクラスを単純にラップしたものだ。phina.js のシーングラフに追加できるように<a href="https://github.com/phinajs/phina.js/blob/develop/src/app/element.js" target="_blank" rel="external">phina.app.Element</a>を継承している。</p>
-<p>さらに<a href="https://github.com/daishihmr/blog20170530/blob/master/MotionController.js" target="_blank" rel="external">MotionController</a>というクラスを実装した。こちらはSkinnedMeshに付与できる<a href="http://qiita.com/minimo/items/25304f0834ecff853077" target="_blank" rel="external">アクセサリ</a>だ。</p>
+<p>まず、<a href="https://github.com/daishihmr/blog20170530/blob/master/SkinnedMesh.js" target="_blank" rel="noopener">SkinnedMesh</a>というクラスを用意した。</p>
+<p>これはthree.jsの<a href="https://threejs.org/examples/#webgl_animation_skinning_blending" target="_blank" rel="noopener">BlendCharacter</a>というクラスを単純にラップしたものだ。phina.js のシーングラフに追加できるように<a href="https://github.com/phinajs/phina.js/blob/develop/src/app/element.js" target="_blank" rel="noopener">phina.app.Element</a>を継承している。</p>
+<p>さらに<a href="https://github.com/daishihmr/blog20170530/blob/master/MotionController.js" target="_blank" rel="noopener">MotionController</a>というクラスを実装した。こちらはSkinnedMeshに付与できる<a href="http://qiita.com/minimo/items/25304f0834ecff853077" target="_blank" rel="noopener">アクセサリ</a>だ。</p>
 <p>SkinnedMeshオブジェクトからはgetMotionメソッドでモーションオブジェクトを取り出すことが出来る。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// アイドルモーション</span></div><div class="line"><span class="keyword">let</span> motionIdle = enemy.getMotion(<span class="string">"idle"</span>);</div></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 攻撃モーション</span></div><div class="line"><span class="keyword">let</span> motionAttack = enemy.getMotion(<span class="string">"attack0"</span>);</div></pre></td></tr></table></figure>
 <p>指定しているモーション名はblender上で名付けたやつだね。</p>
-<img src="/b/2017/05/30/motioncontroller/blender2.png" alt="blenderのAction" title="blenderのAction">
+<img src="/b/2017/05/30/motioncontroller/blender2.png" title="blenderのAction">
 <p>このモーションオブジェクトにはaddTransitionというメソッドが生えていて、他のモーションへの移行を条件とともに登録することができる。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// アイドルモーションにトランジションを追加。</span></div><div class="line"><span class="comment">// タップフラグが立ったら攻撃モーションへ移行する。</span></div><div class="line">motionIdle.addTransition(<span class="function"><span class="params">()</span> =&gt;</span> tapFlag, motionAttack, <span class="number">10</span>);</div></pre></td></tr></table></figure>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 攻撃モーションにトランジションを追加。</span></div><div class="line"><span class="comment">// モーションが「完了」したらアイドルモーションへ移行する。</span></div><div class="line"><span class="selector-tag">motionAttack</span><span class="selector-class">.addTransition</span>(<span class="string">"finished"</span>, motionIdle, <span class="number">10</span>);</div></pre></td></tr></table></figure>
@@ -97,7 +209,7 @@
 <p>目玉としてはこのモーションのトランジションにはdurationを指定できて、モーションとモーションの間をなめらかにつなぐことが出来る。この機能には当然、みんな大好きphina.jsのTweenerを使っている。</p>
 <h2 id="今後どうすんだよ！"><a href="#今後どうすんだよ！" class="headerlink" title="今後どうすんだよ！"></a>今後どうすんだよ！</h2><p>とりあえず10月くらいまでにゲームを完成させたい。</p>
 <p>んで、出来た機能はまとめてphina.js用のプラグインとしてリリースしたいと思っている。</p>
-<h2 id="ソースとか"><a href="#ソースとか" class="headerlink" title="ソースとか"></a>ソースとか</h2><p>サンプルのソースは<a href="https://github.com/daishihmr/blog20170530" target="_blank" rel="external">こちら</a></p>
+<h2 id="ソースとか"><a href="#ソースとか" class="headerlink" title="ソースとか"></a>ソースとか</h2><p>サンプルのソースは<a href="https://github.com/daishihmr/blog20170530" target="_blank" rel="noopener">こちら</a></p>
 
       
     </div>
@@ -145,7 +257,7 @@
       
         <p>覚え書き。</p>
 <p>アーマチュアやらモーションがついたやつを出力するときの設定。</p>
-<img src="/b/2017/05/22/threejs-blender-skinned/export_setting.png" alt="export_setting.png" title="">
+<img src="/b/2017/05/22/threejs-blender-skinned/export_setting.png">
 <p>Apply Transform（translate、rotation、scale）とClear Pose Transformしてからやること。</p>
 
       
@@ -250,22 +362,22 @@
     </header>
     <div class="entry">
       
-        <p><a href="http://qiita.com/advent-calendar/2016/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2016</a>の18日目です。<strong>大遅刻！</strong></p>
+        <p><a href="http://qiita.com/advent-calendar/2016/phinajs" target="_blank" rel="noopener">phina.js Advent Calendar 2016</a>の18日目です。<strong>大遅刻！</strong></p>
 <ul>
-<li>昨日 <a href="http://qiita.com/minimo/items/b55b792c2fa19964acb4" target="_blank" rel="external">phina.jsでTiledMapEditorを利用する by minimoさん</a></li>
-<li>明日 <a href="http://qiita.com/minimo/items/a0aa17d05172b5bfca70" target="_blank" rel="external">phina.jsでスプライトをpixi.jsを利用して描画する by minimoさん</a></li>
+<li>昨日 <a href="http://qiita.com/minimo/items/b55b792c2fa19964acb4" target="_blank" rel="noopener">phina.jsでTiledMapEditorを利用する by minimoさん</a></li>
+<li>明日 <a href="http://qiita.com/minimo/items/a0aa17d05172b5bfca70" target="_blank" rel="noopener">phina.jsでスプライトをpixi.jsを利用して描画する by minimoさん</a></li>
 </ul>
-<h2 id="今回のアレ"><a href="#今回のアレ" class="headerlink" title="今回のアレ"></a>今回のアレ</h2><img src="/b/2016/12/22/phinajsadvcal20161218/top.png" alt="ズァッ！！" title="ズァッ！！">
+<h2 id="今回のアレ"><a href="#今回のアレ" class="headerlink" title="今回のアレ"></a>今回のアレ</h2><img src="/b/2016/12/22/phinajsadvcal20161218/top.png" title="ズァッ！！">
 <p>うごくやつはこちら→<a href="http://github.dev7.jp/phinajsadvcal20161218/">http://github.dev7.jp/phinajsadvcal20161218/</a></p>
 <h2 id="WebGLでいろいろしたいぜ！"><a href="#WebGLでいろいろしたいぜ！" class="headerlink" title="WebGLでいろいろしたいぜ！"></a>WebGLでいろいろしたいぜ！</h2><p><a href="http://github.dev7.jp/b/2015/12/10/phinaadvcal20151210/">去年の記事</a>で紹介したように、phina.jsはレイヤーを使ってWebGLの描画結果を自分のシーングラフに追加することが出来る。</p>
 <p>このしくみを使っていろいろうまいことをやってしまおうというのが今回の趣旨。</p>
 <p>WebGLといえば3DCGなわけだが、それだけではない。GPUあまりある計算能力を2Dゲームへ応用すれば色々と面白いことを実現することが出来る。</p>
 <h2 id="インスタンシングを使って大量に表示するぜ！"><a href="#インスタンシングを使って大量に表示するぜ！" class="headerlink" title="インスタンシングを使って大量に表示するぜ！"></a>インスタンシングを使って大量に表示するぜ！</h2><p>WebGLにはインスタンシングという拡張機能があって、それを使えば同じ種類のオブジェクトを大量かつ高速に描画することが出来る。</p>
 <p>そんなわけなので、四角いポリゴン板に画像を貼ったメッシュをたくさん描けば<strong>超弾幕</strong>が可能なのだ。</p>
-<img src="/b/2016/12/22/phinajsadvcal20161218/kimomo.jpg" alt="超弾幕" title="超弾幕">
+<img src="/b/2016/12/22/phinajsadvcal20161218/kimomo.jpg" title="超弾幕">
 <h2 id="ポストプロセッシングでいろいろフィルターをかけるぜ！"><a href="#ポストプロセッシングでいろいろフィルターをかけるぜ！" class="headerlink" title="ポストプロセッシングでいろいろフィルターをかけるぜ！"></a>ポストプロセッシングでいろいろフィルターをかけるぜ！</h2><p>一旦描画した結果をテクスチャとして取り込み、シェーダーを使ってさらにいろいろと効果をかけることもできる。</p>
-<img src="/b/2016/12/22/phinajsadvcal20161218/reverse.png" alt="ネガポジ反転したり" title="ネガポジ反転したり">
-<img src="/b/2016/12/22/phinajsadvcal20161218/mosaic.png" alt="モザイク処理したり" title="モザイク処理したり">
+<img src="/b/2016/12/22/phinajsadvcal20161218/reverse.png" title="ネガポジ反転したり">
+<img src="/b/2016/12/22/phinajsadvcal20161218/mosaic.png" title="モザイク処理したり">
 <h2 id="どうやってやるんだよ？"><a href="#どうやってやるんだよ？" class="headerlink" title="どうやってやるんだよ？"></a>どうやってやるんだよ？</h2><p>以前からちょっとずつ作っている俺専用WebGLライブラリである<strong>phigl.js</strong>というのがあって、今回はそれを使ってみた。</p>
 <p>phigl.jsはphina.jsと一緒に使うことを前提とした薄～いWebGLライブラリ。</p>
 <p>高度な機能はないけど、ちょっとしたことをやりたい時は便利かもしれない。</p>
@@ -279,8 +391,8 @@
 <li>テクスチャを扱う機能</li>
 </ul>
 <h2 id="今回作ったもの"><a href="#今回作ったもの" class="headerlink" title="今回作ったもの"></a>今回作ったもの</h2><p><a href="http://github.dev7.jp/phinajsadvcal20161218/">うごくやつ</a></p>
-<p><a href="https://github.com/daishihmr/phinajsadvcal20161218" target="_blank" rel="external">github</a> (<a href="https://github.com/daishihmr/phinajsadvcal20161218/archive/gh-pages.zip" target="_blank" rel="external">download-zip</a>)</p>
-<p><a href="https://github.com/daishihmr/phigl.js" target="_blank" rel="external">phigl.js - phina.jsでWebGLを使うための俺専用スーパー最強ライブラリ</a></p>
+<p><a href="https://github.com/daishihmr/phinajsadvcal20161218" target="_blank" rel="noopener">github</a> (<a href="https://github.com/daishihmr/phinajsadvcal20161218/archive/gh-pages.zip" target="_blank" rel="noopener">download-zip</a>)</p>
+<p><a href="https://github.com/daishihmr/phigl.js" target="_blank" rel="noopener">phigl.js - phina.jsでWebGLを使うための俺専用スーパー最強ライブラリ</a></p>
 
       
     </div>
@@ -326,21 +438,21 @@
     </header>
     <div class="entry">
       
-        <p><a href="http://qiita.com/advent-calendar/2016/glboost" target="_blank" rel="external">GLBoost Advent Calendar 2016</a>の4日目です。</p>
-<h2 id="Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！"><a href="#Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！" class="headerlink" title="Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！"></a>Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！</h2><img src="/b/2016/12/05/glboostadvcal20161204/anim.gif" alt="ミラクルキック" title="ミラクルキック">
+        <p><a href="http://qiita.com/advent-calendar/2016/glboost" target="_blank" rel="noopener">GLBoost Advent Calendar 2016</a>の4日目です。</p>
+<h2 id="Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！"><a href="#Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！" class="headerlink" title="Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！"></a>Blenderで作ったモーション付きのモデルをGLBoostで動かすよ！</h2><img src="/b/2016/12/05/glboostadvcal20161204/anim.gif" title="ミラクルキック">
 <p><a href="http://github.dev7.jp/glboostadvcal20161204/">動作サンプル</a></p>
-<p><a href="https://github.com/emadurandal/GLBoost" target="_blank" rel="external">GLBoost</a>ではglTFっつー形式のデータが読み込めるらしいです。</p>
+<p><a href="https://github.com/emadurandal/GLBoost" target="_blank" rel="noopener">GLBoost</a>ではglTFっつー形式のデータが読み込めるらしいです。</p>
 <p>Blenderからは直接glTFのデータを出力することが出来ない（一応プラグインはあるみたいですが、なんか動かん…）ので、一度COLLADAで出力したものを変換します。</p>
-<img src="/b/2016/12/05/glboostadvcal20161204/export1.png" alt="COLLADAで出力" title="COLLADAで出力">
-<img src="/b/2016/12/05/glboostadvcal20161204/export2.png" alt="テクスチャも中に含めちゃおう" title="テクスチャも中に含めちゃおう">
+<img src="/b/2016/12/05/glboostadvcal20161204/export1.png" title="COLLADAで出力">
+<img src="/b/2016/12/05/glboostadvcal20161204/export2.png" title="テクスチャも中に含めちゃおう">
 <p>出力したデータ（*.dae）はオンラインの変換サービスでお手軽に変換しましょう。</p>
-<p><a href="http://collada2gltf.mediagis.com/" target="_blank" rel="external">Collada 2 glTF</a></p>
-<img src="/b/2016/12/05/glboostadvcal20161204/collada2gltf.png" alt="Collada 2 glTF" title="Collada 2 glTF">
+<p><a href="http://collada2gltf.mediagis.com/" target="_blank" rel="noopener">Collada 2 glTF</a></p>
+<img src="/b/2016/12/05/glboostadvcal20161204/collada2gltf.png" title="Collada 2 glTF">
 <h2 id="作ったglTFデータを読み込むぜ"><a href="#作ったglTFデータを読み込むぜ" class="headerlink" title="作ったglTFデータを読み込むぜ"></a>作ったglTFデータを読み込むぜ</h2><p>GLBoostのexampleフォルダからスキニングアニメーションのサンプルを探して適当に改造します。</p>
 <figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> canvas = document.getElementById('canvas');</div><div class="line"><span class="built_in">var</span> <span class="built_in">context</span> = <span class="built_in">new</span> GLBoost.GLBoostMiddleContext(canvas);</div><div class="line"></div><div class="line"><span class="built_in">var</span> renderer = <span class="built_in">context</span>.createRenderer(&#123; clearColor: &#123; red: <span class="number">0.25</span>, green: <span class="number">0.25</span>, blue: <span class="number">0.25</span>, alpha: <span class="number">1</span> &#125; &#125;);</div><div class="line"><span class="built_in">var</span> <span class="built_in">scene</span> = <span class="built_in">context</span>.createScene();</div><div class="line"></div><div class="line"><span class="built_in">var</span> light1 = <span class="built_in">context</span>.createPointLight(<span class="built_in">new</span> GLBoost.Vector3(<span class="number">1.25</span>, <span class="number">1.25</span>, <span class="number">1.25</span>));</div><div class="line">light1.<span class="built_in">translate</span> = <span class="built_in">new</span> GLBoost.Vector3(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>);</div><div class="line"><span class="built_in">scene</span>.addChild(light1);</div><div class="line"></div><div class="line"><span class="built_in">var</span> light2 = <span class="built_in">context</span>.createPointLight(<span class="built_in">new</span> GLBoost.Vector3(<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>));</div><div class="line">light2.<span class="built_in">translate</span> = <span class="built_in">new</span> GLBoost.Vector3(-<span class="number">10</span>, <span class="number">10</span>, -<span class="number">10</span>);</div><div class="line"><span class="built_in">scene</span>.addChild(light2);</div><div class="line"></div><div class="line"><span class="built_in">var</span> camera = <span class="built_in">context</span>.createPerspectiveCamera(&#123;</div><div class="line">  eye: <span class="built_in">new</span> GLBoost.Vector3(<span class="number">5</span>, <span class="number">3</span>, <span class="number">5</span>),</div><div class="line">  <span class="built_in">center</span>: <span class="built_in">new</span> GLBoost.Vector3(<span class="number">0.0</span>, <span class="number">2</span>, <span class="number">0.0</span>),</div><div class="line">  up: <span class="built_in">new</span> GLBoost.Vector3(<span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>),</div><div class="line">&#125;, &#123;</div><div class="line">  fovy: <span class="number">45.0</span>,</div><div class="line">  aspect: <span class="number">1.0</span>,</div><div class="line">  zNear: <span class="number">0.1</span>,</div><div class="line">  zFar: <span class="number">1000</span>,</div><div class="line">&#125;);</div><div class="line"><span class="built_in">scene</span>.addChild(camera);</div><div class="line"></div><div class="line"><span class="built_in">var</span> expression = <span class="built_in">context</span>.createExpressionAndRenderPasses(<span class="number">1</span>);</div><div class="line">expression.renderPasses[<span class="number">0</span>].<span class="built_in">scene</span> = <span class="built_in">scene</span>;</div><div class="line">expression.prepareToRender();</div><div class="line"></div><div class="line"><span class="built_in">var</span> render = function() &#123;</div><div class="line">  <span class="built_in">scene</span>.setCurrentAnimationValue('<span class="built_in">time</span>', (Date.now() <span class="symbol">%</span> <span class="number">1300</span>) / <span class="number">1000</span>);</div><div class="line">  renderer.clearCanvas();</div><div class="line">  renderer.<span class="built_in">draw</span>(expression);</div><div class="line"></div><div class="line">  requestAnimationFrame(render);</div><div class="line">&#125;;</div><div class="line">render();</div><div class="line"></div><div class="line"><span class="built_in">var</span> glTFLoader = GLBoost.GLTFLoader.getInstance();</div><div class="line">glTFLoader</div><div class="line">  .loadGLTF(<span class="built_in">context</span>, 'kick.gltf', <span class="number">1</span>, null)</div><div class="line">  .<span class="keyword">then</span>(function(group) &#123;</div><div class="line">    group.<span class="built_in">scale</span> = <span class="built_in">new</span> GLBoost.Vector3(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>);</div><div class="line">    <span class="built_in">scene</span>.addChild(group);</div><div class="line"></div><div class="line">    expression.prepareToRender();</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
 <p>出来たー(/･ω･)/</p>
 <h2 id="今回作ったもの"><a href="#今回作ったもの" class="headerlink" title="今回作ったもの"></a>今回作ったもの</h2><p><a href="http://github.dev7.jp/glboostadvcal20161204/">動作サンプル</a></p>
-<p><a href="https://github.com/daishihmr/glboostadvcal20161204" target="_blank" rel="external">githubリポジトリ</a></p>
+<p><a href="https://github.com/daishihmr/glboostadvcal20161204" target="_blank" rel="noopener">githubリポジトリ</a></p>
 
       
     </div>
@@ -386,15 +498,15 @@
     </header>
     <div class="entry">
       
-        <p><a href="http://qiita.com/advent-calendar/2016/phinajs" target="_blank" rel="external">phina.js Advent Calendar 2016</a>の2日目です。</p>
+        <p><a href="http://qiita.com/advent-calendar/2016/phinajs" target="_blank" rel="noopener">phina.js Advent Calendar 2016</a>の2日目です。</p>
 <ul>
 <li>昨日 <a href="">はじめに by phiさん</a></li>
-<li>明日 <a href="http://qiita.com/minimo/items/bf60fe3bd3887575242d" target="_blank" rel="external">Spriteの元画像をテクスチャアトラスっぽく使ってみる by minimoさん</a></li>
+<li>明日 <a href="http://qiita.com/minimo/items/bf60fe3bd3887575242d" target="_blank" rel="noopener">Spriteの元画像をテクスチャアトラスっぽく使ってみる by minimoさん</a></li>
 </ul>
 <h2 id="ネタがねえんだよ！-アニキ！"><a href="#ネタがねえんだよ！-アニキ！" class="headerlink" title="ネタがねえんだよ！ アニキ！"></a>ネタがねえんだよ！ アニキ！</h2><p>ネタがない（時間もない）ので持ちネタでいきます。</p>
-<img src="/b/2016/12/03/phinajsadvcal20161202/c2af719a46f554502e47bd37ca1f52b2.gif" alt="避けろ！" title="避けろ！">
-<h2 id="BulletMLってなんだよ！？"><a href="#BulletMLってなんだよ！？" class="headerlink" title="BulletMLってなんだよ！？"></a>BulletMLってなんだよ！？</h2><p>BulletMLとは弾幕記述言語であります。くわしくは<a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/" target="_blank" rel="external">こちら</a>。</p>
-<p>このBulletMLをJavaScriptで使えるようにしたのが拙作<a href="https://github.com/daishihmr/bulletml.js/" target="_blank" rel="external">bulletml.js</a>ってわけです。</p>
+<img src="/b/2016/12/03/phinajsadvcal20161202/c2af719a46f554502e47bd37ca1f52b2.gif" title="避けろ！">
+<h2 id="BulletMLってなんだよ！？"><a href="#BulletMLってなんだよ！？" class="headerlink" title="BulletMLってなんだよ！？"></a>BulletMLってなんだよ！？</h2><p>BulletMLとは弾幕記述言語であります。くわしくは<a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/" target="_blank" rel="noopener">こちら</a>。</p>
+<p>このBulletMLをJavaScriptで使えるようにしたのが拙作<a href="https://github.com/daishihmr/bulletml.js/" target="_blank" rel="noopener">bulletml.js</a>ってわけです。</p>
 <h2 id="phina-jsでBulletMLを使うぜ！"><a href="#phina-jsでBulletMLを使うぜ！" class="headerlink" title="phina.jsでBulletMLを使うぜ！"></a>phina.jsでBulletMLを使うぜ！</h2><p>それではphina.jsでbulletml.jsを使ってみましょう。</p>
 <p>main.js<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> SCREEN_WIDTH = <span class="number">640</span>;</div><div class="line"><span class="keyword">var</span> SCREEN_HEIGHT = <span class="number">960</span>;</div><div class="line"></div><div class="line">phina.globalize();</div><div class="line"></div><div class="line">phina.define(<span class="string">"MainScene"</span>, &#123;</div><div class="line">  superClass: <span class="string">"DisplayScene"</span>,</div><div class="line">  init: function() &#123;</div><div class="line">    <span class="keyword">this</span>.superInit();</div><div class="line"></div><div class="line">    <span class="keyword">this</span>.fromJSON(&#123;</div><div class="line">      children: &#123;</div><div class="line"></div><div class="line">        <span class="comment">// 自機</span></div><div class="line">        player: &#123;</div><div class="line">          className: <span class="string">"TriangleShape"</span>,</div><div class="line">          x: <span class="keyword">this</span>.gridX.span(<span class="number">8</span>),</div><div class="line">          y: <span class="keyword">this</span>.gridY.span(<span class="number">14</span>),</div><div class="line">          update: function(app) &#123;</div><div class="line">            <span class="comment">// ポインティングデバイスで操作するよー</span></div><div class="line">            <span class="keyword">var</span> p = app.pointer;</div><div class="line">            <span class="keyword">if</span> (p.getPointing()) &#123;</div><div class="line">              <span class="keyword">this</span>.position.add(p.deltaPosition.mul(<span class="number">1.7</span>));</div><div class="line">            &#125;</div><div class="line">          &#125;,</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        <span class="comment">// 敵</span></div><div class="line">        enemy: &#123;</div><div class="line">          className: <span class="string">"RectangleShape"</span>,</div><div class="line">          x: <span class="keyword">this</span>.gridX.span(<span class="number">8</span>),</div><div class="line">          y: <span class="keyword">this</span>.gridY.span(<span class="number">4</span>),</div><div class="line">          runner: <span class="literal">null</span>,</div><div class="line">          update: function() &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.runner) &#123;</div><div class="line">              <span class="keyword">this</span>.runner.x = <span class="keyword">this</span>.x;</div><div class="line">              <span class="keyword">this</span>.runner.y = <span class="keyword">this</span>.y;</div><div class="line">              <span class="keyword">this</span>.runner.update();</div><div class="line">            &#125;</div><div class="line">          &#125;,</div><div class="line">        &#125;,</div><div class="line">      &#125;,</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">// bulletmlエンジンに対する設定</span></div><div class="line">    <span class="keyword">var</span> bulletConfig = &#123;</div><div class="line">      <span class="comment">// 敵が狙うターゲット</span></div><div class="line">      target: <span class="keyword">this</span>.player,</div><div class="line"></div><div class="line">      <span class="comment">// 弾が発射された時に呼ばれる関数</span></div><div class="line">      createNewBullet: function(runner) &#123;</div><div class="line">        <span class="comment">// シーンのfireBulletイベントを発火する</span></div><div class="line">        <span class="keyword">this</span>.flare(<span class="string">"fireBullet"</span>, &#123; runner: runner &#125;);</div><div class="line">      &#125;.bind(<span class="keyword">this</span>),</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="comment">// fireBulletイベントのハンドラ</span></div><div class="line">    <span class="keyword">this</span>.on(<span class="string">"fireBullet"</span>, function(e) &#123;</div><div class="line">      <span class="comment">// 弾オブジェクトを生成してシーンに追加</span></div><div class="line">      Bullet(e.runner).addChildTo(<span class="keyword">this</span>);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">// 攻撃パターンアセット</span></div><div class="line">    <span class="keyword">var</span> xmlAsset = AssetManager.<span class="keyword">get</span>(<span class="string">"xml"</span>, <span class="string">"attackPattern"</span>);</div><div class="line">    <span class="comment">// 敵のrunnerプロパティに攻撃パターンをセット</span></div><div class="line">    <span class="keyword">this</span>.enemy.runner = bulletml.buildXML(xmlAsset.<span class="keyword">data</span>).createRunner(bulletConfig);</div><div class="line">  &#125;,</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 敵弾クラス</span></div><div class="line">phina.define(<span class="string">"Bullet"</span>, &#123;</div><div class="line">  superClass: <span class="string">"CircleShape"</span>,</div><div class="line">  init: function(runner) &#123;</div><div class="line">    <span class="keyword">this</span>.superInit(&#123; radius: <span class="number">10</span> &#125;);</div><div class="line">    <span class="keyword">this</span>.runner = runner;</div><div class="line">    </div><div class="line">    <span class="comment">// 初期位置セット</span></div><div class="line">    <span class="keyword">this</span>.x = runner.x;</div><div class="line">    <span class="keyword">this</span>.y = runner.y;</div><div class="line">  &#125;,</div><div class="line">  update: function() &#123;</div><div class="line">    <span class="keyword">this</span>.runner.update();</div><div class="line">    <span class="keyword">this</span>.x = <span class="keyword">this</span>.runner.x;</div><div class="line">    <span class="keyword">this</span>.y = <span class="keyword">this</span>.runner.y;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.x &lt; <span class="number">0</span> || SCREEN_WIDTH &lt; <span class="keyword">this</span>.x || <span class="keyword">this</span>.y &lt; <span class="number">0</span> || SCREEN_HEIGHT &lt; <span class="keyword">this</span>.y) &#123;</div><div class="line">      <span class="keyword">this</span>.remove();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">GameApp(&#123;</div><div class="line">  width: SCREEN_WIDTH,</div><div class="line">  height: SCREEN_HEIGHT,</div><div class="line">  startLabel: <span class="string">"main"</span>,</div><div class="line">  </div><div class="line">  <span class="comment">// attackPattern.xmlをアセットとして読み込むよー</span></div><div class="line">  assets: &#123;</div><div class="line">    xml: &#123;</div><div class="line">      attackPattern: <span class="string">"attackPattern.xml"</span>,</div><div class="line">    &#125;,</div><div class="line">  &#125;,</div><div class="line">&#125;).run();</div></pre></td></tr></table></figure></p>
 <h3 id="今回のポイント！！"><a href="#今回のポイント！！" class="headerlink" title="今回のポイント！！"></a>今回のポイント！！</h3><h4 id="XMLをアセットとして読み込む"><a href="#XMLをアセットとして読み込む" class="headerlink" title="XMLをアセットとして読み込む"></a>XMLをアセットとして読み込む</h4><p>BulletMLはXMLで記述されるので、今回はXMLファイルとして用意しています。</p>
@@ -456,10 +568,10 @@
     </header>
     <div class="entry">
       
-        <h2 id="頂点数が多すぎるんだよ！アニキ！"><a href="#頂点数が多すぎるんだよ！アニキ！" class="headerlink" title="頂点数が多すぎるんだよ！アニキ！"></a>頂点数が多すぎるんだよ！アニキ！</h2><p><a href="https://ephtracy.github.io/" target="_blank" rel="external">MagicaVoxel</a>は非常に便利なんだけど、こいつで作ったデータは頂点数が無駄に多くなっちゃうのだ。</p>
+        <h2 id="頂点数が多すぎるんだよ！アニキ！"><a href="#頂点数が多すぎるんだよ！アニキ！" class="headerlink" title="頂点数が多すぎるんだよ！アニキ！"></a>頂点数が多すぎるんだよ！アニキ！</h2><p><a href="https://ephtracy.github.io/" target="_blank" rel="noopener">MagicaVoxel</a>は非常に便利なんだけど、こいつで作ったデータは頂点数が無駄に多くなっちゃうのだ。</p>
 <p>凝った模様の入った複雑なデータを作っちゃうと、ゲームが重くなってコリャイカンって感じになる。</p>
 <p>なんとかして最適化する方法はないだろうか。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard02.png" alt="普通にOBJ形式でエクスポートしたデータ。頂点数は2,605" title="普通にOBJ形式でエクスポートしたデータ。頂点数は2,605">
+<img src="/b/2016/07/16/mgopt/Clipboard02.png" title="普通にOBJ形式でエクスポートしたデータ。頂点数は2,605">
 <h2 id="最適化方針！"><a href="#最適化方針！" class="headerlink" title="最適化方針！"></a>最適化方針！</h2><ol>
 <li>頂点カラー付きの形式でエクスポート</li>
 <li>Blenderで重複頂点削除・UV展開</li>
@@ -467,36 +579,36 @@
 <li>頂点数を削減</li>
 </ol>
 <h3 id="頂点カラー付きの形式でエクスポート"><a href="#頂点カラー付きの形式でエクスポート" class="headerlink" title="頂点カラー付きの形式でエクスポート"></a>頂点カラー付きの形式でエクスポート</h3><p>MagicaVoxelからPLY形式でエクスポートする。PLY形式は頂点カラー情報の入ったフォーマット。</p>
-<img src="/b/2016/07/16/mgopt/ply.png" alt="PLY形式でエクスポート" title="PLY形式でエクスポート">
+<img src="/b/2016/07/16/mgopt/ply.png" title="PLY形式でエクスポート">
 <p>Blenderにインポート。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard03.png" alt="Blenderにインポート" title="Blenderにインポート">
+<img src="/b/2016/07/16/mgopt/Clipboard03.png" title="Blenderにインポート">
 <h3 id="重複した頂点を削除する"><a href="#重複した頂点を削除する" class="headerlink" title="重複した頂点を削除する"></a>重複した頂点を削除する</h3><p>「Remove Doubles」で重複した頂点を削除する。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard05.png" alt="「Remove Doubles」で重複した頂点を削除する" title="「Remove Doubles」で重複した頂点を削除する">
+<img src="/b/2016/07/16/mgopt/Clipboard05.png" title="「Remove Doubles」で重複した頂点を削除する">
 <h3 id="UV展開"><a href="#UV展開" class="headerlink" title="UV展開"></a>UV展開</h3><p>Smart UV Projectでスマァ～トにUV展開する。または必要に応じて手動でUV展開する。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard06.png" alt="Smart UV Projectでスマァ～トにUV展開" title="Smart UV Projectでスマァ～トにUV展開">
-<img src="/b/2016/07/16/mgopt/Clipboard07.png" alt="Smart UV Projectでスマァ～トにUV展開" title="Smart UV Projectでスマァ～トにUV展開">
+<img src="/b/2016/07/16/mgopt/Clipboard06.png" title="Smart UV Projectでスマァ～トにUV展開">
+<img src="/b/2016/07/16/mgopt/Clipboard07.png" title="Smart UV Projectでスマァ～トにUV展開">
 <h3 id="頂点カラーをテクスチャに焼く"><a href="#頂点カラーをテクスチャに焼く" class="headerlink" title="頂点カラーをテクスチャに焼く"></a>頂点カラーをテクスチャに焼く</h3><p>Screen Layoutを「UV Editing」に。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard08.png" alt="Screen Layoutを「UV Editing」に" title="Screen Layoutを「UV Editing」に">
+<img src="/b/2016/07/16/mgopt/Clipboard08.png" title="Screen Layoutを「UV Editing」に">
 <p>「New」のところを押して新規にテクスチャを作成。名前を「vc」とかにしとく。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard10.png" alt="「New」のところを押して新規にテクスチャを作成" title="「New」のところを押して新規にテクスチャを作成">
+<img src="/b/2016/07/16/mgopt/Clipboard10.png" title="「New」のところを押して新規にテクスチャを作成">
 <p>Screen Layoutを「default」に戻す。</p>
 <p>PropertiesウインドウのRenderタブ内のBakeパネルを開き、Bake Modeを「Vertex Colors」にした上でBakeボタンを押す。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard11.png" alt="「Vertex Colors」をBake" title="「Vertex Colors」をBake">
+<img src="/b/2016/07/16/mgopt/Clipboard11.png" title="「Vertex Colors」をBake">
 <p>テクスチャに頂点カラーが焼き込まれる。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard12.png" alt="焼きこまれた" title="焼きこまれた">
+<img src="/b/2016/07/16/mgopt/Clipboard12.png" title="焼きこまれた">
 <p>モデルに新規にマテリアルをアタッチし、作成されたテクスチャを貼る。</p>
 <p>テクスチャに色情報を取り込んだので、頂点カラーはもう必要ない。削除しよう。</p>
 <p>モデルの頂点をすべて選択して「Remove Vertex Color」。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard15.png" alt="Remove Vertex Color" title="Remove Vertex Color">
+<img src="/b/2016/07/16/mgopt/Clipboard15.png" title="Remove Vertex Color">
 <h3 id="不要な頂点を削減"><a href="#不要な頂点を削減" class="headerlink" title="不要な頂点を削減"></a>不要な頂点を削減</h3><p>モデルにDecimateモディファイアを追加する。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard13.png" alt="Decimateモディファイアを追加" title="Decimateモディファイアを追加">
+<img src="/b/2016/07/16/mgopt/Clipboard13.png" title="Decimateモディファイアを追加">
 <p>Planerを選択し、Angle Limitを5°とかにしてApplyする。結果が変になったら調整。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard14.png" alt="Planer" title="Planer">
+<img src="/b/2016/07/16/mgopt/Clipboard14.png" title="Planer">
 <p>あとは手動で余計な頂点やエッジを削除する。</p>
 <h3 id="出来た！"><a href="#出来た！" class="headerlink" title="出来た！"></a>出来た！</h3><p>平面部分から余計な頂点が削除され、かつ元の色情報はテクスチャによって再現される。</p>
 <p>あとはテクスチャを画像ファイルとして保存して編集したり、モデルにいい感じの関節を追加したりしていこう。</p>
-<img src="/b/2016/07/16/mgopt/raku.png" alt="顔にらくがきしてみたり" title="顔にらくがきしてみたり">
-<img src="/b/2016/07/16/mgopt/untitled.png" alt="顔にらくがきしてみたり" title="顔にらくがきしてみたり">
+<img src="/b/2016/07/16/mgopt/raku.png" title="顔にらくがきしてみたり">
+<img src="/b/2016/07/16/mgopt/untitled.png" title="顔にらくがきしてみたり">
 <h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><p>以上のやり方で頂点数を最低限まで減らせるはずだ。</p>
 <p>平面が多く、色がたくさん使われたボクセルモデルであれば効果が顕著に出ると思う。</p>
 <p>ただ、お手軽にモデルデータを用意できるという理由でMagicaVoxelを採用しているはずなのに、こんなやり方だと手間がかかりすぎてしまうのも事実。</p>
@@ -546,10 +658,10 @@
     </header>
     <div class="entry">
       
-        <p><a href="http://blog.wrim.pl/mcmap/" target="_blank" rel="external">mcmap</a>ってツールを使って俺が運営しているマインクラフトサーバー「トワ様ワールド」を出力してみた。</p>
-<h4 id="全体像（現状開拓している範囲）"><a href="#全体像（現状開拓している範囲）" class="headerlink" title="全体像（現状開拓している範囲）"></a>全体像（現状開拓している範囲）</h4><img src="/b/2016/07/06/towamap/small.png" alt="-" title="-">
-<h4 id="トワ様王国首都"><a href="#トワ様王国首都" class="headerlink" title="トワ様王国首都"></a>トワ様王国首都</h4><img src="/b/2016/07/06/towamap/towa.png" alt="-" title="-">
-<h4 id="だいし王国"><a href="#だいし王国" class="headerlink" title="だいし王国"></a>だいし王国</h4><img src="/b/2016/07/06/towamap/daishi.png" alt="-" title="-">
+        <p><a href="http://blog.wrim.pl/mcmap/" target="_blank" rel="noopener">mcmap</a>ってツールを使って俺が運営しているマインクラフトサーバー「トワ様ワールド」を出力してみた。</p>
+<h4 id="全体像（現状開拓している範囲）"><a href="#全体像（現状開拓している範囲）" class="headerlink" title="全体像（現状開拓している範囲）"></a>全体像（現状開拓している範囲）</h4><img src="/b/2016/07/06/towamap/small.png" title="-">
+<h4 id="トワ様王国首都"><a href="#トワ様王国首都" class="headerlink" title="トワ様王国首都"></a>トワ様王国首都</h4><img src="/b/2016/07/06/towamap/towa.png" title="-">
+<h4 id="だいし王国"><a href="#だいし王国" class="headerlink" title="だいし王国"></a>だいし王国</h4><img src="/b/2016/07/06/towamap/daishi.png" title="-">
 <h4 id="全体像"><a href="#全体像" class="headerlink" title="全体像"></a>全体像</h4><p><a href="/b/2016/07/06/towamap/all.png">ファイルが巨大なので注意</a></p>
 
       
@@ -614,82 +726,15 @@
 <p>また、初期リスポーン地点（通称トワ様王国）周辺の開発は一通り完了している。</p>
 <p>現在は各プレイヤーがそれぞれ僻地で自分の国を開発中。</p>
 <p>いずれは各拠点を鉄道などの交通網で結んでいきたい。</p>
-<h2 id="トワ様サーバーの日々"><a href="#トワ様サーバーの日々" class="headerlink" title="トワ様サーバーの日々"></a>トワ様サーバーの日々</h2><img src="/b/2016/06/28/towasama/2016-06-28_09.38.43.png" alt="-" title="-">
-<img src="/b/2016/06/28/towasama/2016-06-28_09.39.19.png" alt="-" title="-">
-<img src="/b/2016/06/28/towasama/2016-06-28_09.39.51.png" alt="-" title="-">
-<img src="/b/2016/06/28/towasama/2016-06-28_09.34.02.png" alt="-" title="-">
-<img src="/b/2016/06/28/towasama/2016-06-28_09.35.13.png" alt="-" title="-">
-<img src="/b/2016/06/28/towasama/2016-06-28_09.47.51.png" alt="-" title="-">
-<img src="/b/2016/06/28/towasama/2016-06-28_09.50.57.png" alt="-" title="-">
-<img src="/b/2016/06/28/towasama/2016-06-28_09.53.46.png" alt="-" title="-">
-<img src="/b/2016/06/28/towasama/2016-06-28_09.35.22.png" alt="-" title="-">
-
-      
-    </div>
-
-    <footer>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- daishiblog-post2 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-3487863134090836"
-     data-ad-slot="4822197721"
-     data-ad-format="auto"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-06-13T07:34:40.000Z"><a href="/b/2016/06/13/magicavoxel0-97-3/">2016-06-13</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/b/2016/06/13/magicavoxel0-97-3/">MagicaVoxel0.97.3のアップデート内容</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>2016年6月5日にバージョン0.97.3へのアップデートが行われていたようです。</p>
-<p><a href="https://ephtracy.github.io/" target="_blank" rel="external">https://ephtracy.github.io/</a></p>
-<p>主にレンダリング関係の更新のようです。</p>
-<h2 id="1-New-Metal-Plastic-Material-with-GGX-NDF"><a href="#1-New-Metal-Plastic-Material-with-GGX-NDF" class="headerlink" title="1. New Metal/Plastic Material with GGX NDF"></a>1. New Metal/Plastic Material with GGX NDF</h2><p>従来からあった金属っぽい質感にくわえ、プラスチックっぽいレンダリングが出来るようになりました。</p>
-<h4 id="金属っぽく"><a href="#金属っぽく" class="headerlink" title="金属っぽく"></a>金属っぽく</h4><img src="/b/2016/06/13/magicavoxel0-97-3/ss1.png" alt="ss1.png" title="">
-<h4 id="プラスチックっぽく"><a href="#プラスチックっぽく" class="headerlink" title="プラスチックっぽく"></a>プラスチックっぽく</h4><img src="/b/2016/06/13/magicavoxel0-97-3/ss2.png" alt="ss2.png" title="">
-<h2 id="2-Post-Effect"><a href="#2-Post-Effect" class="headerlink" title="2. Post Effect"></a>2. Post Effect</h2><p>レンダリング画像にポストエフェクトをかけられるようになりました。</p>
-<h4 id="Exposure"><a href="#Exposure" class="headerlink" title="Exposure"></a>Exposure</h4><p>暗いすぎる画像を明るく。</p>
-<img src="/b/2016/06/13/magicavoxel0-97-3/ss3.png" alt="ss3.png" title="">
-<h4 id="Vignette"><a href="#Vignette" class="headerlink" title="Vignette"></a>Vignette</h4><p>トイカメラっぽいアレ。</p>
-<img src="/b/2016/06/13/magicavoxel0-97-3/ss4.png" alt="ss4.png" title="">
-<h4 id="Gamma-Correction"><a href="#Gamma-Correction" class="headerlink" title="Gamma Correction"></a>Gamma Correction</h4><p>ガンマ値を設定可能に。</p>
-<img src="/b/2016/06/13/magicavoxel0-97-3/ss5.png" alt="ss5.png" title="">
-<img src="/b/2016/06/13/magicavoxel0-97-3/ss6.png" alt="ss6.png" title="">
-<h2 id="3-Pick-up-Sun-Sky-Color-from-Palette"><a href="#3-Pick-up-Sun-Sky-Color-from-Palette" class="headerlink" title="3. Pick up Sun/Sky Color from Palette"></a>3. Pick up Sun/Sky Color from Palette</h2><p>SUNライトとSKYライトに対し、光源色を設定可能になりました。</p>
-<img src="/b/2016/06/13/magicavoxel0-97-3/ss7.png" alt="ss7.png" title="">
-<img src="/b/2016/06/13/magicavoxel0-97-3/ss8.png" alt="ss8.png" title="">
-<h2 id="4-Better-Quality-of-Soft-Shadow"><a href="#4-Better-Quality-of-Soft-Shadow" class="headerlink" title="4. Better Quality of Soft Shadow"></a>4. Better Quality of Soft Shadow</h2><p>ソフトシャドウがよりクオリティアップしたようです。</p>
-<h2 id="5-Sample-gt-GI-on-the-top-right-enable-stochastic-sampling-for-better-indirect-illumination"><a href="#5-Sample-gt-GI-on-the-top-right-enable-stochastic-sampling-for-better-indirect-illumination" class="headerlink" title="5. Sample-&gt;GI : on the top right, enable stochastic sampling for better indirect illumination"></a>5. Sample-&gt;GI : on the top right, enable stochastic sampling for better indirect illumination</h2><p>グローバルイルミネーションを使えるようになりました。</p>
-<p>…らしいんですが機能してるんかなコレ？</p>
-<img src="/b/2016/06/13/magicavoxel0-97-3/ss9.png" alt="ss9.png" title="">
-<img src="/b/2016/06/13/magicavoxel0-97-3/ss10.png" alt="ss10.png" title="">
+<h2 id="トワ様サーバーの日々"><a href="#トワ様サーバーの日々" class="headerlink" title="トワ様サーバーの日々"></a>トワ様サーバーの日々</h2><img src="/b/2016/06/28/towasama/2016-06-28_09.38.43.png" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.39.19.png" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.39.51.png" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.34.02.png" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.35.13.png" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.47.51.png" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.50.57.png" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.53.46.png" title="-">
+<img src="/b/2016/06/28/towasama/2016-06-28_09.35.22.png" title="-">
 
       
     </div>
@@ -759,6 +804,8 @@
   
     <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
   
+    <li><a href="/b/tags/Live2D/">Live2D</a><small>1</small></li>
+  
     <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
   
     <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
@@ -775,7 +822,7 @@
   
     <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
   
-    <li><a href="/b/tags/phina-js/">phina.js</a><small>12</small></li>
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>13</small></li>
   
     <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
   

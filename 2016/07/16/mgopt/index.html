@@ -79,10 +79,10 @@
     </header>
     <div class="entry">
       
-        <h2 id="頂点数が多すぎるんだよ！アニキ！"><a href="#頂点数が多すぎるんだよ！アニキ！" class="headerlink" title="頂点数が多すぎるんだよ！アニキ！"></a>頂点数が多すぎるんだよ！アニキ！</h2><p><a href="https://ephtracy.github.io/" target="_blank" rel="external">MagicaVoxel</a>は非常に便利なんだけど、こいつで作ったデータは頂点数が無駄に多くなっちゃうのだ。</p>
+        <h2 id="頂点数が多すぎるんだよ！アニキ！"><a href="#頂点数が多すぎるんだよ！アニキ！" class="headerlink" title="頂点数が多すぎるんだよ！アニキ！"></a>頂点数が多すぎるんだよ！アニキ！</h2><p><a href="https://ephtracy.github.io/" target="_blank" rel="noopener">MagicaVoxel</a>は非常に便利なんだけど、こいつで作ったデータは頂点数が無駄に多くなっちゃうのだ。</p>
 <p>凝った模様の入った複雑なデータを作っちゃうと、ゲームが重くなってコリャイカンって感じになる。</p>
 <p>なんとかして最適化する方法はないだろうか。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard02.png" alt="普通にOBJ形式でエクスポートしたデータ。頂点数は2,605" title="普通にOBJ形式でエクスポートしたデータ。頂点数は2,605">
+<img src="/b/2016/07/16/mgopt/Clipboard02.png" title="普通にOBJ形式でエクスポートしたデータ。頂点数は2,605">
 <h2 id="最適化方針！"><a href="#最適化方針！" class="headerlink" title="最適化方針！"></a>最適化方針！</h2><ol>
 <li>頂点カラー付きの形式でエクスポート</li>
 <li>Blenderで重複頂点削除・UV展開</li>
@@ -90,36 +90,36 @@
 <li>頂点数を削減</li>
 </ol>
 <h3 id="頂点カラー付きの形式でエクスポート"><a href="#頂点カラー付きの形式でエクスポート" class="headerlink" title="頂点カラー付きの形式でエクスポート"></a>頂点カラー付きの形式でエクスポート</h3><p>MagicaVoxelからPLY形式でエクスポートする。PLY形式は頂点カラー情報の入ったフォーマット。</p>
-<img src="/b/2016/07/16/mgopt/ply.png" alt="PLY形式でエクスポート" title="PLY形式でエクスポート">
+<img src="/b/2016/07/16/mgopt/ply.png" title="PLY形式でエクスポート">
 <p>Blenderにインポート。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard03.png" alt="Blenderにインポート" title="Blenderにインポート">
+<img src="/b/2016/07/16/mgopt/Clipboard03.png" title="Blenderにインポート">
 <h3 id="重複した頂点を削除する"><a href="#重複した頂点を削除する" class="headerlink" title="重複した頂点を削除する"></a>重複した頂点を削除する</h3><p>「Remove Doubles」で重複した頂点を削除する。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard05.png" alt="「Remove Doubles」で重複した頂点を削除する" title="「Remove Doubles」で重複した頂点を削除する">
+<img src="/b/2016/07/16/mgopt/Clipboard05.png" title="「Remove Doubles」で重複した頂点を削除する">
 <h3 id="UV展開"><a href="#UV展開" class="headerlink" title="UV展開"></a>UV展開</h3><p>Smart UV Projectでスマァ～トにUV展開する。または必要に応じて手動でUV展開する。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard06.png" alt="Smart UV Projectでスマァ～トにUV展開" title="Smart UV Projectでスマァ～トにUV展開">
-<img src="/b/2016/07/16/mgopt/Clipboard07.png" alt="Smart UV Projectでスマァ～トにUV展開" title="Smart UV Projectでスマァ～トにUV展開">
+<img src="/b/2016/07/16/mgopt/Clipboard06.png" title="Smart UV Projectでスマァ～トにUV展開">
+<img src="/b/2016/07/16/mgopt/Clipboard07.png" title="Smart UV Projectでスマァ～トにUV展開">
 <h3 id="頂点カラーをテクスチャに焼く"><a href="#頂点カラーをテクスチャに焼く" class="headerlink" title="頂点カラーをテクスチャに焼く"></a>頂点カラーをテクスチャに焼く</h3><p>Screen Layoutを「UV Editing」に。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard08.png" alt="Screen Layoutを「UV Editing」に" title="Screen Layoutを「UV Editing」に">
+<img src="/b/2016/07/16/mgopt/Clipboard08.png" title="Screen Layoutを「UV Editing」に">
 <p>「New」のところを押して新規にテクスチャを作成。名前を「vc」とかにしとく。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard10.png" alt="「New」のところを押して新規にテクスチャを作成" title="「New」のところを押して新規にテクスチャを作成">
+<img src="/b/2016/07/16/mgopt/Clipboard10.png" title="「New」のところを押して新規にテクスチャを作成">
 <p>Screen Layoutを「default」に戻す。</p>
 <p>PropertiesウインドウのRenderタブ内のBakeパネルを開き、Bake Modeを「Vertex Colors」にした上でBakeボタンを押す。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard11.png" alt="「Vertex Colors」をBake" title="「Vertex Colors」をBake">
+<img src="/b/2016/07/16/mgopt/Clipboard11.png" title="「Vertex Colors」をBake">
 <p>テクスチャに頂点カラーが焼き込まれる。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard12.png" alt="焼きこまれた" title="焼きこまれた">
+<img src="/b/2016/07/16/mgopt/Clipboard12.png" title="焼きこまれた">
 <p>モデルに新規にマテリアルをアタッチし、作成されたテクスチャを貼る。</p>
 <p>テクスチャに色情報を取り込んだので、頂点カラーはもう必要ない。削除しよう。</p>
 <p>モデルの頂点をすべて選択して「Remove Vertex Color」。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard15.png" alt="Remove Vertex Color" title="Remove Vertex Color">
+<img src="/b/2016/07/16/mgopt/Clipboard15.png" title="Remove Vertex Color">
 <h3 id="不要な頂点を削減"><a href="#不要な頂点を削減" class="headerlink" title="不要な頂点を削減"></a>不要な頂点を削減</h3><p>モデルにDecimateモディファイアを追加する。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard13.png" alt="Decimateモディファイアを追加" title="Decimateモディファイアを追加">
+<img src="/b/2016/07/16/mgopt/Clipboard13.png" title="Decimateモディファイアを追加">
 <p>Planerを選択し、Angle Limitを5°とかにしてApplyする。結果が変になったら調整。</p>
-<img src="/b/2016/07/16/mgopt/Clipboard14.png" alt="Planer" title="Planer">
+<img src="/b/2016/07/16/mgopt/Clipboard14.png" title="Planer">
 <p>あとは手動で余計な頂点やエッジを削除する。</p>
 <h3 id="出来た！"><a href="#出来た！" class="headerlink" title="出来た！"></a>出来た！</h3><p>平面部分から余計な頂点が削除され、かつ元の色情報はテクスチャによって再現される。</p>
 <p>あとはテクスチャを画像ファイルとして保存して編集したり、モデルにいい感じの関節を追加したりしていこう。</p>
-<img src="/b/2016/07/16/mgopt/raku.png" alt="顔にらくがきしてみたり" title="顔にらくがきしてみたり">
-<img src="/b/2016/07/16/mgopt/untitled.png" alt="顔にらくがきしてみたり" title="顔にらくがきしてみたり">
+<img src="/b/2016/07/16/mgopt/raku.png" title="顔にらくがきしてみたり">
+<img src="/b/2016/07/16/mgopt/untitled.png" title="顔にらくがきしてみたり">
 <h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><p>以上のやり方で頂点数を最低限まで減らせるはずだ。</p>
 <p>平面が多く、色がたくさん使われたボクセルモデルであれば効果が顕著に出ると思う。</p>
 <p>ただ、お手軽にモデルデータを用意できるという理由でMagicaVoxelを採用しているはずなのに、こんなやり方だと手間がかかりすぎてしまうのも事実。</p>
@@ -213,6 +213,8 @@
   
     <li><a href="/b/tags/GLBoost/">GLBoost</a><small>1</small></li>
   
+    <li><a href="/b/tags/Live2D/">Live2D</a><small>1</small></li>
+  
     <li><a href="/b/tags/MagicaVoxel/">MagicaVoxel</a><small>11</small></li>
   
     <li><a href="/b/tags/PhinaShooter/">PhinaShooter</a><small>3</small></li>
@@ -229,7 +231,7 @@
   
     <li><a href="/b/tags/minecraft/">minecraft</a><small>2</small></li>
   
-    <li><a href="/b/tags/phina-js/">phina.js</a><small>12</small></li>
+    <li><a href="/b/tags/phina-js/">phina.js</a><small>13</small></li>
   
     <li><a href="/b/tags/rouge/">rouge</a><small>1</small></li>
   
